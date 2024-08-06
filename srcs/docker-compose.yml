@@ -1,0 +1,87 @@
+name: transcendence
+
+# Setup of Containers
+services:
+  # Backend
+  django:
+    container_name: django
+    labels:
+      - com.django.description='Django Backend'
+    build:
+      context: requirements/django
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_USER_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+    ports:
+      - "8000:8000"
+    networks:
+      - transcendence
+    volumes:
+      - backend:/app
+    restart: unless-stopped
+    depends_on:
+      - db
+
+  # Data Base
+  db:
+    container_name: postgresql
+    labels:
+      - com.postgresql.description='PostgreSQL Data Base'
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+    expose:
+      - "5432"
+    networks:
+      - transcendence
+    volumes:
+      - postgresql:/var/lib/postgresql/data/
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1m30s
+      timeout: 5s
+      retries: 5
+
+# Secrets
+secrets:
+  # Data Base passwords
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+
+# Networks
+networks:
+  transcendence:
+    name: transcendence_network
+    # Driver for the network
+    ## bridge allows containers to communicate with each other
+    driver: bridge
+
+# Volumes
+## Driver: local allows to use the local file system
+## Bind allows containers and host to share the same volume (changes in one side are reflected in the other)
+volumes:
+  # Backend data
+  backend:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/${LOGIN}/data/backend
+      o: bind
+  # PostgreSQL data
+  postgresql:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/${LOGIN}/data/postgresql
+      o: bind
