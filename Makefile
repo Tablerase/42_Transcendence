@@ -20,6 +20,11 @@ up:
 	@mkdir -p $(DATABASE_PATH)
 	@mkdir -p $(BACKEND_PATH)
 	@mkdir -p $(WEB_PATH)
+	@/bin/bash -c '\
+		if [ ! -f ./srcs/.env ]; then \
+			echo "❌ Credentials files not found! 🔑" && exit 1; \
+		fi; \
+		'
 	@docker compose -f $(COMPOSE) up -d --build
 
 # Start the application
@@ -149,9 +154,9 @@ logs:
 shell_postgresql:
 	@docker exec -it postgresql /bin/bash
 
-# Access Backend container
-shell_backend:
-	@docker exec -it backend /bin/bash
+# Access Django container
+shell_django:
+	@docker exec -it django /bin/bash
 
 #---------------------------- Phony ----------------------------#
 

@@ -11,11 +11,17 @@ services:
       context: requirements/django
       dockerfile: Dockerfile
     environment:
+      DJANGO_SECRET_KEY_FILE: /run/secrets/django_secret_key
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+      SQL_HOST: ${SQL_HOST}
+      SQL_PORT: ${SQL_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_USER_PASSWORD_FILE: /run/secrets/db_password
     secrets:
       - db_password
+      - django_secret_key
     ports:
       - "8000:8000"
     networks:
@@ -36,6 +42,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      SQL_HOST: ${SQL_HOST}
+      SQL_PORT: ${SQL_PORT}
     secrets:
       - db_password
     expose:
@@ -46,7 +54,7 @@ services:
       - postgresql:/var/lib/postgresql/data/
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 1m30s
       timeout: 5s
       retries: 5
@@ -56,8 +64,9 @@ secrets:
   # Data Base passwords
   db_password:
     file: ../secrets/db_password.txt
-  db_root_password:
-    file: ../secrets/db_root_password.txt
+  # Django secret key
+  django_secret_key:
+    file: ../secrets/django_secret_key.txt
 
 # Networks
 networks:

@@ -20,13 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+with open(os.getenv('DJANGO_SECRET_KEY_FILE', '/run/secrets/secret_key'), 'r') as f:
+    password_django = f.read().strip() # Remove the trailing newline or whitespace
+SECRET_KEY = password_django
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False')
 
-ALLOWED_HOSTS = []
-
+# Protection against Arbitrary Host Header Injection
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
 
 # Application definition
 
@@ -69,23 +71,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 ## Retrieve the PostgreSQL password from a secret file
-with open(os.getenv('POSTGRESQL_USER_PASSWORD_FILE', '/run/secrets/db_password'), 'r') as f:
+with open(os.getenv('POSTGRES_USER_PASSWORD_FILE', '/run/secrets/db_password'), 'r') as f:
     postgresql_password = f.read().strip() # Remove the trailing newline or whitespace
 
 DATABASES = {
+    # PostgreSQL database
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRESQL_DB', 'postgres'),
-        'USER': os.getenv('POSTGRESQL_USER', 'postgres'),
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': postgresql_password,
-        'HOST': 'db',  # Service name in docker-compose
-        'PORT': '5432', # Default postgres port
+        'HOST': os.environ.get('SQL_HOST'), # Service name in docker-compose
+        'PORT': os.environ.get('SQL_PORT'), # postgres port
     }
+    # sqlite3 database
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
