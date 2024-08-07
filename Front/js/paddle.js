@@ -18,7 +18,7 @@ export class Paddle {
     }
   }
 
-  #animateMove()
+  #moveSmoothly()
   {
     const currentTop = this.#coords.top;
     const distance = this.#targetTop - currentTop;
@@ -28,7 +28,7 @@ export class Paddle {
     {
       this.#htmlElem.style.top = (currentTop + step) + 'px';
       this.#coords = this.#htmlElem.getBoundingClientRect();
-      requestAnimationFrame(() => this.#animateMove());
+      requestAnimationFrame(() => this.#moveSmoothly());
     }
     else
     {
@@ -50,7 +50,7 @@ export class Paddle {
         this.#coords.top + this.#speed * window.innerHeight);
     }
 
-    this.#animateMove();
+    this.#moveSmoothly();
   };
 
   isTouching(coords) {
@@ -79,6 +79,3 @@ export class Paddle {
   }
 
 }
-
-// TODO: Make sure both paddles can move at the same time
-// Window resize event listener

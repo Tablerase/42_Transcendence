@@ -9,7 +9,7 @@ export class Ball {
   #direction_y;
   #coords;
 
-  constructor (ball, speed=9, pprint=false)
+  constructor (ball, speed=7, pprint=false)
   {
     this.#speed = speed;
     this.#direction_x =  Math.floor(Math.random() * 2);
@@ -23,16 +23,10 @@ export class Ball {
   }
 
   #setSlopes() {
-
-    // generate random angle between 0 and 90 degrees
     let angle = Math.floor(Math.random() * 90) - 45;
-    // transform angle to radians
     angle = angle * Math.PI / 180;
-
     this.#slope_x = this.#speed * Math.sin(angle);
     this.#slope_y = this.#speed * Math.cos(angle);
-
-    console.log(this.#slope_x, this.#slope_y);
 
   }
 
@@ -73,3 +67,6 @@ export class Ball {
 }
 
 
+// Someone wins
+// Tournament: 
+// Bootstrap: Modal for game winner, Popover for customization
