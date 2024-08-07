@@ -1,0 +1,64 @@
+.board {
+  height: 70vh;
+  width: 60vw;
+  min-width: 560px;
+  background-image: url('../nebula.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 25px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+
+.ball {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  position: fixed;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+}
+
+.ball_effect {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%; 
+  animation: spinBall 2.0s linear infinite;
+  background-color: transparent;
+  background-image: url(../asteroid.png);
+  background-size: cover;
+  background-position: center;
+  /*box-shadow: 0 0 20px 5px rgb(226, 226, 182, 0.695);*/
+}
+
+@keyframes spinBall {
+  100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+  }
+}
+
+.paddles {
+  position : relative;
+  display: flex;
+  top: calc(50% - 55px);
+  justify-content: space-between;
+}
+
+.paddle {
+  height: 110px;
+  width: 15px;
+  justify-content: space-between;
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 0 0 18px rgb(226, 226, 182, 0.504),
+  inset -6px 0 18px #03346E,
+  inset 6px 0 18px #03346E,
+  inset -6px 0 30px #03346E,
+  inset 6px 0 30px #03346E,
+  0 0 18px rgb(226, 226, 182), 4px 0 18px
+  #03346E, -4px 0 18px #03346E;
+}
+
+
