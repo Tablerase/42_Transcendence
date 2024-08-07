@@ -6,7 +6,7 @@ export class Paddle {
   #keys;
   #targetTop;
 
-  constructor (paddle, keyup, keydown, speed=0.07, pprint=false)
+  constructor (paddle, keyup, keydown, speed=0.01, pprint=false)
   {
     this.#htmlElem = paddle;
     this.#speed = speed;
@@ -36,7 +36,8 @@ export class Paddle {
       this.#coords = this.#htmlElem.getBoundingClientRect();
     }
   }
-  #move(board, direction)
+
+  move(board, direction)
   {
     if (direction === 'up')
     {
@@ -62,23 +63,22 @@ export class Paddle {
     return false;
   }
 
-  setEventListener(board)
+  setSpeed(speed)
   {
-    document.addEventListener('keydown', (event) => {
-      if (event.key === this.#keys[0]) 
-      {
-        requestAnimationFrame(() => this.#move(board, 'up'));
-      }
-      else if(event.key === this.#keys[1])
-      {
-        requestAnimationFrame(() => this.#move(board, 'down')); 
-      }
-    });
-  };
+    this.#speed = speed;
+  }
+
+  getKeyUp()
+  {
+    return this.#keys[0];
+  }
+
+  getKeyDown()
+  {
+    return this.#keys[1];
+  }
+
 }
 
-
-
-
-// TODO: Make movement smoother
 // TODO: Make sure both paddles can move at the same time
+// Window resize event listener

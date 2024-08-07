@@ -9,7 +9,6 @@ body {
   height: 100vh;
   width: 100vw;
   background:rgb(110, 172, 218);
-  /*background-image: linear-gradient(to top, #50001d,#011b3c );*/
   display: flex;
   justify-content: center;
   align-items: center;

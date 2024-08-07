@@ -7,7 +7,6 @@
   background-position: center;
   border-radius: 25px;
   overflow: hidden;
-  padding: 10px;
 }
 
 
@@ -39,17 +38,11 @@
   }
 }
 
-.paddles {
-  position : relative;
-  display: flex;
-  top: calc(50% - 55px);
-  justify-content: space-between;
-}
-
 .paddle {
-  height: 110px;
-  width: 15px;
-  justify-content: space-between;
+  position: absolute;
+  top: calc(50% - 50px);
+  height: 100px;
+  width: 10px;
   border: none;
   border-radius: 10px;
   box-shadow: inset 0 0 18px rgb(226, 226, 182, 0.504),
@@ -61,4 +54,9 @@
   #03346E, -4px 0 18px #03346E;
 }
 
-
+.paddle_1 {
+  left: 21%;
+}
+.paddle_2 {
+  right: 21%;
+}

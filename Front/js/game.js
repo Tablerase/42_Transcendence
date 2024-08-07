@@ -9,6 +9,7 @@ export class Game {
   #paddles;
   #ball;
   #isGameRunning;
+  #keysPressed;
 
   constructor ()
   {
@@ -20,6 +21,7 @@ export class Game {
     ];
     this.#ball = new Ball(document.querySelector('.ball'));
     this.#isGameRunning = false;
+    this.#keysPressed = {};
   }
 
   setupEventListeners() {
@@ -43,6 +45,10 @@ export class Game {
     this.#panel.changeMessage('Game is running...');
     this.#isGameRunning = true;
     this.#animateBall();
+    for (let paddle of this.#paddles)
+    {
+      paddle.setSpeed(0.01);
+    }
     this.#animatePaddles();
   }
 
@@ -52,6 +58,10 @@ export class Game {
     {
       this.#isGameRunning = false;
       this.#panel.changeMessage('Game is paused...');
+      for (let paddle of this.#paddles)
+      {
+        paddle.setSpeed(0);
+      }
     }
   }
 
@@ -122,10 +132,42 @@ export class Game {
 
   #animatePaddles()
   {
+    const keysOfInterest = ['ArrowUp', 'ArrowDown', 'w', 's', 'W', 'S'];
     for (let paddle of this.#paddles)
     {
-      paddle.setEventListener(this.#board);
+      if (this.#keysPressed[paddle.getKeyUp()])
+      {
+        paddle.move(this.#board, 'up');
+        continue;
+      }
+      else if (this.#keysPressed[paddle.getKeyDown()])
+      {
+        paddle.move(this.#board, 'down');
+      }
     }
-  }
 
+    document.addEventListener('keydown', (event) => {
+      if (keysOfInterest.includes(event.key))
+      {
+        if (event.key == 'W' || event.key == 'S')
+          this.#keysPressed[event.key.toLowerCase()] = true;
+        else
+          this.#keysPressed[event.key] = true;
+      }
+
+    });
+
+    document.addEventListener('keyup', (event) => {
+      {
+        if (keysOfInterest.includes(event.key))
+        {
+          if (event.key == 'W' || event.key == 'S')
+            this.#keysPressed[event.key.toLowerCase()] = false;
+          else
+            this.#keysPressed[event.key] = false;
+        }
+      }
+    });
+    requestAnimationFrame(() => this.#animatePaddles());
+  }
 };
