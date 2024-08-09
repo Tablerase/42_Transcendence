@@ -2,7 +2,7 @@
 
 # Variables
 NAME		= transcendence
-LOGIN		= rcutte
+LOGIN		= oldault
 SRCS		= ./srcs
 COMPOSE		= $(SRCS)/docker-compose.yml
 HOST_URL	= transcendence.42.fr

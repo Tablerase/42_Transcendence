@@ -6,6 +6,7 @@
       <!-- Chat Messages -->
       {% for comment in comments %}
         <comment class="media content-section">
+          <img class="rounded-circle comment-img" src="{{ comment.author.profile.image.url }}" alt="auth profile pic">
           <div class="media-body">
             <div class="comment-metadata">
               <a class="mr-2" href="#">{{ comment.author }}</a>
