@@ -18,6 +18,11 @@ export class Paddle {
     }
   }
 
+  setSpeed(speed) { this.#speed = speed;}
+  getKeyUp() { return this.#keys[0];}
+  getKeyDown(){ return this.#keys[1];}
+  getHtmlElem() { return this.#htmlElem;}
+
   #moveSmoothly()
   {
     const currentTop = this.#coords.top;
@@ -63,19 +68,9 @@ export class Paddle {
     return false;
   }
 
-  setSpeed(speed)
-  {
-    this.#speed = speed;
-  }
-
-  getKeyUp()
-  {
-    return this.#keys[0];
-  }
-
-  getKeyDown()
-  {
-    return this.#keys[1];
+  resetPosition() {
+    this.#htmlElem.style.top = 'calc(50% - 50px)';
+    this.#coords = this.#htmlElem.getBoundingClientRect();
   }
 
 }

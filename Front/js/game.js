@@ -28,7 +28,7 @@ export class Game {
   /* Game control functions */
   #monitorGame() {
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') 
+      if (event.key === ' ') 
       {
         if (this.#isGameRunning)
         {
@@ -110,20 +110,28 @@ export class Game {
     });
   }
 
-  /* Objects coalition and game logic */
+  #score(player)
+  {
+    this.#panel.boostScore(player);
+    this.#panel.changeMessage('Player ' + (player + 1) + ' scored!');
+    if (this.#panel.getScore(player) == 10)
+    {
+      this.#isGameRunning = false;
+      this.#panel.changeMessage('Player ' + (player + 1) + ' wins!');
+      this.#resetGame();
+    }
+  }
 
   #someoneScored()
   {
     if (this.#ball.getCoords().left <= this.#board.getLeft())
     {
-      this.#panel.boostScore(1);
-      this.#panel.changeMessage('Player 2 scored!');
+      this.#score(1);
       return 1;
     }
     else if (this.#ball.getCoords().right >= this.#board.getRight())
     {
-      this.#panel.boostScore(0);
-      this.#panel.changeMessage('Player 1 scored!');
+      this.#score(0);
       return 1;
     }
     return 0;
@@ -134,9 +142,9 @@ export class Game {
     if (this.#board.isTouchingBorder(this.#ball.getCoords())) 
     {
       if (this.#someoneScored(this.#ball, this.#board, this.#panel)) 
-        this.#ball.resetBallPosition();
+        this.#ball.resetPosition();
       else 
-        this.#ball.resetDirection('y');
+        this.#ball.opposedDirection('y');
     }
   }
 
@@ -145,8 +153,27 @@ export class Game {
     for (let paddle of this.#paddles)
     {
       if (paddle.isTouching(this.#ball.getCoords())) 
-        this.#ball.resetDirection('x');
+      {
+        this.#ball.augmentPace();
+        paddle.getHtmlElem().classList.add('hit');
+        this.#ball.getHtmlElem().classList.add('hit');
+        this.#board.getBoard().classList.add('hit');
+        setTimeout(() => {
+          paddle.getHtmlElem().classList.remove('hit');
+          this.#ball.getHtmlElem().classList.remove('hit');
+          this.#board.getBoard().classList.remove('hit');
+        }, 150);
+        this.#ball.opposedDirection('x');
+      }
     }
+  }
+
+  #resetGame() 
+  {
+    this.#panel.resetPosition();
+    this.#ball.resetPosition();
+    this.#paddles[0].resetPosition();
+    this.#paddles[1].resetPosition();
   }
 };
 
