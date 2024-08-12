@@ -25,7 +25,7 @@
   border-radius: 50%; 
   animation: spinBall 2.0s linear infinite;
   background-color: transparent;
-  background-image: url(../earth.png);
+  background-image: url(../balls/marie-antoinette-head.png);
   background-size: cover;
   background-position: center;
   /* box-shadow: 0 0 20px 5px rgb(226, 226, 182, 0.695); */

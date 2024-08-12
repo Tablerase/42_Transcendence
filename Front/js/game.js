@@ -152,18 +152,18 @@ export class Game {
   {
     for (let paddle of this.#paddles)
     {
+
+      let htmlElems = [ this.#ball.getHtmlElem(), this.#board.getBoard(), paddle.getHtmlElem()];
       if (paddle.isTouching(this.#ball.getCoords())) 
       {
         this.#ball.augmentPace();
-        paddle.getHtmlElem().classList.add('hit');
-        this.#ball.getHtmlElem().classList.add('hit');
-        this.#board.getBoard().classList.add('hit');
-        setTimeout(() => {
-          paddle.getHtmlElem().classList.remove('hit');
-          this.#ball.getHtmlElem().classList.remove('hit');
-          this.#board.getBoard().classList.remove('hit');
-        }, 150);
         this.#ball.opposedDirection('x');
+        for (let elem of htmlElems)
+          elem.classList.add('hit');
+        setTimeout(() => {
+          for (let elem of htmlElems)
+            elem.classList.remove('hit');
+        }, 150);
       }
     }
   }
