@@ -2,7 +2,7 @@
   height: 70vh;
   width: 60vw;
   min-width: 560px;
-  background-image: url('../nebula.jpg');
+  background-image: url('../images/background/nebula.jpg');
   background-size: cover;
   background-position: center;
   border-radius: 15px;
@@ -25,7 +25,7 @@
   border-radius: 50%; 
   animation: spinBall 2.0s linear infinite;
   background-color: transparent;
-  background-image: url(../balls/marie-antoinette-head.png);
+  background-image: url(../images/balls/marie-antoinette-head.png);
   background-size: cover;
   background-position: center;
   /* box-shadow: 0 0 20px 5px rgb(226, 226, 182, 0.695); */
