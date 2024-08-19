@@ -24,6 +24,10 @@ else
     echo "No migrations to apply"
 fi
 
+# Collect static files
+echo "Collecting static files"
+python manage.py collectstatic --noinput
+
 # Start server
 echo "Starting server"
 exec "$@"

@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open(os.getenv('DJANGO_SECRET_KEY_FILE', '/run/secrets/secret_key'), 'r') as f:
+with open(os.getenv('DJANGO_SECRET_KEY_FILE', '/run/secrets/django_secret_key'), 'r') as f:
     password_django = f.read().strip() # Remove the trailing newline or whitespace
 SECRET_KEY = password_django
 
@@ -28,17 +28,19 @@ SECRET_KEY = password_django
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False')
 
 # Protection against Arbitrary Host Header Injection
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(' ')
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'game',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +71,18 @@ TEMPLATES = [
     },
 ]
 
+# Application definition
+ASGI_APPLICATION = 'backend.asgi.application'
 WSGI_APPLICATION = 'backend.wsgi.application'
+
+# Channels
+# https://channels.readthedocs.io/en/stable/index.html
+## For more persistent connections, we can use a Redis channel layer
+CHANNEL_LAYERS = { 
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }   
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -131,6 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
