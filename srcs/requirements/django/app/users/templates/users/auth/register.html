@@ -1,7 +1,11 @@
 {% extends "chat/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
-  <div class="content-section">
+  <link rel="stylesheet" href="{% static 'users/form.css' %}">
+  <link rel="stylesheet" href="{% static 'users/button_pong.css' %}">
+  <div class="animated-border-box-glow"></div>
+  <div class="form animated-border-box">
     <form method="POST">
       {% csrf_token %}
       <fieldset class="form-group">
@@ -9,7 +13,7 @@
         {{ form|crispy }}
       </fieldset>
       <div class="form-group">
-        <button class="btn btn-outline-info" type="submit">Sign up</button>
+        <button style="--clr:#AF47D2" type="submit"><span>Register</span><i></i></button>
       </div>
     </form>
     <div class="border-top pt-3">

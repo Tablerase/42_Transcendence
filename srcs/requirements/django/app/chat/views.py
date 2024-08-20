@@ -9,16 +9,17 @@ from .models import Comment
 from .forms import CommentForm
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 
 def home(request):
   context = {
     'comments' : Comment.objects.all()
   }
-  return render(request, 'chat/home.html', context)
+  return render(request, 'chat/chat.html', context)
 
 class CommentListView(ListView):
   model = Comment
-  template_name = 'chat/home.html'
+  template_name = 'chat/chat.html'
   context_object_name = 'comments'
   ordering = ['time']
   
@@ -27,8 +28,7 @@ class CommentListView(ListView):
     context['form'] = CommentForm()
     return context
   
-  
-class CommentCreateView(LoginRequiredMixin, CreateView):
+class CommentCreateView(CreateView):
   model = Comment
   fields = ['content']
 
@@ -36,7 +36,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     form.instance.author = self.request.user
     self.object = form.save()
     
-    rendered_comment = render_to_string('chat/_comment.html', {'comment': self.object})
+    rendered_comment = render_to_string('chat/_comment_left.html', {'comment': self.object})
     return JsonResponse({
         'success': True,
         'comment_html': rendered_comment,

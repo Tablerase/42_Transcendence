@@ -1,0 +1,21 @@
+<div class="header-buttons">
+  <button 
+    class="block-btn {% if active_button == 'friends' %}active-btn{% endif %}" 
+    onclick="location.href='{% url 'view-friends' %}'"
+  >
+    <h5>Friends</h5>
+  </button>
+  <button
+    class="block-btn {% if active_button == 'friend_requests' %}active-btn{% endif %}"
+    onclick="location.href='{% url 'view-friend-requests' %}'"
+  >
+    <h5>Friend Requests</h5>
+  </button>
+  <button
+    class="block-btn {% if active_button == 'all_users' %}active-btn{% endif %}"
+    onclick="location.href='{% url 'users' %}'"
+  >
+    <h5>All Users</h5>
+  </button>
+</div>
+{% include "users/partials/_user_search_form.html" %}

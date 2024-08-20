@@ -1,0 +1,27 @@
+{% extends "game/base.html" %}
+{% load static %}
+{% block css %}
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/quit.css' %}" 
+/>
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/background.css' %}"
+/>
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/icon_navbar.css' %}"
+/>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <h3 class="message">Already leaving?</h3>
+  <p>{{ subtitle }}😢</p>
+  <form method="post" action="{% url 'quit' id=id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning">Yes, Quit</button>
+    <a href="{% url 'lobby' id=id %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock content %}

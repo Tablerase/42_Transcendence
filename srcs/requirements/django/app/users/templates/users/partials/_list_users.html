@@ -1,0 +1,3 @@
+{% for user_context in users_with_context %}
+  {% include "users/partials/_user_single.html" with user=user_context.user show_accept_button=user_context.show_accept_button user_friend=user_context.user_friend request=user_context.request pending_request=user_context.pending_request%}
+{% endfor %}

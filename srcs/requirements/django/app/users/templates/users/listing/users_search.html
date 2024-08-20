@@ -1,0 +1,40 @@
+{% extends "chat/base.html" %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'users/layout.css' %}" />
+  <link rel="stylesheet" href="{% static 'users/user_list.css' %}" />
+
+  <section class="user-list">
+    <div class="section-header justify-content-between">
+      {% include "users/partials/_users_list_header.html" %}
+    </div>
+    <div class="section-content">
+      <!-- Users -->
+      {% if users %}
+        <div class="text-center mt-4 mb-4">
+          <h2>Results for <u><b>{{ searched }}</b></u> :</h2>
+        </div>
+        {% for user in users %}
+          {% include "users/partials/_user_single.html" with user=user %}
+        {% endfor %}
+      {% else %}
+        <div class="text-center">
+          <h3>No results</h3>
+          {% if searched %}
+            <img
+              src="{% static 'users/images/tumbleweed.gif' %}"
+              alt="tumbleweed gif"
+              class="mt-2"
+            >
+          {% else %}
+            <img
+              src="{% static 'users/images/clown.gif' %}"
+              alt="you are a clown"
+              class="mt-2"
+            >
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock content %}

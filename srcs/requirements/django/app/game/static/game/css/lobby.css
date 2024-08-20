@@ -1,0 +1,90 @@
+:root {
+--lightest      : #FFF7FC;
+--light         : #8B93FF;
+--dark          : #5755FE;
+--darkest       : #FF71CD;
+}
+
+label {
+  display: none !important;
+}
+
+body form {
+  background-image: none !important;
+  border-radius: 0;
+  padding: 0; 
+}
+ 
+.tournament-name {
+  font-size: 1rem;
+  line-height: 2;
+  text-transform: uppercase;
+}
+
+
+.btn {
+  color: var(--lightest) !important;
+  background-color: var(--light) !important;
+  box-shadow: 0px 3px 2px var(--lightest);
+  border: none;
+  padding: 5px;
+  margin: 5px;
+  width: 100%;
+  font-size: 16px !important;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+}
+
+.btn:hover {
+  filter: none;
+  color: var(--lightest);
+  background-color: var(--light);
+  box-shadow: none;
+  transform: none;
+  letter-spacing: 2px !important;
+  font-weight: 400;
+}
+
+.player {
+  display: flex;
+  padding: 8px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-transform: capitalize;
+  border-bottom: 1px solid darkgray;
+}
+
+.photo {
+  display: block;
+  width: 80px;
+  height: 80px;
+}
+
+
+.section-header {
+  background-color: var(--dark);
+  color: var(--lightest);
+  padding: 10px 35px;
+  box-shadow: 0px 3px 2px var(--light);
+  display:flex;
+  align-items: center;
+}
+
+.section-content {
+  padding: 25px 35px;
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 60vh;
+}
+
+
+.user-list {
+  box-shadow: 0px 3px 2px var(--light);
+  background-color: var(--lightest); 
+  background-image: url(../images/🐥/noise.png);
+  display: flex;
+  flex-direction: column;
+  height: 75%;
+  width: 75%;
+}

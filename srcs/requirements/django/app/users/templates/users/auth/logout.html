@@ -1,0 +1,16 @@
+{% extends "chat/base.html" %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'users/form.css' %}">
+  <link rel="stylesheet" href="{% static 'users/button_pong.css' %}">
+  <div class="animated-border-box-glow"></div>
+  <div class="form form-logout animated-border-box">
+    <h2>You have been logged out</h2>
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        Log In Again:
+        <a href="{% url 'login' %}">Sign In</a>
+      </small>
+    </div>
+  </div>
+{% endblock content %}

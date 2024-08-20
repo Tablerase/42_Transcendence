@@ -1,11 +1,14 @@
-body {
-  background: #fafafa;
-  color: #333333;
-  margin-top: 5rem;
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+html, body {
+  height: 100vh;
+  margin: 0;
+  background-color: #fff;
+  font-family: Montserrat, sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+* {
+	box-sizing: border-box;
 }
 
 ul {
@@ -28,14 +31,6 @@ ul {
   font-weight: 500;
 }
 
-.content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
-}
-
 .comment-title {
   color: #444444;
 }
@@ -50,8 +45,8 @@ a.comment-title:hover {
 }
 
 .comment-img {
-  height: 65px;
-  width: 65px;
+  height: 45px;
+  width: 45px;
   margin-right: 16px;
 }
 
@@ -88,4 +83,19 @@ a.comment-title:hover {
   overflow-y: scroll;
   border: 1px solid #ccc;
   padding: 10px;
+}
+
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 56px);
+  padding: 20px;
+  margin-top: 56px;
+  box-sizing: border-box;
+}
+
+.content-section {
+  width: 60%;
+  max-width: 600px;
 }

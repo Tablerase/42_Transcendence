@@ -1,0 +1,103 @@
+.user {
+  display: flex;
+  padding: 8px;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid darkgray;
+  flex-wrap: wrap;
+}
+
+.user h3 {
+  color: #000;
+}
+
+.user h5 {
+  color: darkslategrey;
+}
+
+.user a {
+  transition: all 1s ease;
+  color: inherit;
+}
+
+.user a:hover {
+  text-decoration: none;
+  padding-left: 16px;
+}
+
+.user .photo {
+  height: 80px;
+  width: 80px;
+}
+
+.user .info-cred {
+  margin-left: 16px;
+  max-width: 250px;
+  overflow-wrap: break-word;
+}
+
+.user .feat {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.feat, .icon {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  outline: none;
+}
+
+.user .icon i {
+  margin: 0px 16px;
+  font-size: 32px;
+}
+
+.user .icon button {
+  outline: none;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.block-btn {
+  background-color: #AF47D2;
+	padding: 6px 12px;
+	position: relative;
+	font-size: 12px;
+	color: #fff;
+  color: #E6E6FA;
+	background-image: linear-gradient(bottom, rgb(142,68,173) 0%, rgb(189,80,225) 100%);
+	box-shadow: inset 0px 1px 0px #e1a3f3, 0px 6px 0px #581a84;
+	border-radius: 5px;
+  outline: none;
+}
+
+.block-btn:focus {
+  outline: none;
+}
+
+.block-btn:active {
+  top: 7px;
+  background-image: linear-gradient(bottom, rgb(142,68,173) 100%, rgb(189,80,225) 0%);
+  box-shadow: inset 0px 1px 0px #e1a3f3, inset 0px -1px 0px #581a84;
+  color: #ffccff;
+  text-shadow: 0px 1px 1px rgba(255,255,255,0.3);
+  background: rgb(75,0,130);
+  outline: none;
+}
+
+.active-btn {
+  top: 7px;
+  background-image: linear-gradient(bottom, rgb(142,68,173) 100%, rgb(189,80,225) 0%);
+  box-shadow: inset 0px 1px 0px #e1a3f3, inset 0px -1px 0px #581a84;
+  color: #ffccff;
+  text-shadow: 0px 1px 1px rgba(255,255,255,0.3);
+  background: rgb(75,0,130);
+  outline: none;
+}
+
+.block-btn h5 {
+  margin-bottom: 0px;
+}
