@@ -20,6 +20,6 @@ h1 {
 #game_canvas {
     border-radius: 25px;
     background-color: dimgrey;
-    border: 2px solid blueviolet; /* Ensure border is visible */
+    border: 2px solid darkorchid; /* Ensure border is visible */
     margin-top: 20px; /* Add margin for spacing */
 }

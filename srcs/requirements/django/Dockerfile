@@ -13,6 +13,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set the working directory in the container
+RUN rm -rf /usr/src/app
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
