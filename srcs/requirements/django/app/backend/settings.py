@@ -30,9 +30,11 @@ DEBUG = True
 
 # Protection against Arbitrary Host Header Injection
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(' ')
+CSRF_TRUSTED_ORIGINS = [
+    scheme + host for host in ALLOWED_HOSTS for scheme in ['https://', 'http://']
+]
 
 # Application definition
-
 INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
@@ -46,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'game',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "project.urls"
+ROOT_URLCONF = "backend.urls"
 
 TEMPLATES = [
     {

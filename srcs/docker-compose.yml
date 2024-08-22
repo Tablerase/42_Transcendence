@@ -112,14 +112,9 @@ networks:
 ## Driver: local allows to use the local file system
 ## Bind allows containers and host to share the same volume (changes in one side are reflected in the other)
 volumes:
-  # Backend data
+  # Backend data (Django temporary volume)
   backend:
-    driver: local
-    driver_opts:
-      type: none
-      device: /Users/${LOGIN}/data/backend
-      o: bind
-  # PostgreSQL data
+  # PostgreSQL data (PostgreSQL permanent volume)
   postgresql:
     driver: local
     driver_opts:
