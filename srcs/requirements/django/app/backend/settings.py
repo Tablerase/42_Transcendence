@@ -94,12 +94,25 @@ CHANNEL_LAYERS = {
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+## Retrieve the PostgreSQL password from a secret file
+with open(os.getenv('POSTGRES_USER_PASSWORD_FILE', '/run/secrets/db_password'), 'r') as f:
+    postgresql_password = f.read().strip() # Remove the trailing newline or whitespace
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    # PostgreSQL database
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': postgresql_password,
+        'HOST': os.environ.get('SQL_HOST'), # Service name in docker-compose
+        'PORT': os.environ.get('SQL_PORT'), # postgres port
     }
+    # sqlite3 database
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
