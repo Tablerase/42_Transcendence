@@ -1,0 +1,37 @@
+:root {
+  --lightest      : #FFF7FC;
+  --light         : #8B93FF;
+  --dark          : #5755FE;
+  --darkest       : #FF71CD;
+}
+
+
+.container {
+  padding: 20px 45px;
+  position: absolute;
+  width: 700px;
+  background-color: var(--lightest);
+  border-radius: 8px;
+}
+
+body form {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+label {
+  display: none !important;
+}
+
+.btn {
+  margin: 10px;
+  text-transform: uppercase;
+  border: none;
+  transition: all 0.3s ease-in !important;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}

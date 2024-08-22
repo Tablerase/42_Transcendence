@@ -1,0 +1,18 @@
+.bkg {
+  background: radial-gradient(
+  circle, 
+  var(--lightest) 0%, 
+  var(--light) 25%,
+  var(--dark) 50%,
+  var(--darkest) 100%);
+  background-size: 200% 200%;
+  animation: animateBackground 30s ease-in-out infinite;
+}
+
+@keyframes animateBackground {
+  0% { background-position: 50% 50%;}
+  25% { background-position: 100% 50%;}
+  50% { background-position: 50% 100%;}
+  75% { background-position: 0% 50%;}
+  100% {background-position: 50% 50%;}
+}

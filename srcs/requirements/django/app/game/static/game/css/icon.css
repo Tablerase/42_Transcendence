@@ -1,0 +1,14 @@
+.icon-purple {
+  color: #8E44AD;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  transition: transform 0.3s ease, color 0.3s ease;
+  display: inline-block;
+}
+
+.icon-purple:hover {
+  transform: scale(1.5);
+  color: #9B59B6;
+}

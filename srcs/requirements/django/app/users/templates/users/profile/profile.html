@@ -1,0 +1,49 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'game/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'game/css/icon.css' %}">
+<link rel="stylesheet" href="{% static 'users/form.css' %}">
+<link rel="stylesheet" href="{% static 'users/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="animated-border-box-glow"></div>
+  <div class="form animated-border-box">
+    <div class="card-container">
+    {% if request.user == user_profile %}
+      <a class="svg-icon left" href="{% url 'profile-edit' %}">
+        <i class="bi bi-gear-fill icon-purple"></i>
+      </a>
+      <a class="svg-icon right" href="{% url 'view-friends' %}">
+        <i class="bi bi-person-lines-fill icon-purple"></i>
+      </a>
+      {% endif %}
+      <img class="round" src="{{ user_profile.profile.image.url }}" alt="user" onerror="this.onerror=null;this.src='{% static 'users/images/default-avatar.png' %}';" />
+      <h2>{{ user_profile.username }}</h2>
+      <h6>{{ user_profile.email }}</h6>
+      <div class="scores">
+        <p class="text-success">Wins: <b>{{ user_profile.total_wins }}</b></p>
+        <p class="text-danger">Losses: <b>{{ user_profile.total_losses }}</b></p>
+      </div>
+      {% if request.user != user_profile and request.user.is_authenticated %}
+      <div class="buttons">
+        <button class="primary">Message</button>
+        <button class="primary ghost">Add</button>
+      </div>
+      {% endif %}
+      <div class="matches">
+        <!-- Future for loop -->
+        <h6>Last Matches</h6>
+        <ul>
+          <li>3 - 10</li>
+          <li>8 - 2</li>
+          <li>9 - 10</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

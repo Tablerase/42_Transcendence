@@ -1,0 +1,74 @@
+<div class="user {% if user_friend %}bg-success-subtle{% endif %}">
+  <a class="d-flex text-decoration-none" href="{% url 'profile-by-nickname' user %}">
+    <img class="photo" src="{{ user.profile.image.url }}" alt="auth pic" />
+    <div class="info-cred">
+      <h3>{{ user.username }}</h3>
+      <h6>{{ user.email }}</h6>
+    </div>
+  </a>
+  <div class="d-flex">
+    <div class="feat justify-content-center">
+      <p class="text-success mb-0">Wins: <b>{{ user.total_wins }}</b></p>
+      <p class="text-danger mb-0">Losses: <b>{{ user.total_losses }}</b></p>
+    </div>
+    <div class="icon" id="friend-action-{{ user.id }}">
+      {% if show_accept_button %}
+      <form
+        id="accept-friend-form"
+        action="{% url 'accept-friend-request' request.id %}"
+        method="POST"
+        data-user-id="{{ user.id }}"
+      >
+        {% csrf_token %}
+        <button
+          type="submit"
+          id="accept-friend-button"
+        >
+          <i class="bi bi-person-check-fill text-success"></i>
+        </button>
+      </form>
+      {% elif user_friend %}
+      <form
+        id="remove-friend-form"
+        action="{% url 'remove-friend' user.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button
+          type="submit"
+          id="remove-friend-button"
+        >
+          <i class="bi bi-person-x-fill text-danger"></i>
+        </button>
+      </form>
+      {% elif pending_request %}
+      <form
+        action="{% url 'cancel_friend_request' user.id %}" 
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">
+          <i class="bi bi-hourglass-split text-warning"></i>
+        </button>
+      </form>
+      {% else %}
+      <form
+        id="send-friend-form"
+        action="{% url 'send-friend-request' user.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button 
+          type="submit"
+          id="send-friend-button"
+        >
+          <i class="bi bi-person-plus icon-purple"></i>
+        </button>
+      </form>
+      {% endif %}
+    </div>
+    <div class="icon">
+      <i class="bi bi-chat-right-dots icon-purple"></i>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,124 @@
+.online {
+  position: relative;
+  top: -13px;
+  left: 35px;
+  width: 13px;
+  height: 13px;
+  background-color: #8BC34A;
+  border-radius: 13px;
+  border: 3px solid #FAFAFA;
+}
+
+.chat .icon {
+  color:#000000;
+  font-size: 14pt;
+}
+
+.chat .name {
+  margin: 0 0 0 20px;
+  text-transform: uppercase;
+  font-family:'Montserrat', sans-serif;
+  font-size: 13pt;
+  color:#515151;
+}
+
+.chat .right {
+  margin-left: auto;
+}
+
+.chat .message {
+  display:flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.chat .message .photo {
+  display: block;
+  width: 45px;
+  height: 45px;
+  border-radius: 50px;
+  background: #E6E7ED;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.chat .text {
+  margin: 0 25px;
+  background-color: #f6f6f6;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.text-only {
+  margin-left: 45px;
+}
+
+.time {
+  font-size: 10px;
+  color:lightgrey;
+  margin-bottom:10px;
+  margin-left: 85px;
+}
+
+.response-time {
+  float: right;
+  margin-right: 40px !important;
+}
+
+.response {
+  float: right;
+  margin-right: 0px !important;
+  margin-left: auto;
+}
+
+.response .text {
+  background-color: #e3effd !important;
+}
+
+.chat .section-footer .icon {
+  margin-left: 30px;
+  color:#C0C0C0;
+  font-size: 25pt;
+}
+
+.chat .section-footer .send {
+  color:#fff;
+  background-color: #AF47D2;
+  margin-right: 40px;
+  padding: 12px 17px;
+  border-radius: 50px;
+  font-size: 14pt;
+  border: 0px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.chat .section-footer .send:hover {
+  background-color: #c04ee6;
+  transform: scale(1.1);
+}
+
+.chat .section-footer .name {
+  margin: 0 0 0 20px;
+  text-transform: uppercase;
+  font-family:'Montserrat', sans-serif;
+  font-size: 13pt;
+  color:#515151;
+}
+
+.chat .section-footer .right {
+  margin-left: auto;
+}
+
+.write-message {
+  border:none !important;
+  height: 50px;
+  margin-left: 20px;
+  flex-grow: 1;
+}
+
+.write-message input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+}

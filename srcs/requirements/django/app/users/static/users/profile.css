@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+/* body {
+	background-color: #fff;
+	font-family: Montserrat, sans-serif;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	min-height: 100vh;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+h3 {
+	margin: 10px 0;
+}
+
+h6 {
+	margin: 5px 0;
+	text-transform: uppercase;
+}
+
+p {
+	font-size: 14px;
+	line-height: 21px;
+} */
+
+:root {
+	--lightest  : #FB773C;
+	--light     : #EB3678;
+	--dark      : #4F1787;
+	--darkest   : #180161;
+}
+		
+.card-container {
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 5px;
+	color: #B3B8CD;
+	padding-top: 30px;
+	position: relative;
+	max-width: 100%;
+	text-align: center;
+	color: #444444;
+}
+
+.card-container .svg-icon.left {
+	position: absolute;
+	left: 30px;
+}
+
+.card-container .svg-icon.right {
+	position: absolute;
+	right: 30px;
+}
+
+.card-container .round {
+	border: 1px solid #AF47D2;
+	border-radius: 50%;
+	padding: 7px;
+  height: 125px;
+  width: 125px;
+	transition: transform 0.3s ease;
+}
+
+.card-container .round:hover {
+	transform: scale(1.1);
+	border: none;
+}
+
+.card-container .scores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 140px;
+  margin: 0 auto;
+  margin-bottom: 12px;
+}
+
+.card-container .scores p {
+  margin: 0;
+}
+
+button.primary {
+	text-decoration: none;
+	background-color: #AF47D2 !important;
+	border: 1px solid #AF47D2;
+	border-radius: 3px;
+	color: #231E39;
+	font-family: Montserrat, sans-serif;
+	font-weight: 500;
+	padding: 10px 25px;
+  cursor: pointer;
+}
+
+button.primary.ghost {
+	background-color: transparent;
+	color: #AF47D2 !important;
+}
+
+.matches {
+	background-color: #f6f6f6;
+	text-align: left;
+	padding: 15px;
+	margin-top: 30px;
+}
+
+.matches ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.matches ul li {
+	border: 1px solid #2D2747;
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+  cursor: pointer;
+	transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.matches ul li:hover {
+	background-color: #9B59B6 !important;
+	color: #fff;
+	font-weight: bold;
+	transform: scale(1.1);
+}

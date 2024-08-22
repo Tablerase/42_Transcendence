@@ -1,0 +1,49 @@
+:root {
+--lightest    : #FF90C2;
+--light       : #ED5AB3;
+--dark        : #1640D6;
+--darkest     : #001B79;
+}
+
+input::placeholder {
+  text-transform: lowercase;
+  font-style: italic;
+  color: #001B79;
+}
+
+input {
+  padding-left: 30px;
+}
+
+.btn {
+  width: 40% !important;
+}
+
+.btn-back {
+  background-color: var(--lightest);
+  color: var(--darkest);
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  transition: all 0.3s ease-in;
+  margin: 12px 15px;
+  padding: 10px 15px; 
+}
+
+.btn-back:hover {
+  background-color: var(--darkest);
+  color:  var(--lightest);
+  transform: scale(1.1);
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+}
