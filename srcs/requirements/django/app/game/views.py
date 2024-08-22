@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 
+from django.http import HttpResponse
+from django.template import loader
+
 # Local app imports
 import game.helpers.utils as utils
 from game.models import Match, Player, Tournament

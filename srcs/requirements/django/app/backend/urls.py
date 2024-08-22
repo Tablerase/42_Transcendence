@@ -10,6 +10,7 @@ urlpatterns = [
     path("users/", include('chat.urls')),
     path("game/", include('game.urls')),
     path("", RedirectView.as_view(url='game/home/')),
+    path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, RegexValidator
 from django.db import models
 
-
 class Tournament(models.Model):
   date = models.DateTimeField(auto_now_add=True)
   name = models.CharField(
@@ -104,3 +103,13 @@ class Player(models.Model):
   
   class Meta:
     unique_together = [('match', 'user')]
+
+# Create your models here.
+class WsGame(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    players_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

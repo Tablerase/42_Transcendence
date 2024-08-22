@@ -13,21 +13,24 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set the working directory in the container
-RUN mkdir /app
-WORKDIR /app
+RUN rm -rf /usr/src/app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 # Install dependencies
 RUN pip install --upgrade pip
 COPY ./app/requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Configure the entrypoint
 COPY ./tools/django_setup.sh django_setup.sh
 RUN chmod +x django_setup.sh
 
-# Copy the current directory contents into the container at /app
-COPY ./app/ .
+# Copy the current directory contents of the app (./app) into the container at /usr/src/app
+COPY ./app .
 
 # Run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-ENTRYPOINT ["/app/django_setup.sh"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+## Use Daphne as the ASGI server to serve Django Channels allowing for WebSockets
+CMD ["daphne", "backend.asgi:application", "-u", "/usr/src/app/daphne.sock"]
+ENTRYPOINT ["/usr/src/app/django_setup.sh"]

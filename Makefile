@@ -126,6 +126,7 @@ help:
 	@echo "  make $(EXEC)remove_url$(RESET) - Remove $(HOST_URL) from the /etc/hosts file"
 	@echo "  make $(EXEC)template$(RESET)   - Create empty credentials files from templates"
 	@echo "  make $(EXEC)rm_secrets$(RESET) - Remove credentials files"
+	@echo "  make $(EXEC)shell_<container>$(RESET) - Access the shell of a container"
 	@echo "  make $(EXEC)help$(RESET)       - Display this help message"
 
 # Display information about the application
@@ -148,6 +149,10 @@ infos:
 logs:
 	@docker compose -f $(COMPOSE) logs -f
 
+## nginx logs
+logs_nginx:
+	@docker exec nginx tail -f /var/log/nginx/access.log
+
 #---------------------------- Tests ----------------------------#
 
 # Access PostgreSQL container
@@ -157,6 +162,10 @@ shell_postgresql:
 # Access Django container
 shell_django:
 	@docker exec -it django /bin/bash
+
+# Access Nginx container
+shell_nginx:
+	@docker exec -it nginx /bin/bash
 
 #---------------------------- Phony ----------------------------#
 
