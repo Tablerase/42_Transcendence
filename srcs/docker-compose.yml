@@ -33,7 +33,7 @@ services:
     depends_on:
       - db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      test: ["CMD", "sh", "-c", "echo -e 'GET / HTTP/1.1\r\nHost: localhost\r\n\r\n' | nc -U /usr/src/app/daphne.sock"]
       interval: 1m30s
       timeout: 5s
       retries: 5

@@ -1,7 +1,7 @@
 # Official Base Image for Python 3.12 (https://hub.docker.com/_/python)
 FROM python:3.12-slim
 
-# install system dependencies
+# install system dependencies (netcat is used to check for database network access availability and django server socket readiness)
 RUN apt-get update && apt-get install -y \
     netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
