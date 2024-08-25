@@ -18,13 +18,13 @@ from game.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
-"""
-TODO: Add AllowedHostsOriginValidator and AuthMiddleWareStack to the websocket_urlpatterns
-"""
 application = ProtocolTypeRouter(
     {
         "http": get_asgi_application(),
-        "websocket": URLRouter(websocket_urlpatterns),
-        # You can also have more protocols such as 'channel' or 'ftp' here
+        "websocket": AllowedHostsOriginValidator(
+            AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
+        ),
+        # "websocket": URLRouter(websocket_urlpatterns),
+        # You can also have more protocols here
     }
 )
