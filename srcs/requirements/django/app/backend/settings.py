@@ -26,7 +26,8 @@ with open(os.getenv('DJANGO_SECRET_KEY_FILE', '/run/secrets/django_secret_key'),
 SECRET_KEY = password_django
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+debug_mode = os.getenv('DJANGO_DEBUG', 'False')
+DEBUG = debug_mode
 
 # Protection against Arbitrary Host Header Injection
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(' ')
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'daphne',
+    "test.apps.TestConfig",
     "chat.apps.ChatConfig",
     "users.apps.UsersConfig",
     "game.apps.GameConfig",

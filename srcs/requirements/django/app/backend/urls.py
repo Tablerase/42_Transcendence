@@ -9,6 +9,7 @@ urlpatterns = [
     path("chat/", include('users.urls')),
     path("users/", include('chat.urls')),
     path("game/", include('game.urls')),
+    path("test/", include('test.urls')),
     path("", RedirectView.as_view(url='game/home/')),
 ]
 

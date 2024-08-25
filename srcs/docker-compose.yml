@@ -27,6 +27,13 @@ services:
     networks:
       - transcendence
     volumes:
+      # Dev purposes
+      - ./requirements/django/app/users:/usr/src/app/users
+      - ./requirements/django/app/game:/usr/src/app/game
+      - ./requirements/django/app/backend:/usr/src/app/backend
+      - ./requirements/django/app/chat:/usr/src/app/chat
+      - ./requirements/django/app/test:/usr/src/app/test
+      # Volume for the Daphne socket and static files
       - backend:/usr/src/app
     # restart: unless-stopped
     restart: no

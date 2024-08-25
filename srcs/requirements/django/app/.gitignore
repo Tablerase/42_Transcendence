@@ -1,5 +1,7 @@
-# Static files
+# # Static files
 # staticfiles/
+# daphne.sock.lock
+# daphne.sock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

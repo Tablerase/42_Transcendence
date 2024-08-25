@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Workdir
+cd /usr/src/app
+
 # Wait for postgres to start
 timeout=15
 echo "Waiting for postgres..."
@@ -15,10 +18,11 @@ echo "PostgreSQL started"
 
 # Check for unapplied migrations
 echo "Checking for unapplied migrations..."
-unapplied_migrations=$(python manage.py showmigrations --plan | grep '\[ \]')
+unapplied_migrations=$(python manage.py makemigrations --dry-run --check 2>&1)
 
-if [ -n "$unapplied_migrations" ]; then
+if [ "$unapplied_migrations" != "No changes detected" ]; then
     echo "Applying database migrations"
+    python manage.py makemigrations
     python manage.py migrate
 else
     echo "No migrations to apply"

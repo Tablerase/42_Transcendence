@@ -38,8 +38,6 @@ stop:
 # Stop and remove containers, networks created by 'up'
 down:
 	@docker compose -f $(COMPOSE) down
-	@echo "🗑️  Removing temporary backend volume..."
-	@docker volume rm $(NAME)_backend
 
 # Remove containers, networks, volumes, and images created by 'up'
 clean:
