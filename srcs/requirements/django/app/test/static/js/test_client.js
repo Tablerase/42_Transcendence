@@ -1,7 +1,6 @@
 console.log('Client is running');
 
-// Get room_name from the DOM
-const room_name = document.getElementById('room_name').textContent;
+const room_name = window.location.pathname.split('/').slice(-2)[0];
 console.log('Room name:', room_name);
 
 /**
@@ -18,29 +17,54 @@ const ws_url = ws_scheme
 
 const ws = new WebSocket(ws_url);
 console.log('Path:', window.location.pathname);
-console.log('WebSocket path:', ws_url);
+console.log('WebSocket URL:', ws_url);
 
 ws.onopen = function(event) {
     console.log('Connected');
 };
 
 ws.onmessage = function(event) {
-    console.log('Server says: ', event.data);
+    const data = JSON.parse(event.data);
+    console.log('Message:', data);
+    const messageDom = document.createElement('div');
+    messageDom.innerHTML = data.message;
+    document.querySelector('#chat-message-list').append(messageDom);
+    document.querySelector('#chat-message-list').scrollTo(0, document.querySelector('#chat-message-list').scrollHeight);
 };
 
 ws.onclose = function(event) {
     console.log('Disconnected');
     console.log('Code:', event.code, getStatusCodeString(event.code));
-    console.log('Reason:', event.reason);
+    if (event.reason !== '')
+        console.log('Reason:', event.reason);
 };
 
 ws.onerror = function(event) {
-    console.log('Error: ', event);
+    // Error occurred
 };
 
 /**
+ * Handling chat messages
+ */
+document.querySelector('#chat-message-input').focus();
+document.querySelector('#chat-message-input').onkeyup = function(e) {
+    if (e.key === 'Enter') {  // enter, return
+        document.querySelector('#chat-message-submit').click();
+    }
+};
+document.querySelector('#chat-message-submit').onclick = function(e) {
+    const messageInputDom = document.querySelector('#chat-message-input');
+    const message = messageInputDom.value;
+    ws.send(JSON.stringify({
+        'message': message
+    }));
+    messageInputDom.value = '';
+};
+
+
+/**
  * Websocket Status Codes
- * */
+ */
 let specificStatusCodeMappings = {
     '1000': 'Normal Closure',
     '1001': 'Going Away',

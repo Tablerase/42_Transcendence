@@ -6,11 +6,13 @@ from django.template import loader
 # Import models
 from test.models import Test_User
 
-def test(request):
+def index(request):
+    return HttpResponse("Hello, world. You're at the test index.")
+
+def test(request, room_name):
     template = loader.get_template('test.html')
 
     users = Test_User.objects.all()
-    room_name = 'test_room'
 
     context = {
         'users': users,

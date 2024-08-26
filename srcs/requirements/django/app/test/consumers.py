@@ -16,11 +16,10 @@ class TestConsumer(AsyncWebsocketConsumer):
         # Check if the user is authenticated
         if not self.scope['user'].is_authenticated:
             # Reject the connection
-            await self.close(code=1006, reason='User is not authenticated')
-            return
+            raise DenyConnection("User is not authenticated")
 
         # Join room group
-        self.channel_layer.group_add(
+        await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
@@ -29,7 +28,7 @@ class TestConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
-        self.channel_layer.group_discard(
+        await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
@@ -37,9 +36,10 @@ class TestConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        print(f"Message received: {message}")
 
         # Send message to room group
-        self.channel_layer.group_send(
+        await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
@@ -51,6 +51,6 @@ class TestConsumer(AsyncWebsocketConsumer):
         message = event['message']
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps({
+        await self.send(text_data=json.dumps({
             'message': message
         }))

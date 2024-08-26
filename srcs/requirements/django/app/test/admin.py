@@ -4,6 +4,6 @@ from django.contrib import admin
 from .models import Test_User
 
 class TestUserAdmin(admin.ModelAdmin):
-    list_display = ('user', 'alive')
+    list_display = ('user', 'alive', 'spectator')
 
 admin.site.register(Test_User, TestUserAdmin)

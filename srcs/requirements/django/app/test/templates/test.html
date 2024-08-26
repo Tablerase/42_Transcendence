@@ -11,8 +11,9 @@
 <body>
     <h1>Test</h1>
     <p>This is a test page.</p>
-    <p> {{ users }} </p>
-    <value id="room_name" hidden>{{ room_name }}</value>
+    <article id="chat-message-list"></article>
+    <input id="chat-message-input" type="text" size="100"><br>
+    <input id="chat-message-submit" type="button" value="Send">
     <script type="module" src="{% static 'js/test_client.js' %}"></script>
 </body>
 </html>
