@@ -11,6 +11,8 @@
 <body>
     <h1>Test</h1>
     <p>This is a test page.</p>
-    <p> {{ user }} </p>
+    <p> {{ users }} </p>
+    <value id="room_name" hidden>{{ room_name }}</value>
+    <script type="module" src="{% static 'js/test_client.js' %}"></script>
 </body>
 </html>

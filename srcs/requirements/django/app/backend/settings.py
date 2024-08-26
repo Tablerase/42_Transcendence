@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -40,16 +39,16 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'daphne',
-    "test.apps.TestConfig",
-    "chat.apps.ChatConfig",
-    "users.apps.UsersConfig",
-    "game.apps.GameConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "chat.apps.ChatConfig",
+    "users.apps.UsersConfig",
+    "game.apps.GameConfig",
+    "test.apps.TestConfig",
 ]
 
 MIDDLEWARE = [
