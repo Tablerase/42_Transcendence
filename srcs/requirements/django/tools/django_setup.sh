@@ -18,20 +18,15 @@ echo "PostgreSQL started"
 
 # Check for unapplied migrations
 echo "Checking for unapplied migrations..."
-unapplied_migrations=$(python manage.py makemigrations --dry-run --check 2>&1)
-
-if [ "$unapplied_migrations" != "No changes detected" ]; then
-    echo "Applying database migrations"
-    python manage.py makemigrations
-    python manage.py migrate
-else
-    echo "No migrations to apply"
-fi
+python manage.py makemigrations --noinput
+python manage.py migrate
 
 # Collect static files
 echo "Collecting static files"
 python manage.py collectstatic --noinput --clear
 
+rm -rf /usr/src/app/daphne.sock
+rm -rf /usr/src/app/daphne.sock.lock
 # Start server
 echo "Starting server"
 exec "$@"

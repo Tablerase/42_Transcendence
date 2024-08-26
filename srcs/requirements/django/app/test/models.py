@@ -4,7 +4,7 @@ from django.db import models
 from django.conf import settings
 
 class Test_User(models.Model):
-    username = models.CharField(max_length=100)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
     alive = models.BooleanField(default=True)
     spectator = models.BooleanField(default=False)
 

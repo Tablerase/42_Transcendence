@@ -27,12 +27,6 @@ services:
     networks:
       - transcendence
     volumes:
-      # Dev purposes
-      - ./requirements/django/app/users:/usr/src/app/users
-      - ./requirements/django/app/game:/usr/src/app/game
-      - ./requirements/django/app/backend:/usr/src/app/backend
-      - ./requirements/django/app/chat:/usr/src/app/chat
-      - ./requirements/django/app/test:/usr/src/app/test
       # Volume for the Daphne socket and static files
       - backend:/usr/src/app
     # restart: unless-stopped
@@ -44,6 +38,12 @@ services:
       interval: 1m30s
       timeout: 5s
       retries: 5
+    develop:
+      # Watch for changes in the Django app folder
+      watch:
+        - action: sync+restart
+          path: ./requirements/django/app
+          target: /usr/src/app
 
   # Reverse Proxy and Load Balancer
   nginx:
@@ -70,6 +70,11 @@ services:
     restart: unless-stopped
     depends_on:
       - django
+    develop:
+      watch:
+        - action: rebuild
+          path: ./requirements/django/app
+          target: /usr/src/app
 
   # Data Base
   db:

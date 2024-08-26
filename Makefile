@@ -12,14 +12,17 @@ BACKEND_PATH	= /Users/$(LOGIN)/data/backend
 
 #---------------------------- Rules ----------------------------#
 
+# Development mode
+dev:
+	@mkdir -p $(DATABASE_PATH)
+	@docker compose -f $(COMPOSE) up --watch
+
 # Start the application in detached mode (in the background)
 ## -f : Specify an alternate compose file (here a path)
 ## -d : Detached mode: Run containers in the background
 ## --build : Force Rebuild of images before starting containers
 up:
 	@mkdir -p $(DATABASE_PATH)
-	@mkdir -p $(BACKEND_PATH)
-	@mkdir -p $(WEB_PATH)
 	@/bin/bash -c '\
 		if [ ! -f ./srcs/.env ]; then \
 			echo "❌ Credentials files not found! 🔑" && exit 1; \
@@ -122,6 +125,7 @@ help:
 	@echo "  make $(EXEC)fclean$(RESET)     - Additional cleaning, remove all unused containers, networks, and images"
 	@echo "  make $(EXEC)infos$(RESET)      - Display information about the services"
 	@echo "  make $(EXEC)logs$(RESET)       - Display the logs of the services"
+	@echo "  make $(COMPILED)dev$(RESET)        - Start the services in development mode (watch)"
 	@echo "  make $(EXEC)add_url$(RESET)    - Add $(HOST_URL) to the /etc/hosts file"
 	@echo "  make $(EXEC)remove_url$(RESET) - Remove $(HOST_URL) from the /etc/hosts file"
 	@echo "  make $(EXEC)template$(RESET)   - Create empty credentials files from templates"

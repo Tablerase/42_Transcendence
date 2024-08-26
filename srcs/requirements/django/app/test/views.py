@@ -7,9 +7,9 @@ from django.template import loader
 from test.models import Test_User
 
 def test(request):
-    user = Test_User.objects.all()
+    users = Test_User.objects.all()
     template = loader.get_template('test.html')
     context = {
-        'user': user,
+        'user': users,
     }
     return HttpResponse(template.render(context, request))
