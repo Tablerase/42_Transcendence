@@ -87,11 +87,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Channels
 # https://channels.readthedocs.io/en/stable/index.html
 ## For more persistent connections, we can use a Redis channel layer
-CHANNEL_LAYERS = { 
+CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }   
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
 }
+# CHANNEL_LAYERS = { 
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }   
+# }
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

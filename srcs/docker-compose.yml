@@ -33,6 +33,7 @@ services:
     restart: no
     depends_on:
       - db
+      - redis
     healthcheck:
       test: ["CMD", "sh", "-c", "echo -e 'GET / HTTP/1.1\r\nHost: localhost\r\n\r\n' | nc -U /usr/src/app/daphne.sock"]
       interval: 1m30s
@@ -102,6 +103,25 @@ services:
       interval: 1m30s
       timeout: 5s
       retries: 5
+  
+  # Redis
+  redis:
+    container_name: redis
+    labels:
+      - com.redis.description='Redis Cache'
+    image: redis:7
+    expose:
+      - "6379"
+    networks:
+      - transcendence
+    volumes:
+      - redis:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1m30s
+      timeout: 5s
+      retries: 5
 
 # Secrets
 secrets:
@@ -126,10 +146,12 @@ networks:
 volumes:
   # Backend data (Django temporary volume)
   backend:
+  # Redis data
+  redis:
   # PostgreSQL data (PostgreSQL permanent volume)
   postgresql:
     driver: local
     driver_opts:
       type: none
-      device: /Users/${LOGIN}/data/postgresql
+      device: ${HOME_PATH}/data/postgresql
       o: bind

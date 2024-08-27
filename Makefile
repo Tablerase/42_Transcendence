@@ -1,14 +1,16 @@
 #---------------------------- Transcendence ----------------------------#
 
 # Variables
-NAME		= transcendence
-LOGIN		= rcutte
-SRCS		= ./srcs
-COMPOSE		= $(SRCS)/docker-compose.yml
-HOST_URL	= transcendence.42.fr
-WEB_PATH	= /Users/$(LOGIN)/data/web
-DATABASE_PATH	= /Users/$(LOGIN)/data/postgresql
-BACKEND_PATH	= /Users/$(LOGIN)/data/backend
+NAME			= transcendence
+LOGIN			= $(if $(SUDO_USER),$(SUDO_USER),$(shell whoami))
+SRCS			= ./srcs
+COMPOSE			= $(SRCS)/docker-compose.yml
+HOST_URL		= transcendence.42.fr
+OS              = $(shell uname -s)
+HOME_PATH       = $(if $(filter $(OS),Darwin),/Users/$(LOGIN),/home/$(LOGIN))
+WEB_PATH        = $(HOME_PATH)/data/web
+DATABASE_PATH   = $(HOME_PATH)/data/postgresql
+BACKEND_PATH    = $(HOME_PATH)/data/backend
 
 #---------------------------- Rules ----------------------------#
 
@@ -89,10 +91,15 @@ template:
 			echo "❌ Credentials files already exist! 🔑" && exit 1; \
 			exit 0; \
 		fi; \
+		if [ "$$EUID" -eq 0 ]; then \
+			echo "❌ Please run this command without sudo! 🔑" && exit 1; \
+		fi; \
 		for file in ./secrets/*.template; do \
 			cp $$file "$${file%.template}"; \
 		done; \
 		cp ./srcs/.env.template ./srcs/.env && \
+		sed -i '/^LOGIN=.*/c\LOGIN=$(LOGIN)' ./srcs/.env && \
+		sed -i '/^HOME_PATH=.*/c\HOME_PATH=$(HOME_PATH)' ./srcs/.env && \
 		echo "✔️ Credentials files are ready! 🔑" \
 		'
 
@@ -157,7 +164,7 @@ logs:
 logs_nginx:
 	@docker exec nginx tail -f /var/log/nginx/access.log
 
-#---------------------------- Tests ----------------------------#
+#---------------------------- Shell ----------------------------#
 
 # Access PostgreSQL container
 shell_postgresql:
@@ -171,9 +178,13 @@ shell_django:
 shell_nginx:
 	@docker exec -it nginx /bin/bash
 
+# Access Redis container
+shell_redis:
+	@docker exec -it redis /bin/bash
+
 #---------------------------- Phony ----------------------------#
 
-.PHONY: start stop clean fclean help infos logs
+.PHONY: start stop clean fclean help infos logs logs_nginx shell_postgresql shell_django shell_nginx shell_redis add_url remove_url template rm_secrets delete_db_folder delete_web_folder delete_backend_folder dev up down
 
 #---------------------------- Specials ----------------------------#
 
