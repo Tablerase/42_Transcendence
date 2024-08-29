@@ -28,7 +28,7 @@ services:
       - transcendence
     volumes:
       # Volume for the Daphne socket and static files
-      - backend:/usr/src/app
+      - backend-data:/usr/src/app
     # restart: unless-stopped
     restart: no
     depends_on:
@@ -66,7 +66,7 @@ services:
     networks:
       - transcendence
     volumes:
-      - backend:/usr/src/app
+      - backend-data:/usr/src/app
       - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
     restart: unless-stopped
     depends_on:
@@ -96,7 +96,7 @@ services:
     networks:
       - transcendence
     volumes:
-      - postgresql:/var/lib/postgresql/data/
+      - postgresql-data:/var/lib/postgresql/data/
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
@@ -115,13 +115,28 @@ services:
     networks:
       - transcendence
     volumes:
-      - redis:/data
+      - redis-data:/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 1m30s
       timeout: 5s
       retries: 5
+  
+  # Prometheus
+  prometheus:
+    container_name: prometheus
+    labels:
+      - com.prometheus.description='Prometheus Monitoring'
+    image: prom/prometheus:v2.54.0
+    ports:
+      - "9090:9090"
+    networks:
+      - transcendence
+    volumes:
+      - ./requirements/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    restart: unless-stopped
 
 # Secrets
 secrets:
@@ -145,11 +160,13 @@ networks:
 ## Bind allows containers and host to share the same volume (changes in one side are reflected in the other)
 volumes:
   # Backend data (Django temporary volume)
-  backend:
+  backend-data:
   # Redis data
-  redis:
+  redis-data:
+  # Prometheus data
+  prometheus-data:
   # PostgreSQL data (PostgreSQL permanent volume)
-  postgresql:
+  postgresql-data:
     driver: local
     driver_opts:
       type: none
