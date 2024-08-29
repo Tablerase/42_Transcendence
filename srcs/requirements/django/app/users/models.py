@@ -6,7 +6,7 @@ from django.conf import settings
 
 class Profile(models.Model):
   user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-  image = models.ImageField(default='./staticfiles/users/images/default.jpg', upload_to='profile_pics')
+  image = models.ImageField(default='default.jpg', upload_to='profile_pics')
   
   def __str__(self):
     return f'{self.user.username} Profile'  
@@ -34,6 +34,7 @@ class CustomUser(AbstractUser):
   total_wins = models.IntegerField(default=0)
   total_losses = models.IntegerField(default=0)
   friends = models.ManyToManyField("CustomUser", blank=True)
+  blocked_users = models.ManyToManyField("CustomUser", blank=True, related_name="blocked_by")
 
   def __str__(self):
     return self.username

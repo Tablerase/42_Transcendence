@@ -25,5 +25,13 @@ sqlparse==0.5.1
 
 # TLS and HTTP/2 support
 twisted[tls,http2]==24.7.0
+## Fast HTTP Request library
+requests==2.32.3
 # Python Imaging Library
 pillow==10.4.0
+
+# Third Party Authentication
+## Social account authentication (Google)
+django-allauth==64.0.0
+## JSON Web Tokens
+PyJWT==2.9.0

@@ -1,22 +1,29 @@
-{% extends "chat/base.html" %}
+{% extends 'game/base.html' %}
 {% load static %}
-{% block content %}
-  <link rel="stylesheet" href="{% static 'users/layout.css' %}" />
-  <link rel="stylesheet" href="{% static 'users/user_list.css' %}" />
 
+{% block title %}Users - Search{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/user_list.css' %}" />
+<link rel="stylesheet" href="{% static 'users/css/layout.css' %}" />
+<link rel="stylesheet" href="{% static 'game/css/icon.css' %}" />
+<link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+<link rel="stylesheet" href="{% static 'game/css/background.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="list">
   <section class="user-list">
     <div class="section-header justify-content-between">
       {% include "users/partials/_users_list_header.html" %}
     </div>
     <div class="section-content">
       <!-- Users -->
-      {% if users %}
+      {% if users_with_context %}
         <div class="text-center mt-4 mb-4">
           <h2>Results for <u><b>{{ searched }}</b></u> :</h2>
         </div>
-        {% for user in users %}
-          {% include "users/partials/_user_single.html" with user=user %}
-        {% endfor %}
+        {% include "users/partials/_list_users.html" %}
       {% else %}
         <div class="text-center">
           <h3>No results</h3>
@@ -37,4 +44,5 @@
       {% endif %}
     </div>
   </section>
+</div>
 {% endblock content %}

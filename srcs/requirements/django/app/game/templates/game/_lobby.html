@@ -1,0 +1,94 @@
+{% load static %}
+
+{% block css %}
+<link 
+rel="stylesheet" 
+href="{% static 'game/css/lobby.css' %}" 
+/>
+{% endblock %}
+
+<section class="user-list">
+  <div class="section-header justify-content-between">
+    <div>
+      <p
+        class="tournament-name"
+      >
+        Name: {{ tournament.name }}
+        <br>
+        ID: {{ tournament.id }}
+        <br>
+        {% if tournament.host == request.user %}
+          You are hosting
+        {% else %}
+          {{ tournament.host }} is hosting
+        {% endif %}
+      </p>
+    </div>
+    <div>
+      <form
+        id="settings-form"
+      >
+        <button 
+          class="btn btn-primary"
+        >
+        Settings
+        </button>
+      </form>
+      {% if tournament.host == request.user %}
+        <button 
+          class="btn btn-success"
+          onclick="startTournament()"
+        >
+        Start
+        </button>
+        {% endif %}
+        <form 
+          id="leave-form"
+          method="post" 
+          action="{% url 'quit' tournament_id=tournament.id %}" 
+        >
+          {% csrf_token %}
+          <button 
+          class="btn btn-danger"
+            type="submit" 
+            name="mode" 
+            value="leave"
+          >
+          Leave
+          </button>
+        </form>
+    </div>
+  </div>
+  <div class="section-content">
+    <div class="text-center mt-4 mb-4">
+    {% if tournament.players.count > 1 %}
+      {% for player in tournament.players.all %}
+      {% if player != request.user %}
+      <div 
+        class="player"
+      >
+        <img
+          class="photo"
+          src="{{ player.profile.image.url }}"
+          alt="auth pic"
+        >
+        <h3>
+          {{ player.username }}
+        </h3>
+      </div>
+      {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="text-center">
+        <img
+          src="{% static 'game/images/🐥/nobody-here.gif' %}"
+          alt="tumbleweed gif"
+          width="300px"
+          class="mt-2"
+        >
+        <h4 class="mt-3">Copy <a href="#">this link</a><br>to invite Friends</h4>
+      </div>
+    {% endif %}
+    </div>
+  </div>
+</section>

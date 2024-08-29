@@ -1,0 +1,39 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}🏓{% endblock %}
+
+{% block css %}
+<link 
+rel="stylesheet" 
+href="{% static 'game/css/pong.css' %}" 
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/background.css' %}"
+/>
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/icon_navbar.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+{% if tournament.status == 'open' %}
+{% include 'game/_lobby.html' %}
+{% elif tournament.status == 'locked' %}
+{% include 'game/_pong.html' %}
+{% elif tournament.status == 'completed' %}
+{% include 'game/tournament_results.html' %}
+{% endif %}
+{% endblock %}
+
+{% block js %}
+<script>
+  const tournamentId = "{{ tournament.id }}";
+  const userId = "{{ user.id }}";
+</script>
+<script src="{% static 'game/js/tournament/events.js' %}"></script>
+{% endblock %}
+
+

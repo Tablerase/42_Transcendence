@@ -1,0 +1,126 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}💅{% endblock %}
+
+{% block css %}
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/settings.css' %}" 
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/background.css' %}"
+/>
+{% endblock %}
+{% block content %}
+<div class="main"></div>
+<form method="POST">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+      <h3>Game Settings</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Ball</h4>
+    </div>
+    <div class="col">
+      <div id="carouselBall" class="carousel carousel-fade">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="block">
+              <img src="../../static/game/images/⚽️/asteroid.png" class="ball_effect d-block option-img" alt="asteroid">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="block">
+              <img src="../../static/game/images/⚽️/earth.png" class="ball_effect d-block option-img" alt="earth">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="block">
+              <img src="../../static/game/images/⚽️/supernova.png" class="ball_effect d-block option-img" alt="marie-antoinette-head">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="block">
+              <img src="../../static/game/images/⚽️/disco-ball.png" class="ball_effect d-block option-img" alt="marie-antoinette-head">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="block">
+              <img src="../../static/game/images/⚽️/marie-antoinette-head.png" class="ball_effect d-block option-img" alt="marie-antoinette-head">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Paddle</h4>
+    </div>
+    <div class="col">
+      <div id="carouselPaddles" class="carousel carousel-fade">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="block">
+              <div class="pink-square"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="block">
+              <div class="blue-square"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="block">
+              <div class="silver-square"></div>
+            </div>
+          </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button class="btn">Save Changes</button>
+    </div>
+    <div class="col">
+      <button class="btn">Play Default</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
+{% block js %}
+<script 
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+crossorigin="anonymous"
+>
+</script>
+<script>
+  var œå = document.querySelector('#carouselBall')
+  var carousel = new bootstrap.Carousel(myCarousel)
+</script>
+{% endblock %}
+
+#TODO: paddle and background colors
+#Speed settings

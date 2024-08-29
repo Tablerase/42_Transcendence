@@ -5,10 +5,6 @@
 --darkest       : #FF71CD;
 }
 
-label {
-  display: none !important;
-}
-
 body form {
   background-image: none !important;
   border-radius: 0;
@@ -23,14 +19,14 @@ body form {
 
 
 .btn {
-  color: var(--lightest) !important;
-  background-color: var(--light) !important;
+  color: var(--lightest);
+  background-color: var(--light);
   box-shadow: 0px 3px 2px var(--lightest);
   border: none;
-  padding: 5px;
-  margin: 5px;
+  padding: 10px;
+  margin: 2px;
   width: 100%;
-  font-size: 16px !important;
+  font-size: 16px;
   text-transform: capitalize;
   letter-spacing: 2px;
 }
@@ -38,11 +34,10 @@ body form {
 .btn:hover {
   filter: none;
   color: var(--lightest);
-  background-color: var(--light);
+  background-color: var(--dark);
   box-shadow: none;
   transform: none;
-  letter-spacing: 2px !important;
-  font-weight: 400;
+  letter-spacing: 2px;
 }
 
 .player {
@@ -63,6 +58,7 @@ body form {
 
 
 .section-header {
+  background-image: url('../images/🐥/noise.png');
   background-color: var(--dark);
   color: var(--lightest);
   padding: 10px 35px;
@@ -82,7 +78,7 @@ body form {
 .user-list {
   box-shadow: 0px 3px 2px var(--light);
   background-color: var(--lightest); 
-  background-image: url(../images/🐥/noise.png);
+  background-image: url('../images/🐥/noise.png');
   display: flex;
   flex-direction: column;
   height: 75%;

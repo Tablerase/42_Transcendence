@@ -3,11 +3,17 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("pong/", views.pong, name="pong"),
+    path("", views.index, name="index"),
     path("home/", views.home, name="home"),
+    path("practice/", views.practice, name="practice"),
     path("init/", views.init, name="init"),
     path("init/<str:mode>/", views.init, name="init"),
-    path("lobby/<int:id>/", views.lobby, name="lobby"),
-    path("quit/<int:id>/", views.quit, name="quit"),
-    path("start/<int:id>/", views.start, name="start"),
+    path("tournament/<int:tournament_id>/", views.tournament, name="tournament"),
+    path("quit/<int:tournament_id>/", views.quit, name="quit"),
+    path("settings/", views.settings, name="settings"),
+    path('clear_modal_data/', views.clear_modal_data, name='clear_modal_data'),
 ]
+
+
+# TODO (tests)
+# Check quit/<id of tournament that exists but user is not in>/

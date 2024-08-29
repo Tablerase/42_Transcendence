@@ -1,9 +1,19 @@
-{% extends "chat/base.html" %}
-{% load crispy_forms_tags %}
+{% extends 'game/base.html' %}
 {% load static %}
+
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+
+{% block title %}Register{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'game/css/background.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/button_pong.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
+{% endblock %}
+
 {% block content %}
-  <link rel="stylesheet" href="{% static 'users/form.css' %}">
-  <link rel="stylesheet" href="{% static 'users/button_pong.css' %}">
   <div class="animated-border-box-glow"></div>
   <div class="form animated-border-box">
     <form method="POST">
@@ -12,9 +22,12 @@
         <legend class="border-bottom mb-4">Play Pong Today</legend>
         {{ form|crispy }}
       </fieldset>
-      <div class="form-group">
-        <button style="--clr:#AF47D2" type="submit"><span>Register</span><i></i></button>
+      <div class="form-group text-center mb-3">
+        <button class="button_pong" style="--clr:#AF47D2" type="submit"><span>Register</span><i></i></button>
       </div>
+      <a href="{% provider_login_url 'google' %}">
+        <button type="button">Sign up with Google</button>
+      </a>
     </form>
     <div class="border-top pt-3">
       <small class="text-muted">

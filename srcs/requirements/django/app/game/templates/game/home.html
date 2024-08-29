@@ -1,7 +1,7 @@
 {% extends 'game/base.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}🏡{% endblock %}
 
 {% block css %}
 <link 
@@ -25,6 +25,7 @@
   href="{% static 'game/css/icon_navbar.css' %}"
 />
 {% endblock %}
+
 {% block content %}
 <form class="noise" method="post" action="{% url 'home' %}">
   <div class="focus" data-message="game mode">
@@ -38,7 +39,7 @@
   <button class="btn game-btn" type="submit" name="mode" value="host">Host</button>
 </form>
 {% endblock %}
-{% block js %}
-<script type="module" src="{% static 'game/js/header.js' %}" ></script>
-{% endblock %}
 
+{% block js %}
+<script type="module" src="{% static 'game/js/practice/header.js' %}" ></script>
+{% endblock %}

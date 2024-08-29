@@ -1,9 +1,11 @@
 from itertools import combinations
+from random import choice
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, RegexValidator
 from django.db import models
+
 
 class Tournament(models.Model):
   date = models.DateTimeField(auto_now_add=True)
@@ -33,7 +35,16 @@ class Tournament(models.Model):
     on_delete=models.CASCADE,
     related_name='hosted_tournaments'
   )
-  locked = models.BooleanField(default=False)
+  choices = [ 
+      ('open', 'open'),
+      ('locked', 'locked'),
+      ('completed', 'completed')
+  ]
+  status = models.CharField(
+    max_length=10,
+    choices=choices,
+    default='open'
+  )
   
   def generate_matches(self):
     if self.players.count() < 2:
@@ -45,21 +56,36 @@ class Tournament(models.Model):
         continue
       match = Match.objects.create(tournament=self)
       match.add_players(player1, player2)
+    self.status = 'locked'
+    self.save()
   
   def add_player(self, player):
-    if self.players.count() == 4:
+    if self.players.count() == 4 or self.status != 'open':
       raise ValidationError("Tournament is full")
     self.players.add(player)
   
   def remove_player(self, player):
     self.players.remove(player)
-    if self.players.count() == 0:
+    left_players = self.players.exclude(id=player)
+    if left_players.exists():
+      self.save()
+    else:
+      self.delete()
+  
+  def remove_host(self):
+    self.players.remove(self.host)
+    available_players = self.players.exclude(id=self.host.id)
+    if available_players.exists():
+      self.host = choice(available_players)
+      self.save()
+    else:
       self.delete()
   
   def __str__(self):
     return self.name
   
   def save(self, *args, **kwargs):
+    self.full_clean()
     super().save(*args, **kwargs)
     if not self.players.filter(id=self.host.id).exists():
       self.players.add(self.host)
@@ -70,6 +96,14 @@ class Match(models.Model):
   players = models.ManyToManyField(
     settings.AUTH_USER_MODEL,
     through='Player'
+  )
+  status = models.CharField(
+    max_length=11,
+    choices=[
+      ('pending', 'pending'),
+      ('in_progress', 'in_progress'),
+      ('finished', 'finished')],
+    default='pending' 
   )
   
   def __str__(self):
