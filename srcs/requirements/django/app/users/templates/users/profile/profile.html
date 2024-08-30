@@ -47,9 +47,8 @@
     {% endif %}
     <img
       class="round {% if user in request.user.friends.all %}friend-border{% elif user in request.user.blocked_users.all %}blocked-border{% else %}normal-border{% endif %}" 
-      src="{{ user.profile.image.url }}"
+      src="{{ user.profile.profile_image_url }}"
       alt="user"
-      onerror="this.onerror=null;this.src='{% static 'users/images/default-avatar.png' %}';"
     />
     <h2>{{ user.username }}</h2>
     <h6>{{ user.email }}</h6>

@@ -34,6 +34,9 @@ CSRF_TRUSTED_ORIGINS = [
     scheme + host for host in ALLOWED_HOSTS for scheme in ['https://', 'http://']
 ]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+
 # Application definition
 INSTALLED_APPS = [
     'crispy_forms',

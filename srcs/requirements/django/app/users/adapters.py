@@ -19,9 +19,12 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
         picture_url = extra_data.get('picture')
 
         if picture_url:
-            logger.debug(f"Attempting to download profile picture from: {picture_url}")
-            self.download_and_save_image(profile, picture_url)
-
+            logger.info(f"Saving Google profile picture URL: {picture_url}")
+            profile.image_url = picture_url
+            profile.image = None
+            profile.save()
+        else:
+            logger.warning("Google profile picture URL not found in extra_data.")
         return user
 
     def download_and_save_image(self, profile, url):
