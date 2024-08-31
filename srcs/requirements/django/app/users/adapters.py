@@ -22,7 +22,7 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
             logger.info(f"Saving Google profile picture URL: {picture_url}")
             profile.image_url = picture_url
             profile.image = None
-            profile.save()
+            profile.save(force_update=True)
         else:
             logger.warning("Google profile picture URL not found in extra_data.")
         return user

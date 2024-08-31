@@ -47,7 +47,7 @@
     {% endif %}
     <img
       class="round {% if user in request.user.friends.all %}friend-border{% elif user in request.user.blocked_users.all %}blocked-border{% else %}normal-border{% endif %}" 
-      src="{{ user.profile.profile_image_url }}"
+      src="{{ user.profile.image.url }}"
       alt="user"
     />
     <h2>{{ user.username }}</h2>
@@ -121,13 +121,16 @@
       });
     });
 
-    span.onclick = function() {
+    function closeModal() {
       modal.style.display = "none";
+      const backdrops = document.getElementsByClassName('modal-backdrop');
+      Array.from(backdrops).forEach(backdrop => backdrop.remove());
     }
-
+    
+    span.onclick = closeModal;
     window.onclick = function(event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        closeModal();
       }
     }
 });

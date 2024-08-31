@@ -1,10 +1,16 @@
-from django.shortcuts import render, redirect
+import os
+import requests
+from django.core.files.base import ContentFile
+from django.shortcuts import render, redirect, reverse
 from django.conf import settings
 from django.urls import reverse
-from ..auth.oauth42 import Token
 from django.http import HttpResponse
-from urllib.parse import urlencode
-
+from django.contrib.auth import get_user_model
+from django.contrib.auth import login as auth_login
+from users.auth.oauth42 import Token
+from users.models import Profile
+import requests
+from django.core.files.storage import default_storage
 
 def oauth_callback(request):
     """
@@ -39,37 +45,89 @@ def oauth_callback(request):
     # Redirect to the dashboard view
     return redirect(reverse("dashboard"))
 
+CustomUser = get_user_model()
 
 def dashboard(request):
     """
-    Retrieve user data from the OAuth provider and display it.
+    Retrieve user data from the OAuth provider, create or update the user,
+    and log them in.
     """
-    # Retrieve the access token from the session
     access_token = request.session.get('token')
-    
     if not access_token:
-        print("No access token found in session.")  # Debug: No token found
+        print("No access token found in session.")
         return redirect(reverse("home"))
 
-    print(f"Access token found: {access_token}")  # Debug: Print access token
+    print(f"Access token found: {access_token}")
 
-    # Use the Token class to make authorized requests
-    token = Token(access_token)
-    
-    # Retrieve user data
+    # Retrieve user data from the OAuth provider
     try:
-        data = token.get("/v2/me")
-        print(f"User data retrieved: {data}")  # Debug: Print the data fetched from the API
+        data = Token(access_token).get("/v2/me")
+        print(f"User data retrieved: {data}")
     except Exception as e:
-        print(f"Error fetching user data: {str(e)}")  # Debug: Print error if fetching fails
+        print(f"Error fetching user data: {str(e)}")
         return HttpResponse(f"Error fetching user data: {str(e)}", status=400)
 
-    # Prepare the context for the dashboard
-    context = {
-        "name": f'{data.get("first_name", "")} {data.get("last_name", "")}',
-        "email": data.get("email", ""),
-        "image": data.get("image", {}).get("link", ""),  # Assuming 'image' key is a dictionary
-        "data": data  # Pass entire data object for flexibility
-    }
+    # Extract relevant user data
+    login, email, image_url = data.get("login"), data.get("email"), data.get("image", {}).get("link", "")
 
-    return render(request, "users/profile/dashboard.html", context)
+    # Create or update the user in the database
+    user = get_or_create_user(login, email)
+
+    # Create or update the user's profile
+    update_or_create_profile(user, image_url)
+
+    # Set the backend for authentication and log the user in
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
+    auth_login(request, user)
+
+    return redirect(reverse("profile"))
+
+
+def get_or_create_user(username, email):
+    """
+    Creates or updates a user with the given username and email.
+    """
+    user, created = CustomUser.objects.get_or_create(username=username, defaults={'email': email})
+    if not created:
+        user.email = email
+        user.save()
+    return user
+
+def update_or_create_profile(user, image_url):
+    """
+    Creates or updates the profile associated with the user, saves the image directly to the /media/ directory,
+    and sets the image as the profile picture if it exists.
+    """
+    profile, created = Profile.objects.get_or_create(user=user)
+
+    # Define the path and filename for the profile picture in the /media/ root directory
+    img_name = f"{user.username}_profile.jpg"
+    img_path = os.path.join(settings.MEDIA_ROOT, img_name)
+
+    # Check if the image file already exists in /media/ and set it as the profile picture if it does
+    if os.path.exists(img_path):
+        print(f"Profile image found: {img_path}. Setting as profile image.")
+        profile.image.name = img_name
+        profile.save()
+        return
+
+    # Download the image from the provided URL and save it directly in the /media/ root directory
+    try:
+        response = requests.get(image_url)
+        response.raise_for_status()  # Raise an error for bad responses
+
+        # Save the image directly into the /media/ directory
+        with open(img_path, 'wb') as f:
+            f.write(response.content)
+            print(f"Downloaded and saved profile image to: {img_path}")
+
+        # Set the saved image as the profile picture
+        profile.image.name = img_name
+        profile.save()
+        profile.refresh_from_db()  # Refresh to reflect updated data
+        print(f"Profile updated successfully with image: {profile.image.url}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading profile image: {e}")  # Handle download errors
+    except Exception as e:
+        print(f"Error saving profile: {e}")  # Handle other errors during the save operation
