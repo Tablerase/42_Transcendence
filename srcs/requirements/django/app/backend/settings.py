@@ -189,9 +189,8 @@ LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-
-# Authenticate with Google through 'allauth'
 AUTHENTICATION_BACKENDS = [
+    'users.backends.UserBackend',
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]

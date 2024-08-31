@@ -43,6 +43,25 @@
   overflow-wrap: break-word;
 }
 
+.user .online {
+  position: relative;
+  top: 53px;
+  right: 96px;
+  width: 28px;
+  height: 28px;
+  background-color: #8BC34A;
+  border-radius: 13px;
+  border: 3px solid #FFF4F1;
+}
+
+.user .connected {
+  color: #b5b5b5;
+}
+
+.user .green {
+  color: #8BC34A;
+}
+
 .user .right_part {
   display: flex;
 }

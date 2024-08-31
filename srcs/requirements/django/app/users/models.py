@@ -2,7 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from PIL import Image
 from django.conf import settings
-from django.templatetags.static import static
+from django.contrib.humanize.templatetags.humanize import naturaltime
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 class Profile(models.Model):
   user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -12,15 +14,12 @@ class Profile(models.Model):
     return f'{self.user.username} Profile'
 
   def save(self, *args, **kwargs):
-    # Save the instance first to ensure the image is available on the file system
     super().save(*args, **kwargs)
 
-    # Open the image file
     if self.image:
-      img_path = self.image.path  # Get the file path of the saved image
+      img_path = self.image.path
       img = Image.open(img_path)
 
-      # Crop the image to a square if it is not square
       if img.height != img.width:
         min_dimension = min(img.height, img.width)
         left = (img.width - min_dimension) / 2
@@ -29,23 +28,34 @@ class Profile(models.Model):
         bottom = (img.height + min_dimension) / 2
         img = img.crop((left, top, right, bottom))
 
-      # Resize the image if it's larger than 300x300 pixels
       if img.height > 300 or img.width > 300:
         output_size = (300, 300)
         img.thumbnail(output_size)
 
-      # Save the modified image back to the same path
       img.save(img_path)
 
-    
 class CustomUser(AbstractUser):
   total_wins = models.IntegerField(default=0)
   total_losses = models.IntegerField(default=0)
   friends = models.ManyToManyField("CustomUser", blank=True)
   blocked_users = models.ManyToManyField("CustomUser", blank=True, related_name="blocked_by")
-
+  last_online = models.DateTimeField(blank=True, null=True)
+  
   def __str__(self):
     return self.username
+  
+  def is_online(self):
+    if self.last_online:
+      return (timezone.now() - self.last_online) < timezone.timedelta(minutes=15)
+    return False
+
+  def get_online_info(self):
+    if self.is_online():
+      return _('Online')
+    if self.last_online:
+      return _('Last visit {}').format(naturaltime(self.last_online))
+    return _('Unknown')
+
   
 class FriendRequest(models.Model):
   from_user = models.ForeignKey(
