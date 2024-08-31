@@ -67,9 +67,10 @@
   transform: skewX(-5deg);
 }
 
-.modal-backdrop {
-  display: none !important;
-}
+
+
+
+
 
 .card:hover:after {
   right: -50%;

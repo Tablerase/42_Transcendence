@@ -8,6 +8,8 @@ import os
 CustomUser = get_user_model()
 
 class UserRegisterForm(UserCreationForm):
+  usable_password = None
+  
   email = forms.EmailField()
   username = forms.CharField(max_length=9)
   

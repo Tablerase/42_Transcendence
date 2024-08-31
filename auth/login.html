@@ -35,17 +35,13 @@
       <p class="or-text">Or</p>
     </div>
     <div class="social-sign-in">
-      <a href="{{ authorization_url }}" class="a-42">
-        <button class="input-42">
-          <p>Sign In with</p>
-          <img src="{% static 'users/images/42.png' %}" alt="">
-        </button>
-      </a>
-      <a href="{% provider_login_url 'google' %}" class="a-google">
-        <button class="input-google">
-          <img src="{% static 'users/images/Google.svg' %}" alt="">
-        </button>
-      </a>
+      <button class="input-42">
+        <p>Sign In with</p>
+        <img src="{% static 'users/images/42.png' %}" alt="">
+      </button>
+      <button class="input-google">
+        <img src="{% static 'users/images/Google.svg' %}" alt="">
+      </button>
     </div>
     <div class="sign-up">
       <p>Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
