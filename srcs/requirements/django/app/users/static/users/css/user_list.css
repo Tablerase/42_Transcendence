@@ -43,10 +43,14 @@
   overflow-wrap: break-word;
 }
 
-.user .online {
+.image {
   position: relative;
-  top: 53px;
-  right: 96px;
+} 
+
+.user .online {
+  position: absolute;
+  bottom: 1px;
+  left: -3px;
   width: 28px;
   height: 28px;
   background-color: #8BC34A;
@@ -58,8 +62,8 @@
   color: #b5b5b5;
 }
 
-.user .green {
-  color: #8BC34A;
+.user .on {
+  color: #8BC34A !important;
 }
 
 .user .right_part {
