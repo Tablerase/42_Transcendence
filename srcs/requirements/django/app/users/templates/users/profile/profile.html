@@ -30,7 +30,10 @@
       method="POST"
     >
       {% csrf_token %}
-      <button type="submit" class="svg-icon left">
+      <button type="submit" class="svg-icon left"
+        data-bs-toggle="tooltip" data-bs-placement="left"
+        data-bs-custom-class="unblock-tooltip"
+        data-bs-title="Unblock User">
         <i class="bi bi-person-slash text-success icon-purple"></i>
       </button>
     </form>
@@ -40,16 +43,35 @@
       method="POST"
     >
       {% csrf_token %}
-      <button type="submit" class="svg-icon left">
+      <button type="submit" class="svg-icon left"
+        data-bs-toggle="tooltip" data-bs-placement="left"
+        data-bs-custom-class="block-tooltip"
+        data-bs-title="Block User">
         <i class="bi bi-person-slash text-danger icon-purple"></i>
       </button>
     </form>
     {% endif %}
-    <img
-      class="round {% if user in request.user.friends.all %}friend-border{% elif user in request.user.blocked_users.all %}blocked-border{% else %}normal-border{% endif %}" 
-      src="{{ user.profile.image.url }}"
-      alt="user"
-    />
+    <div class="image">
+      <img
+        class="round {% if user in request.user.friends.all %}friend-border{% elif user in request.user.blocked_users.all %}blocked-border{% else %}normal-border{% endif %}" 
+        src="{{ user.profile.image.url }}"
+        alt="user"
+        onerror="this.onerror=null;this.src='{% static 'users/images/default-avatar.png' %}';"
+      />
+      {% if user.is_online and not user_blocked %}
+      <button type="button" class="online"
+        data-bs-toggle="tooltip" data-bs-placement="left"
+        data-bs-custom-class="online-tooltip"
+        data-bs-title="online">
+      </button>
+      {% elif not user_blocked%}
+      <button type="button" class="offline"
+        data-bs-toggle="tooltip" data-bs-placement="left"
+        data-bs-custom-class="offline-tooltip"
+        data-bs-title="{{ user.get_online_info }}">
+      </button>
+      {% endif %}
+    </div>
     <h2>{{ user.username }}</h2>
     <h6>{{ user.email }}</h6>
     <div class="scores">
