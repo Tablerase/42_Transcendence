@@ -11,13 +11,13 @@ datasources:
   
   - name: PostgreSQL
     type: postgres
-    url: postgres://postgres:$(cat /run/secrets/db_password)@postgres:5432/postgres
+    url: postgres://$POSTGRES_USER:$(cat $POSTGRES_PASSWORD_FILE)@postgres:5432/$POSTGRES_DB
     access: proxy
     isDefault: false
-    database: postgres
-    user: postgres
+    database: $POSTGRES_DB
+    user: $POSTGRES_USER
     secureJsonData:
-      password: $(cat /run/secrets/db_password)
+      password: $(cat $POSTGRES_PASSWORD_FILE)
     jsonData:
       sslmode: disable
     readOnly: false
