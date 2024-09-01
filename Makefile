@@ -8,23 +8,21 @@ COMPOSE			= $(SRCS)/docker-compose.yml
 HOST_URL		= transcendence.42.fr
 OS              = $(shell uname -s)
 HOME_PATH       = $(if $(filter $(OS),Darwin),/Users/$(LOGIN),/home/$(LOGIN))
-WEB_PATH        = $(HOME_PATH)/data/web
 DATABASE_PATH   = $(HOME_PATH)/data/postgresql
-BACKEND_PATH    = $(HOME_PATH)/data/backend
+PROMETHEUS_PATH = $(HOME_PATH)/data/prometheus
+GRAFANA_PATH    = $(HOME_PATH)/data/grafana
 
 #---------------------------- Rules ----------------------------#
 
 # Development mode
-dev:
-	@mkdir -p $(DATABASE_PATH)
+dev: setup_folder
 	@docker compose -f $(COMPOSE) up --watch
 
 # Start the application in detached mode (in the background)
 ## -f : Specify an alternate compose file (here a path)
 ## -d : Detached mode: Run containers in the background
 ## --build : Force Rebuild of images before starting containers
-up:
-	@mkdir -p $(DATABASE_PATH)
+up: setup_folder
 	@/bin/bash -c '\
 		if [ ! -f ./srcs/.env ]; then \
 			echo "❌ Credentials files not found! 🔑" && exit 1; \
@@ -52,22 +50,39 @@ clean:
 fclean: clean
 	@docker system prune -af
 
+#---------------------------- Docker ----------------------------#
+
+# Check Compose file
+config:
+	@docker compose -f $(COMPOSE) config
+
 #---------------------------- Files Management ----------------------------#
+
+# Create the necessary folders
+setup_folder:
+	@mkdir -p $(DATABASE_PATH)
+	@mkdir -p $(PROMETHEUS_PATH)
+	@mkdir -p $(GRAFANA_PATH)
 
 # Delete the data base folder
 .PHONY: delete_db_folder
 delete_db_folder:
 	@rm -r $(DATABASE_PATH)
 
-# Delete the web folder
-.PHONY: delete_web_folder
-delete_web_folder:
-	@rm -r $(WEB_PATH)
+# Delete the prometheus folder
+.PHONY: delete_prometheus_folder
+delete_prometheus_folder:
+	@rm -r $(PROMETHEUS_PATH)
+
+# Delete the grafana folder
+.PHONY: delete_grafana_folder
+delete_grafana_folder:
+	@rm -r $(GRAFANA_PATH)
 
 # Delete the backend folder
-.PHONY: delete_backend_folder
-delete_backend_folder:
-	@rm -r $(BACKEND_PATH)
+# .PHONY: delete_backend_folder
+# delete_backend_folder:
+# 	@rm -r $(BACKEND_PATH)
 
 #---------------------------- DNS Custom ----------------------------#
 
@@ -133,6 +148,7 @@ help:
 	@echo "  make $(EXEC)infos$(RESET)      - Display information about the services"
 	@echo "  make $(EXEC)logs$(RESET)       - Display the logs of the services"
 	@echo "  make $(COMPILED)dev$(RESET)        - Start the services in development mode (watch)"
+	@echo "  make $(EXEC)config$(RESET)     - Check the Compose file (fill in the variables)"
 	@echo "  make $(EXEC)add_url$(RESET)    - Add $(HOST_URL) to the /etc/hosts file"
 	@echo "  make $(EXEC)remove_url$(RESET) - Remove $(HOST_URL) from the /etc/hosts file"
 	@echo "  make $(EXEC)template$(RESET)   - Create empty credentials files from templates"
@@ -167,24 +183,38 @@ logs_nginx:
 #---------------------------- Shell ----------------------------#
 
 # Access PostgreSQL container
+.PHONY: shell_postgresql
 shell_postgresql:
 	@docker exec -it postgresql /bin/bash
 
 # Access Django container
+.PHONY: shell_django
 shell_django:
 	@docker exec -it django /bin/bash
 
 # Access Nginx container
+.PHONY: shell_nginx
 shell_nginx:
 	@docker exec -it nginx /bin/bash
 
 # Access Redis container
+.PHONY: shell_redis
 shell_redis:
 	@docker exec -it redis /bin/bash
 
+# Access Prometheus container
+.PHONY: shell_prometheus
+shell_prometheus:
+	@docker exec -it prometheus /bin/bash
+
+# Access Grafana container
+.PHONY: shell_grafana
+shell_grafana:
+	@docker exec -it grafana /bin/bash
+
 #---------------------------- Phony ----------------------------#
 
-.PHONY: start stop clean fclean help infos logs logs_nginx shell_postgresql shell_django shell_nginx shell_redis add_url remove_url template rm_secrets delete_db_folder delete_web_folder delete_backend_folder dev up down
+.PHONY: start stop clean fclean help infos logs logs_nginx dev up down
 
 #---------------------------- Specials ----------------------------#
 

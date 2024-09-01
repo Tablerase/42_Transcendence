@@ -73,7 +73,7 @@ services:
       - django
     develop:
       watch:
-        - action: rebuild
+        - action: sync+restart
           path: ./requirements/django/app
           target: /usr/src/app
 
@@ -83,6 +83,7 @@ services:
     labels:
       - com.postgresql.description='PostgreSQL Data Base'
     image: postgres:16
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -97,7 +98,6 @@ services:
       - transcendence
     volumes:
       - postgresql-data:/var/lib/postgresql/data/
-    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 1m30s
@@ -110,25 +110,60 @@ services:
     labels:
       - com.redis.description='Redis Cache'
     image: redis:7
+    restart: unless-stopped
     expose:
       - "6379"
     networks:
       - transcendence
     volumes:
       - redis-data:/data
-    restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 1m30s
       timeout: 5s
       retries: 5
   
+  # Grafana
+  grafana:
+    container_name: grafana
+    labels:
+      - com.grafana.description='Grafana Monitoring'
+    image: grafana/grafana-oss:11.2.0
+    restart: unless-stopped
+    environment:
+      # Grafana Admin user
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana_admin_password
+      # Debug (Increase log level)
+      # GF_LOG_LEVEL: debug
+      # PostgreSQL data source
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - grafana_admin_password
+      - db_password
+    ports:
+      - "3000:3000"
+    networks:
+      - transcendence
+    volumes:
+      - ./requirements/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./requirements/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./requirements/grafana/provisioning
+          target: /etc/grafana/provisioning
   # Prometheus
   prometheus:
     container_name: prometheus
     labels:
       - com.prometheus.description='Prometheus Monitoring'
     image: prom/prometheus:v2.54.0
+    restart: unless-stopped
     ports:
       - "9090:9090"
     networks:
@@ -136,7 +171,29 @@ services:
     volumes:
       - ./requirements/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
+    depends_on:
+      - node-exporter
+  # Prometheus Node Exporter (for monitoring the host)
+  node-exporter:
+    container_name: node-exporter
+    labels:
+      - com.node-exporter.description='Prometheus Node Exporter'
+    image: prom/node-exporter:v1.8.2
     restart: unless-stopped
+    expose:
+      - 9100
+    networks:
+      - transcendence
+    ## Mount host directories to access host information and not container information
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
 
 # Secrets
 secrets:
@@ -146,6 +203,9 @@ secrets:
   # Django secret key
   django_secret_key:
     file: ../secrets/django_secret_key.txt
+  # Grafana admin password
+  grafana_admin_password:
+    file: ../secrets/grafana_admin_password.txt
 
 # Networks
 networks:
@@ -165,6 +225,18 @@ volumes:
   redis-data:
   # Prometheus data
   prometheus-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME_PATH}/data/prometheus
+      o: bind
+  # Grafana data
+  grafana-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME_PATH}/data/grafana
+      o: bind
   # PostgreSQL data (PostgreSQL permanent volume)
   postgresql-data:
     driver: local

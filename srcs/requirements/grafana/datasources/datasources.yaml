@@ -1,0 +1,23 @@
+# Configuration file version
+apiVersion: 1
+
+# List of datasources to insert or update
+datasources:
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus:9090
+    access: proxy
+    isDefault: true
+  
+  - name: PostgreSQL
+    type: postgres
+    url: postgres://postgres:$(cat /run/secrets/db_password)@postgres:5432/postgres
+    access: proxy
+    isDefault: false
+    database: postgres
+    user: postgres
+    secureJsonData:
+      password: $(cat /run/secrets/db_password)
+    jsonData:
+      sslmode: disable
+    readOnly: false
