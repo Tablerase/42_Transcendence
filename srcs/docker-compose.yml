@@ -200,6 +200,8 @@ secrets:
   # Data Base passwords
   db_password:
     file: ../secrets/db_password.txt
+  db_readonly_password:
+    file: ../secrets/db_readonly_password.txt
   # Django secret key
   django_secret_key:
     file: ../secrets/django_secret_key.txt
