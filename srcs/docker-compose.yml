@@ -164,11 +164,13 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_READONLY_USER: ${POSTGRES_READONLY_USER}
       POSTGRES_READONLY_PASSWORD__FILE: /run/secrets/db_readonly_password
-      # HTTPS
+      # Grafana settings
+      ## Allow embedding (useful for dashboards - use with caution)
       GF_SECURITY_ALLOW_EMBEDDING: true
-      GF_USERS_ALLOW_SIGN_UP: false
       GF_AUTH_ANONYMOUS_ENABLED: true
-      GF_AUTH_BASIC_ENABLED: false
+      ## Disable sign up
+      GF_USERS_ALLOW_SIGN_UP: false
+      # HTTPS
       GF_SERVER_PROTOCOL: http
       GF_SERVER_HTTP_PORT: 3000
       GF_SERVER_DOMAIN: ${DOMAIN_NAME}
@@ -178,8 +180,8 @@ services:
     secrets:
       - grafana_admin_password
       - db_readonly_password
-    ports:
-      - "3000:3000"
+    expose:
+      - 3000
     networks:
       - transcendence
     volumes:
