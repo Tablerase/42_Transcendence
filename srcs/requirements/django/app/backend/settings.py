@@ -114,8 +114,8 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': postgresql_password,
-        'HOST': os.environ.get('SQL_HOST'), # Service name in docker-compose
-        'PORT': os.environ.get('SQL_PORT'), # postgres port
+        'HOST': os.environ.get('POSTGRES_HOST'), # Service name in docker-compose
+        'PORT': os.environ.get('POSTGRES_PORT'), # postgres port
     }
     # sqlite3 database
     # 'default': {

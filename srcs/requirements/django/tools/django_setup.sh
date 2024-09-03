@@ -6,7 +6,7 @@ cd /usr/src/app
 # Wait for postgres to start
 timeout=30
 echo "Waiting for postgres..."
-while ! nc -z $SQL_HOST $SQL_PORT; do
+while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
     sleep 0.5
     timeout=$((timeout - 1))
     if [ $timeout -eq 0 ]; then

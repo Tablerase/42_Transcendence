@@ -1,3 +1,8 @@
+# Variables expansion
+# $__file{VAR__FILE} will be replaced by the content of the file pointed by VAR__FILE
+# $__env{VAR__ENV} will be replaced by the value of the environment variable VAR__ENV
+# ${VAR} will be replaced by the value of the environment variable VAR
+
 # Configuration file version
 apiVersion: 1
 
@@ -8,16 +13,16 @@ datasources:
     url: http://prometheus:9090
     access: proxy
     isDefault: true
-  
+
   - name: PostgreSQL
     type: postgres
-    url: postgres://$POSTGRES_USER:$(cat $POSTGRES_PASSWORD_FILE)@postgres:5432/$POSTGRES_DB
+    url: ${POSTGRES_HOST}:${POSTGRES_PORT}
+    user: ${POSTGRES_READONLY_USER}
     access: proxy
     isDefault: false
-    database: $POSTGRES_DB
-    user: $POSTGRES_USER
+    database: ${POSTGRES_DB}
     secureJsonData:
-      password: $(cat $POSTGRES_PASSWORD_FILE)
+      password: $__file{/run/secrets/db_readonly_password}
     jsonData:
       sslmode: disable
-    readOnly: false
+    readOnly: true

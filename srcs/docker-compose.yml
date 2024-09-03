@@ -14,8 +14,8 @@ services:
       DJANGO_SECRET_KEY_FILE: /run/secrets/django_secret_key
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
-      SQL_HOST: ${SQL_HOST}
-      SQL_PORT: ${SQL_PORT}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_USER_PASSWORD_FILE: /run/secrets/db_password
@@ -66,6 +66,7 @@ services:
     networks:
       - transcendence
     volumes:
+      - ssl-keys:/etc/certs:rw
       - backend-data:/usr/src/app
       - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
     restart: unless-stopped
@@ -76,6 +77,9 @@ services:
         - action: sync+restart
           path: ./requirements/django/app
           target: /usr/src/app
+        - action: sync+restart
+          path: ./requirements/nginx/conf
+          target: /etc/nginx
 
   # Data Base
   db:
@@ -86,24 +90,30 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
+      # Read-write user
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
-      SQL_HOST: ${SQL_HOST}
-      SQL_PORT: ${SQL_PORT}
+      # Read-only user
+      POSTGRES_READONLY_USER: ${POSTGRES_READONLY_USER}
+      POSTGRES_READONLY_PASSWORD_FILE: /run/secrets/db_readonly_password
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     secrets:
       - db_password
+      - db_readonly_password
     expose:
-      - ${SQL_PORT}
+      - ${POSTGRES_PORT}
     networks:
       - transcendence
     volumes:
+      - ./requirements/postgres/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh:ro
       - postgresql-data:/var/lib/postgresql/data/
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 1m30s
       timeout: 5s
       retries: 5
-  
+
   # Redis
   redis:
     container_name: redis
@@ -122,7 +132,7 @@ services:
       interval: 1m30s
       timeout: 5s
       retries: 5
-  
+
   # Grafana
   grafana:
     container_name: grafana
@@ -136,12 +146,27 @@ services:
       # Debug (Increase log level)
       # GF_LOG_LEVEL: debug
       # PostgreSQL data source
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_READONLY_USER: ${POSTGRES_READONLY_USER}
+      POSTGRES_READONLY_PASSWORD__FILE: /run/secrets/db_readonly_password
+      # HTTPS
+      # GF_SECURITY_ALLOW_EMBEDDING: true
+      # GF_USERS_ALLOW_SIGN_UP: false
+      # GF_AUTH_ANONYMOUS_ENABLED: true
+      # GF_AUTH_BASIC_ENABLED: false
+      # GF_SERVER_PROTOCOL: https
+      # GF_SERVER_HTTP_PORT: 3000
+      # GF_SERVER_ROOT_URL: https://127.0.0.1/grafana/
+      # GF_SERVER_SERVE_FROM_SUB_PATH: true
+      GF_SERVER_CERT_FILE: /etc/certs/cert.pem
+      GF_SERVER_CERT_KEY: /etc/certs/key.pem
     secrets:
       - grafana_admin_password
-      - db_password
+      - db_readonly_password
+    # expose:
+    #   - 3000
     ports:
       - "3000:3000"
     networks:
@@ -150,8 +175,12 @@ services:
       - ./requirements/grafana/datasources:/etc/grafana/provisioning/datasources
       - ./requirements/grafana/dashboards:/etc/grafana/provisioning/dashboards
       - grafana-data:/var/lib/grafana
+      - ./requirements/grafana/tools/wait_for_cert.sh:/tmp/wait_for_cert.sh:ro
+      - ssl-keys:/etc/certs:ro
+    entrypoint: ["/tmp/wait_for_cert.sh"]
     depends_on:
       - prometheus
+      - nginx
     develop:
       watch:
         - action: sync+restart
@@ -164,8 +193,8 @@ services:
       - com.prometheus.description='Prometheus Monitoring'
     image: prom/prometheus:v2.54.0
     restart: unless-stopped
-    ports:
-      - "9090:9090"
+    expose:
+      - 9090
     networks:
       - transcendence
     volumes:
@@ -221,6 +250,8 @@ networks:
 ## Driver: local allows to use the local file system
 ## Bind allows containers and host to share the same volume (changes in one side are reflected in the other)
 volumes:
+  # SSL keys
+  ssl-keys:
   # Backend data (Django temporary volume)
   backend-data:
   # Redis data
