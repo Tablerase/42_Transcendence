@@ -79,11 +79,6 @@ delete_prometheus_folder:
 delete_grafana_folder:
 	@rm -r $(GRAFANA_PATH)
 
-# Delete the backend folder
-# .PHONY: delete_backend_folder
-# delete_backend_folder:
-# 	@rm -r $(BACKEND_PATH)
-
 #---------------------------- DNS Custom ----------------------------#
 
 # Add the host url to the /etc/hosts file (requires sudo) for DNS resolution
