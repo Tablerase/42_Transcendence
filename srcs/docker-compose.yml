@@ -54,24 +54,18 @@ services:
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
-      args:
-        - SSL_COUNTRY = ${SSL_COUNTRY}
-        - SSL_STATE = ${SSL_STATE}
-        - SSL_LOCALITY = ${SSL_LOCALITY}
-        - SSL_ORGANIZATION = ${SSL_ORGANIZATION}
-        - SSL_ORGANIZATIONAL_UNIT = ${SSL_ORGANIZATIONAL_UNIT}
-        - SSL_COMMON_NAME = ${SSL_COMMON_NAME}
     ports:
       - "443:443"
     networks:
       - transcendence
     volumes:
-      - ssl-keys:/etc/certs:rw
-      - backend-data:/usr/src/app
+      - ssl-keys:/etc/certs:ro
       - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - backend-data:/usr/src/app
     restart: unless-stopped
     depends_on:
       - django
+      - openssl
     develop:
       watch:
         - action: sync+restart
@@ -80,6 +74,25 @@ services:
         - action: sync+restart
           path: ./requirements/nginx/conf
           target: /etc/nginx
+  
+  # SSL Certificates
+  openssl:
+    container_name: openssl
+    labels:
+      - com.openssl.description='OpenSSL Certificates'
+    build:
+      context: requirements/openssl
+      dockerfile: Dockerfile
+      args:
+        SSL_COUNTRY: ${SSL_COUNTRY}
+        SSL_STATE: ${SSL_STATE}
+        SSL_LOCALITY: ${SSL_LOCALITY}
+        SSL_ORGANIZATION: ${SSL_ORGANIZATION}
+        SSL_ORGANIZATIONAL_UNIT: ${SSL_ORGANIZATIONAL_UNIT}
+        SSL_COMMON_NAME: ${SSL_COMMON_NAME}
+    volumes:
+      - ssl-keys:/etc/certs:rw
+    restart: no
 
   # Data Base
   db:
@@ -152,21 +165,19 @@ services:
       POSTGRES_READONLY_USER: ${POSTGRES_READONLY_USER}
       POSTGRES_READONLY_PASSWORD__FILE: /run/secrets/db_readonly_password
       # HTTPS
-      # GF_SECURITY_ALLOW_EMBEDDING: true
-      # GF_USERS_ALLOW_SIGN_UP: false
-      # GF_AUTH_ANONYMOUS_ENABLED: true
-      # GF_AUTH_BASIC_ENABLED: false
-      # GF_SERVER_PROTOCOL: https
-      # GF_SERVER_HTTP_PORT: 3000
-      # GF_SERVER_ROOT_URL: https://127.0.0.1/grafana/
-      # GF_SERVER_SERVE_FROM_SUB_PATH: true
+      GF_SECURITY_ALLOW_EMBEDDING: true
+      GF_USERS_ALLOW_SIGN_UP: false
+      GF_AUTH_ANONYMOUS_ENABLED: true
+      GF_AUTH_BASIC_ENABLED: false
+      GF_SERVER_PROTOCOL: https
+      GF_SERVER_HTTP_PORT: 3000
+      GF_SERVER_DOMAIN: ${DOMAIN_NAME}
+      GF_SERVER_SERVE_FROM_SUB_PATH: true
       GF_SERVER_CERT_FILE: /etc/certs/cert.pem
       GF_SERVER_CERT_KEY: /etc/certs/key.pem
     secrets:
       - grafana_admin_password
       - db_readonly_password
-    # expose:
-    #   - 3000
     ports:
       - "3000:3000"
     networks:
@@ -180,7 +191,7 @@ services:
     entrypoint: ["/tmp/wait_for_cert.sh"]
     depends_on:
       - prometheus
-      - nginx
+      - openssl
     develop:
       watch:
         - action: sync+restart
