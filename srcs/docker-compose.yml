@@ -166,8 +166,8 @@ services:
       POSTGRES_READONLY_PASSWORD__FILE: /run/secrets/db_readonly_password
       # Grafana settings
       ## Allow embedding (useful for dashboards - use with caution)
-      GF_SECURITY_ALLOW_EMBEDDING: true
-      GF_AUTH_ANONYMOUS_ENABLED: true
+      # GF_SECURITY_ALLOW_EMBEDDING: true
+      # GF_AUTH_ANONYMOUS_ENABLED: true
       ## Disable sign up
       GF_USERS_ALLOW_SIGN_UP: false
       # HTTPS
@@ -185,8 +185,8 @@ services:
     networks:
       - transcendence
     volumes:
-      - ./requirements/grafana/datasources:/etc/grafana/provisioning/datasources:ro
-      - ./requirements/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./requirements/grafana/datasources:/etc/grafana/provisioning/datasources:rw
+      - ./requirements/grafana/dashboards:/etc/grafana/provisioning/dashboards:rw
       - grafana-data:/var/lib/grafana
       - ./requirements/grafana/tools/wait_for_cert.sh:/tmp/wait_for_cert.sh:ro
       - ssl-keys:/etc/certs:ro
@@ -215,6 +215,7 @@ services:
       - prometheus-data:/prometheus
     depends_on:
       - node-exporter
+      - postgres-exporter
   # Prometheus Node Exporter (for monitoring the host)
   node-exporter:
     container_name: node-exporter
@@ -236,6 +237,24 @@ services:
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  # PostgreSQL Exporter
+  postgres-exporter:
+    container_name: postgres-exporter
+    labels:
+      - com.postgres-exporter.description='PostgreSQL Exporter'
+    build: 
+      context: requirements/postgres-exporter
+      dockerfile: Dockerfile
+    environment:
+      DATA_SOURCE_URI: ${POSTGRES_HOST}:${POSTGRES_PORT}/postgres?sslmode=disable
+      DATA_SOURCE_USER: ${POSTGRES_READONLY_USER}
+      DATA_SOURCE_PASS_FILE: /run/secrets/db_readonly_password
+    expose:
+    - 9187
+    networks:
+      - transcendence
+    secrets:
+      - db_readonly_password
 
 # Secrets
 secrets:
