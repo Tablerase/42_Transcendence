@@ -185,8 +185,8 @@ services:
     networks:
       - transcendence
     volumes:
-      - ./requirements/grafana/datasources:/etc/grafana/provisioning/datasources:rw
-      - ./requirements/grafana/dashboards:/etc/grafana/provisioning/dashboards:rw
+      - ./requirements/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./requirements/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
       - grafana-data:/var/lib/grafana
       - ./requirements/grafana/tools/wait_for_cert.sh:/tmp/wait_for_cert.sh:ro
       - ssl-keys:/etc/certs:ro
