@@ -34,9 +34,15 @@
     </div>
   </div>
   {% csrf_token %}
-  <button class="btn game-btn" type="submit" name="mode" value="practice">Practice</button>
-  <button class="btn game-btn" type="submit" name="mode" value="join">Join Tournament</button>
-  <button class="btn game-btn" type="submit" name="mode" value="host">Host</button>
+  <div class="top-btns">
+    <button class="btn game-btn" type="submit" name="mode" value="practice">Practice</button>
+    <button class="btn game-btn" type="submit" name="mode" value="join">Join Tournament</button>
+    <button class="btn game-btn" type="submit" name="mode" value="host">Host</button>
+  </div>
+  <div class="bottom-btns">
+    <button class="btn game-btn" type="submit" name="mode" value="settings">Settings</button>
+    <button class="btn game-btn" type="submit" name="mode" value="quit">Quit</button>
+  </div>
 </form>
 {% endblock %}
 

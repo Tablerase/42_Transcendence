@@ -1,15 +1,9 @@
 <div class="user {% if user_friend %}bg-success-subtle{% elif user_blocked %}bg-danger-subtle{% endif %}">
   <a class="d-flex text-decoration-none" href="{% url 'profile-by-nickname' user %}">
-    <div class="image">
-      <img class="photo" src="{{ user.profile.image.url }}" alt="auth pic"/>
-      {% if user.is_online %}
-      <div class="online"></div>
-      {% endif %}
-    </div>
+    <img class="photo" src="{{ user.profile.image.url }}" alt="auth pic" />
     <div class="info-cred">
-      <h3 class="mb-1">{{ user.username }}</h3>
-      <p class="mb-0">{{ user.email }}</p>
-      <span class="connected mb-0 {% if user.is_online and not user_blocked %}on{% endif %}">{{ user.get_online_info }}</span>
+      <h3>{{ user.username }}</h3>
+      <h6>{{ user.email }}</h6>
     </div>
   </a>
   <div class="right_part">
@@ -61,8 +55,8 @@
       </form>
       {% endif %}
     </div>
+    {% if user_blocked %}
     <div class="icon">
-      {% if user_blocked %}
       <form
         action="{% url 'unblock-user' user.id %}"
         method="POST"
@@ -72,7 +66,9 @@
           <i class="bi bi-person-slash text-success icon-purple"></i>
         </button>
       </form>
-      {% elif show_accept_button %}
+    </div>
+    {% elif show_accept_button %}
+    <div class="icon">
       <form
         action="{% url 'reject-friend-request' request.id %}"
         method="POST"
@@ -82,9 +78,7 @@
           <i class="bi bi-person-x-fill text-danger icon-purple"></i>
         </button>
       </form>
-      {% else %}
-      <i class="bi bi-chat-right-dots icon-purple"></i>
-      {% endif %}
     </div>
+    {% endif %}
   </div>
 </div>

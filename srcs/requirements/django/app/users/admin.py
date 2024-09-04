@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Profile, FriendRequest
+from users.models.Profile_model import Profile
+from users.models.User_model import CustomUser
+from users.models.FriendRequest_model import FriendRequest
 from django.contrib import admin
 from django.contrib.auth.models import Group
 

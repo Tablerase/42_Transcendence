@@ -5,10 +5,6 @@
 
 {% block css %}
 <link 
-rel="stylesheet" 
-href="{% static 'game/css/pong.css' %}" 
-/>
-<link 
   rel="stylesheet"
   href="{% static 'game/css/background.css' %}"
 />
@@ -18,22 +14,19 @@ href="{% static 'game/css/pong.css' %}"
 />
 {% endblock %}
 
+
 {% block content %}
-{% if tournament.status == 'open' %}
-{% include 'game/_lobby.html' %}
-{% elif tournament.status == 'locked' %}
-{% include 'game/_pong.html' %}
-{% elif tournament.status == 'completed' %}
-{% include 'game/tournament_results.html' %}
-{% endif %}
+{% include 'game/tournament/_match.html' %}
+{% include 'game/tournament/_leaderboard.html' %}
+{% include 'game/tournament/_lobby.html' %}
 {% endblock %}
+
 
 {% block js %}
 <script>
-  const tournamentId = "{{ tournament.id }}";
-  const userId = "{{ user.id }}";
+  const info = JSON.parse('{{ tournament_json|escapejs }}');
 </script>
-<script src="{% static 'game/js/tournament/events.js' %}"></script>
+<script type="module" src="{% static 'game/js/tournament/main.js' %}"></script>
 {% endblock %}
 
 

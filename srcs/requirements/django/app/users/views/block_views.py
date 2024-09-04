@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from users.models import CustomUser
+from users.models.User_model import CustomUser
 
 @login_required
 def block_user(request, userID):

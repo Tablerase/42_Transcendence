@@ -1,15 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
-from django.contrib.auth import get_user_model
-from django.conf import settings
-import os
-
-CustomUser = get_user_model()
+from users.models.Profile_model import Profile
+from users.models.User_model import CustomUser
+from users.models.Customization_model import Customization
 
 class UserRegisterForm(UserCreationForm):
-  usable_password = None
-  
   email = forms.EmailField()
   username = forms.CharField(max_length=9)
   
@@ -30,19 +25,11 @@ class ProfileUpdateForm(forms.ModelForm):
     model = Profile
     fields = ['image']
 
-  def save(self, commit=True):
-    # Call the parent save method to handle any uploaded image
-    profile = super().save(commit=False)
-
-    # Define the expected image path in the /media/ root directory
-    img_name = f"{profile.user.username}_profile.jpg"
-    img_path = os.path.join(settings.MEDIA_ROOT, img_name)
-
-    # Use the uploaded image if it exists; otherwise, check for a fallback
-    if not self.cleaned_data.get('image') and os.path.exists(img_path):
-      print(f"Existing image found: {img_path}. Setting it as the profile image.")
-      profile.image.name = img_name  # Set the image field to the existing file
-
-    if commit:
-      profile.save()
-    return profile
+class CustomizationForm(forms.ModelForm):
+  class Meta:
+    model = Customization
+    fields = ['ball', 'paddle_color']
+    widgets = {
+      'ball': forms.Select(attrs={'class': 'form-control'}),
+      'paddle_color': forms.Select(attrs={'class': 'form-control'}),
+    }

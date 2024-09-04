@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
 from users.utils import get_user_context
-from users.models import FriendRequest
+from users.models.FriendRequest_model import FriendRequest
+from users.models.User_model import CustomUser
 from django.db.models import Q
-
-CustomUser = get_user_model()
 
 @login_required
 def users_list(request):
