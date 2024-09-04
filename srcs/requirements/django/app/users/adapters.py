@@ -2,9 +2,6 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.core.files.base import ContentFile
 from .models import Profile
 import requests
-import logging
-
-logger = logging.getLogger(__name__)
 
 class MySocialAccountAdapter(DefaultSocialAccountAdapter):
     def save_user(self, request, sociallogin, form=None):
@@ -19,12 +16,9 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
         picture_url = extra_data.get('picture')
 
         if picture_url:
-            logger.info(f"Saving Google profile picture URL: {picture_url}")
             profile.image_url = picture_url
             profile.image = None
             profile.save(force_update=True)
-        else:
-            logger.warning("Google profile picture URL not found in extra_data.")
         return user
 
     def download_and_save_image(self, profile, url):
@@ -36,9 +30,5 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
                     ContentFile(response.content), 
                     save=True
                 )
-                logger.info(f"Profile picture saved for user: {profile.user.username}")
-            else:
-                logger.error(f"Failed to download image. Status code: {response.status_code}")
         except Exception as e:
-            logger.error(f"Error occurred while downloading image: {str(e)}")
-            
+            pass

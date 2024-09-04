@@ -1,12 +1,3 @@
-"""
-ASGI config for project project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
-"""
-
 import os
 
 from channels.auth import AuthMiddlewareStack
@@ -25,7 +16,5 @@ application = ProtocolTypeRouter(
         "websocket": AllowedHostsOriginValidator(
             AuthMiddlewareStack(URLRouter(game_websocket_urlpatterns))
         ),
-        # "websocket": URLRouter(websocket_urlpatterns),
-        # You can also have more protocols here
     }
 )

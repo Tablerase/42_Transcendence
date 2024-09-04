@@ -5,6 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>{% block title %}{% endblock %}</title>
+  <meta name="description" content="{{ meta_description|default:"Online Pong Game" }}">
   {% include 'game/includes/css_includes.html' %}
   {% block css %}{% endblock %}
 </head>

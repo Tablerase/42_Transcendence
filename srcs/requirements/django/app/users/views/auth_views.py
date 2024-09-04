@@ -12,7 +12,6 @@ class CustomLoginView(auth_views.LoginView):
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
 
-    # Generate the authorization URL
     params = {
       'client_id': settings.OAUTH42_CLIENT_ID,
       'redirect_uri': settings.OAUTH42_REDIRECT_URI,
@@ -21,11 +20,9 @@ class CustomLoginView(auth_views.LoginView):
       'state': settings.CLIENT.state
     }
 
-    # Construct the URL with properly encoded parameters
     base_url = 'https://api.intra.42.fr/oauth/authorize'
     url = f"{base_url}?{urlencode(params)}"
 
-    # Add the authorization URL to the context
     context['authorization_url'] = url
     return context
 

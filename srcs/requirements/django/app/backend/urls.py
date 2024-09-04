@@ -7,9 +7,8 @@ from users.views.callback_views import oauth_callback
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("chat/", include('chat.urls')),
-    path("", include('users.urls')),
     path("game/", include('game.urls')),
+    path("", include('users.urls')),
     path("", RedirectView.as_view(url='game/home/')),
     path('accounts/', include('allauth.urls')),
     path('callback/', oauth_callback, name='oauth_callback'),

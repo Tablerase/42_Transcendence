@@ -59,29 +59,3 @@ def profile_by_nickname(request, nickname):
   }
 
   return render(request, 'users/profile/profile.html', context)
-
-# def get_user_stats(user):
-#   wins = user.total_wins
-#   losses = user.total_losses
-  
-#   if wins == 0 and losses == 0:
-#     win_percentage = 50
-#     loss_percentage = 50
-#   else:
-#     total = wins + losses
-#     win_percentage = (wins / total) * 100
-#     loss_percentage = (losses / total) * 100
-  
-#   return win_percentage, loss_percentage
-
-# def user_profile(request, user_id):
-#   user = get_object_or_404(CustomUser, id=user_id)
-#   win_percentage, loss_percentage = get_user_stats(user)
-
-#   context = {
-#     'user_profile': user_profile,
-#     'win_percentage': win_percentage,
-#     'loss_percentage': loss_percentage,
-#   }
-
-#   return render(request, 'users/profile/profile.html', context)
