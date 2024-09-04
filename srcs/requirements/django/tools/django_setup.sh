@@ -9,8 +9,8 @@ interval=1
 echo "Waiting for postgres..."
 while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
     sleep $interval
-    timeout=$($timeout - $interval)
-    if [ $timeout -eq 0 ]; then
+    timeout=$((timeout - interval))
+    if [ $timeout -le 0 ]; then
         echo "PostgreSQL failed to start"
         exit 1
     fi
