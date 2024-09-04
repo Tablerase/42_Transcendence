@@ -1,9 +1,7 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
-from users.models import FriendRequest
-
-CustomUser = get_user_model()
+from users.models.FriendRequest_model import FriendRequest
+from users.models.User_model import CustomUser
 
 @login_required
 def send_friend_request(request, userID):

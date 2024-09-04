@@ -6,18 +6,28 @@ export class Paddle {
   #keys;
   #targetTop;
 
-  constructor (paddle, keyup, keydown, speed=0.01, pprint=false)
+  constructor (paddle, keyup, keydown, speed=0.1, pprint=false)
   {
     this.#htmlElem = paddle;
     this.#speed = speed;
     this.#keys = [keyup, keydown];
     this.#coords = this.#htmlElem.getBoundingClientRect();
     this.#targetTop = this.#coords.top;
+    this.#setPaddlePositionX();
     if (pprint){
       console.log(this.#coords);
     }
   }
 
+  #setPaddlePositionX()
+  {
+    let board = document.querySelector('.board');
+    let boardCoords = board.getBoundingClientRect();
+    if (this.#htmlElem.classList.contains('paddle_1'))
+      this.getHtmlElem().style.left = boardCoords.left + 5 + 'px';
+    else
+      this.getHtmlElem().style.left = boardCoords.right - 5 - this.#coords.width + 'px';
+  }
   setSpeed(speed) { this.#speed = speed;}
   getKeyUp() { return this.#keys[0];}
   getKeyDown(){ return this.#keys[1];}

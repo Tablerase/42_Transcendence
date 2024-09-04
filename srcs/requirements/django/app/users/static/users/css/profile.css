@@ -36,54 +36,6 @@
 	transition: transform 0.3s ease;
 }
 
-.card-container .image {
-  position: relative;
-	display: inline-block;
-} 
-
-.card-container .online {
-	position: absolute;
-	bottom: 8px;
-	left: 0px;
-	width: 28px;
-	height: 28px;
-	background-color: #8BC34A;
-	border-radius: 13px;
-	border: 3px solid #FCFBF4;
-}
-
-.online-tooltip {
-  --bs-tooltip-bg: #8BC34A;
-  --bs-tooltip-color: #FCFBF4;
-}
-
-.card-container .offline {
-	position: absolute;
-	bottom: 8px;
-	left: 0px;
-	width: 28px;
-	height: 28px;
-	border-radius: 50%;
-	border: 4px solid #898989;
-	box-shadow: 0 0 0 3px #FCFBF4;
-	background-color: #FCFBF4;
-}
-
-.offline-tooltip {
-  --bs-tooltip-bg: #000000a2;
-  --bs-tooltip-color: #ffffff;
-}
-
-.unblock-tooltip {
-  --bs-tooltip-bg: #198753;
-  --bs-tooltip-color: #FCFBF4;
-}
-
-.block-tooltip {
-  --bs-tooltip-bg: #DC3444;
-  --bs-tooltip-color: #FCFBF4;
-}
-
 .normal-border {
 	border: 2px solid #AF47D2;
 }

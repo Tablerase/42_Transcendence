@@ -4,21 +4,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>{% block title %}{% endblock %}</title>
-  <meta name="description" content="{{ meta_description|default:"Online Pong Game" }}">
+  <title>
+    {% block title %}{% endblock %}
+  </title>
   {% include 'game/includes/css_includes.html' %}
-  {% block css %}{% endblock %}
+  {% block css %}{% endblock css %}
 </head>
 <body class="bkg">
   {% include 'game/partials/_navbar.html' %}
   <div class="main-content">
-    {% block content %}{% endblock %}
+    {% block content %}{% endblock content %}
     {% if request.session.modal_data %}
       {% include 'game/partials/'|add:request.session.modal_data.template with title=request.session.modal_data.title message=request.session.modal_data.message %}
       {% include 'game/partials/_clear_modal_data.html' %}
     {% endif %}
   </div>
   {% include 'game/includes/js_includes.html' %}
-  {% block js %}{% endblock %}
+  {% block js %}{% endblock js %}
 </body>
 </html>

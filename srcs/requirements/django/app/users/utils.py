@@ -1,6 +1,6 @@
-from .models import FriendRequest
 from collections import namedtuple
-from django.contrib.auth import get_user_model
+from users.models.FriendRequest_model import FriendRequest
+from users.models.User_model import CustomUser
 
 def get_user_context(current_user, user_list, requests=None):
   users_with_context = []
@@ -39,7 +39,6 @@ def get_user_context(current_user, user_list, requests=None):
 
   return users_with_context
 
-CustomUser = get_user_model()
 Match = namedtuple('Match', ['id', 'user1', 'user2', 'user1_score', 'user2_score', 'date', 'tournament'])
 
 def generate_dummy_matches(user1):

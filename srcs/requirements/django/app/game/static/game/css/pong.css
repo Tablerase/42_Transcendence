@@ -12,8 +12,7 @@ p {
 
 .board {
   height: 70vh;
-  width: 60vw;
-  min-width: 560px;
+  width: 68vw;
   background-color: #000;
   overflow: hidden;
   border-radius: var(--border);
@@ -38,8 +37,8 @@ p {
 }
 
 .ball {
-  height: 50px;
-  width: 50px;
+  height: 5vh;
+  width: 5vh;
   border-radius: 50%;
   position: fixed;
   top: calc(50% + 20px);
@@ -52,7 +51,7 @@ p {
   border-radius: 50%; 
   animation: spinBall 2.0s linear infinite;
   background-color: transparent;
-  background-image: url(../images/⚽️/disco-ball.png);
+  background-image: var(--ball-img);
   background-size: cover;
   background-position: center;
 }
@@ -65,28 +64,30 @@ p {
 }
 
 .paddle {
-  background-color: var(--light);
   position: absolute;
   top: 50%;
-  height: 100px;
-  width: 10px;
+  height: 10vh;
+  width: 1vh;
   border: none;
+  background-color: var(--paddle-clr);
+  border-radius: 2px;
+}
+
+.paddle_1 {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.paddle_2 {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px -30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px -18px 36px -18px inset;
 }
 
 .hit {
   box-shadow: 0 0 20px 5px var(--violet);
 }
 
-.paddle_1 {
-  left: 21%;
-}
-.paddle_2 {
-  right: 21%;
-}
-
 .panel {
   height: 8vh;
-  width: 60vw;
+  width: 68vw;
   margin: 20px auto 20px auto;
   display: flex;
   justify-content: space-around;
@@ -127,4 +128,5 @@ p {
 
 .message {
   font-size: 30px;
+  text-transform: uppercase;
 }

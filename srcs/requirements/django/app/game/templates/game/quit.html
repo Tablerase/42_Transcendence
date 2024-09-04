@@ -18,7 +18,7 @@
 {% block content %}
 <div class="container">
   <h3 class="message">Already leaving?</h3>
-  <p>{{ subtitle }}😢</p>
+  <p>Attempting to re-enter the tournament may not be possible. 😢</p>
   <form method="post" action="{% url 'quit' tournament_id=tournament_id %}">
     {% csrf_token %}
     <button type="submit" class="btn btn-warning" name="quit_button" value="quit">Yes, Quit</button>

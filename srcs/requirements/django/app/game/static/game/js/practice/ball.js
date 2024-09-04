@@ -31,7 +31,6 @@ export class Ball {
     angle = angle * Math.PI / 180;
     this.#slope_x = this.#speed * Math.sin(angle);
     this.#slope_y = this.#speed * Math.cos(angle);
-
   }
 
   #setDirection() {
