@@ -190,6 +190,8 @@ class Player(models.Model):
     unique_together = [('match', 'user')]
 
   def add_points(self, points):
+    if self.points >= 10:
+      return
     self.points += points
     self.save()
   
