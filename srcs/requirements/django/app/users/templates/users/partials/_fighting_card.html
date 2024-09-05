@@ -1,0 +1,26 @@
+{% load static %}
+
+<div class="card {% if match.user1_score > match.user2_score %}loser{% else %}winner{% endif%}">
+  <img
+    src="{% static 'users/svg/crown.svg' %}"
+    alt="winner"
+    class="crown {% if match.user1_score > match.user2_score %}left{% else %}right{% endif%}"
+  >
+  <h2>{{ match.user1_score }} - {{ match.user2_score }}</h2>
+  <div class="match-details">
+    <div class="user user1">
+      <img src="{{ match.user1.profile.image.url }}">
+    </div>
+    <div class="details">
+      <h3 class="date">{{ match.date }}</h3>
+      <h1 class="versus">VS</h1>
+    </div>
+    <div class="user user2">
+      <img src="{{ match.user2.profile.image.url }}">
+    </div>
+  </div>
+  <div class="match-names">
+    <h3 class="user-name">{{ match.user1.username }}</h3>
+    <h3 class="user-name">{{ match.user2.username }}</h3>
+  </div>
+</div>

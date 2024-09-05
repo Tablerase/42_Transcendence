@@ -83,11 +83,13 @@ label #btn,label #cancel {
   text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
   line-height: 45px;
   transition: all .5s ease;
+  z-index: 1;
 }
 
 label #cancel {
   opacity: 0;
   visibility: hidden;
+  z-index: 1;
 }
 
 #check:checked ~ .sidebar {

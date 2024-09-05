@@ -1,0 +1,33 @@
+{% load static %}
+
+{% block css %}
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/leaderboard.css' %}"
+>
+{% endblock %}
+<div id="leaderboardPage" class="main-content">
+<table>
+  <caption class="title">
+    LEADERBOARD
+  </caption>
+  <thead>
+    <tr>
+      <th class="rank">#</th>
+      <th class="avatar">Avatar</th>
+      <th class="username">Username</th>
+      <th class="points">Total Points</th>
+    </tr>
+  </thead>
+  <tbody id="leaderboardTableBody">  
+  </tbody>
+</table>
+<div id="footer">
+  <button 
+  class="leave-btn"
+  id="leaveButton"
+>
+Leave
+</button>
+</div>
+</div>

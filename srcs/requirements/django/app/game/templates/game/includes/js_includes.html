@@ -1,0 +1,50 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script 
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"
+></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var modalElement = document.querySelector('.modal');
+    if (modalElement) {
+      var myModal = new bootstrap.Modal(modalElement);
+      myModal.show();
+    }
+  });
+</script>
+
+<script>
+  (function() {
+    const bodyElement = document.querySelector('.bkg');
+    const savedAnimationTime = localStorage.getItem('animationTime');
+    
+    if (savedAnimationTime && bodyElement) {
+      const estimatedDelay = 0.07;
+      const adjustedAnimationTime = Math.max(savedAnimationTime - estimatedDelay, 0);
+  
+      bodyElement.style.animationDelay = `-${adjustedAnimationTime}s`;
+    }
+  
+    const startTime = Date.now();
+    
+    window.addEventListener('beforeunload', function() {
+      const animationDuration = 30; // 30 seconds as defined in the CSS
+      const elapsedTime = (Date.now() - startTime) / 1000 % animationDuration;
+      localStorage.setItem('animationTime', elapsedTime);
+    });
+  })();
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
+</script>

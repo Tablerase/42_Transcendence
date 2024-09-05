@@ -1,0 +1,19 @@
+:root {
+	--lightest  : #FF0000;
+	--light     : #950101;
+	--dark      : #3D0000;
+	--darkest   : #000000;
+}
+
+.form {
+	background-color: #FBFEFC;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 650px;
+  width: 100%;
+	font-family: Montserrat, sans-serif;
+}
+
+label {
+	display: none !important;
+}

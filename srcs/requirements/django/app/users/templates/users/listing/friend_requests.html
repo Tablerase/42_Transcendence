@@ -1,9 +1,18 @@
-{% extends "chat/base.html" %}
+{% extends 'game/base.html' %}
 {% load static %}
-{% block content %}
-  <link rel="stylesheet" href="{% static 'users/user_list.css' %}" />
-  <link rel="stylesheet" href="{% static 'users/layout.css' %}" />
 
+{% block title %}Friend Requests{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/user_list.css' %}" />
+<link rel="stylesheet" href="{% static 'users/css/layout.css' %}" />
+<link rel="stylesheet" href="{% static 'game/css/icon.css' %}" />
+<link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+<link rel="stylesheet" href="{% static 'game/css/background.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="list">
   <section class="user-list">
     <div class="section-header justify-content-between">
       {% include "users/partials/_users_list_header.html" %}
@@ -26,5 +35,6 @@
       {% endif %}
     </div>
   </section>
+</div>
 {% endblock content %}
 

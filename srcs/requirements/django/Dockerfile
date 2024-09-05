@@ -29,6 +29,8 @@ RUN chmod +x /tmp/django_setup.sh
 # Copy the current directory contents of the app (./app) into the container at /usr/src/app
 COPY ./app .
 
+RUN mkdir -p /usr/src/app/media && chmod -R 755 /usr/src/app/media
+
 # Run the application
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 ## Use Daphne as the ASGI server to serve Django Channels allowing for WebSockets

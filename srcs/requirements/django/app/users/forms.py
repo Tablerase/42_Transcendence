@@ -1,11 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
-from django.contrib.auth import get_user_model
-
-CustomUser = get_user_model()
+from users.models.Profile_model import Profile
+from users.models.User_model import CustomUser
+from users.models.Customization_model import Customization
 
 class UserRegisterForm(UserCreationForm):
+  usable_password = None
+  
   email = forms.EmailField()
   username = forms.CharField(max_length=9)
   
@@ -25,3 +26,12 @@ class ProfileUpdateForm(forms.ModelForm):
   class Meta:
     model = Profile
     fields = ['image']
+
+class CustomizationForm(forms.ModelForm):
+  class Meta:
+    model = Customization
+    fields = ['ball', 'paddle_color']
+    widgets = {
+      'ball': forms.Select(attrs={'class': 'form-control'}),
+      'paddle_color': forms.Select(attrs={'class': 'form-control'}),
+    }

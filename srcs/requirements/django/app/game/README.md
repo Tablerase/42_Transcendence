@@ -12,7 +12,7 @@
 
 
 # A user can integrate many tournaments at the same time?
-# How to reaccess lobby ?
+# How to reaccess tournament ?
 
 
 **USEFUL COMMANDS**

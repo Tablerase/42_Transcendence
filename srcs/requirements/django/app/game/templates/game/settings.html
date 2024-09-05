@@ -1,0 +1,177 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}💅{% endblock title %}
+
+{% block css %}
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/settings.css' %}" 
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/background.css' %}"
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/game-btns.css' %}"
+/>
+{% endblock css %}
+
+{% block content %}
+<div class="main"></div>
+<form method="POST">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+      <h3>Game Settings</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Ball</h4>
+    </div>
+    <div class="col">
+      <div id="carouselBall" class="carousel carousel-fade">
+        <div class="carousel-inner">
+          {% for option in ball_options %}
+          <div class="carousel-item {% if option.value == current_ball %}active{% endif %}" data-value="{{ option.value }}">
+            <div class="block">
+              <img src="{% static option.image %}" class="ball_spin d-block option-img" alt="{{ option.alt }}">
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBall" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselBall" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4>Paddle</h4>
+    </div>
+    <div class="col">
+      <div id="carouselPaddles" class="carousel carousel-fade">
+        <div class="carousel-inner">
+          {% for option in paddle_options %}
+          <div class="carousel-item {% if option.value == current_paddle_color %}active{% endif %}" data-value="{{ option.value }}">
+            <div class="block">
+              <div class="sq" style="--clr: {{ option.color }}"></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPaddles" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselPaddles" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="row mb-0 mt-6">
+      <div class="col">
+        <button 
+          class="leave-btn btn-default"
+          type="button"
+        >
+        Play Default
+        </button>
+      </div>
+      <div class="col">
+        <button
+          class="start-btn btn-save"
+          type="button"
+        >
+        Save Changes
+        </button>
+      </div>
+    </div>
+  </form>
+</form>
+{% endblock content %}
+
+{% block js %}
+<script>
+    // Initialize carousels
+    var carouselBall = document.querySelector('#carouselBall');
+    var carouselPaddles = document.querySelector('#carouselPaddles');
+    var ballCarousel = new bootstrap.Carousel(carouselBall);
+    var paddlesCarousel = new bootstrap.Carousel(carouselPaddles);
+
+    // Function to get the active item's value from the carousel
+    function getActiveCarouselValue(carousel) {
+        var activeItem = carousel.querySelector('.carousel-item.active');
+        return activeItem ? activeItem.getAttribute('data-value') : null;
+    }
+
+    // Save button event listener
+    document.querySelector('.btn-save').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent form submission
+
+        // Get the active ball and paddle values
+        var selectedBall = getActiveCarouselValue(carouselBall);
+        var selectedPaddleColor = getActiveCarouselValue(carouselPaddles);
+
+        // Send an AJAX POST request to save the customization
+        fetch("{% url 'save_customization' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                ball: selectedBall,
+                paddle_color: selectedPaddleColor
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Redirect to the home page after successful save
+                window.location.href = "{% url 'home' %}";  // Replace 'home' with your home page URL name
+            } else {
+                alert('Failed to save settings. Please try again.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Play default button event listener
+    document.querySelector('.btn-default').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent form submission
+
+        // Send an AJAX POST request to reset to default
+        fetch("{% url 'reset_customization_to_default' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Redirect to the home page after resetting to default
+                window.location.href = "{% url 'home' %}";  // Replace 'home' with your home page URL name
+            } else {
+                alert('Failed to reset settings. Please try again.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+{% endblock js %}

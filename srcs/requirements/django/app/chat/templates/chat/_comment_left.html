@@ -1,8 +1,0 @@
-<div class="message">
-  <a class="photo" href="{% url 'profile-by-nickname' comment.author %}">
-    <img class="photo" src="{{ comment.author.profile.image.url }}" alt="auth pic">
-    <div class="online"></div>
-  </a>
-  <p class="text">{{ comment.content }}</p>
-</div>
-<p class="time"> {{ comment.time|date:"h:iA" }}</p>

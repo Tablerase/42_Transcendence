@@ -1,4 +1,5 @@
 {% extends "game/base.html" %}
+{% block title %}🏃‍♂️{% endblock %}
 {% load static %}
 {% block css %}
 <link 
@@ -18,10 +19,10 @@
 <div class="container">
   <h3 class="message">Already leaving?</h3>
   <p>{{ subtitle }}😢</p>
-  <form method="post" action="{% url 'quit' id=id %}">
+  <form method="post" action="{% url 'quit' tournament_id=tournament_id %}">
     {% csrf_token %}
-    <button type="submit" class="btn btn-warning">Yes, Quit</button>
-    <a href="{% url 'lobby' id=id %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-warning" name="quit_button" value="quit">Yes, Quit</button>
+    <a href="{% url 'tournament' tournament_id=tournament_id %}" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
 {% endblock content %}

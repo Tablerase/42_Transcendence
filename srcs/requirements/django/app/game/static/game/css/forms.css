@@ -8,6 +8,29 @@ body form {
   background-image: url(../images/🐥/noise.png);
 }
 
+.top-btns, .bottom-btns {
+  width: 80%;
+}
+
+.top-btns {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.bottom-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+.bottom-btns button {
+  flex: 1;
+  max-width: 50%;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
 .input, .game-btn {
   color: var(--darkest);
   background-color: var(--light);
@@ -15,12 +38,10 @@ body form {
   letter-spacing: 2px;
   text-transform: uppercase;
   border: none;
-  transition: all 0.3s ease-in;
-  margin: 12px 15px;
-  padding: 10px 15px; 
-  width: 70%; 
+  transition: all 0.2s ease-out;
+  margin: 8px 15px;
+  padding: 10px 32px;
 }
-
 
 .input:hover, .game-btn:hover {
   filter: none;
@@ -30,3 +51,4 @@ body form {
   letter-spacing: 3px;
   font-weight: 500;
 }
+

@@ -1,4 +1,6 @@
-from .models import FriendRequest
+from collections import namedtuple
+from users.models.FriendRequest_model import FriendRequest
+from users.models.User_model import CustomUser
 
 def get_user_context(current_user, user_list, requests=None):
   users_with_context = []
@@ -6,6 +8,8 @@ def get_user_context(current_user, user_list, requests=None):
   for user in user_list:
     if user == current_user:
       continue
+    
+    user_blocked = user in current_user.blocked_users.all()
 
     if user in current_user.friends.all():
       user_friend = True
@@ -26,10 +30,50 @@ def get_user_context(current_user, user_list, requests=None):
 
     users_with_context.append({
       'user': user,
-      'show_accept_button': show_accept_button,
       'user_friend': user_friend,
+      'user_blocked': user_blocked,
+      'show_accept_button': show_accept_button,
+      'request': request,
       'pending_request': pending_request,
-      'request': request
     })
 
   return users_with_context
+
+Match = namedtuple('Match', ['id', 'user1', 'user2', 'user1_score', 'user2_score', 'date', 'tournament'])
+
+def generate_dummy_matches(user1):
+  user2, created = CustomUser.objects.get_or_create(username='opponent', defaults={'password': 'password123'})
+  
+  dummy_matches = [
+    Match(id=1, user1=user1, user2=user2, user1_score=3, user2_score=10, date="2024-08-26 20:00", tournament="Summer Tournament"),
+    Match(id=2, user1=user1, user2=user2, user1_score=10, user2_score=8, date="2024-08-25 18:00", tournament="Spring Championship"),
+    Match(id=3, user1=user1, user2=user2, user1_score=10, user2_score=3, date="2024-08-24 16:00", tournament="Autumn Open"),
+    Match(id=4, user1=user1, user2=user2, user1_score=8, user2_score=10, date="2024-08-27 21:42", tournament="Clash"),
+  ]
+  
+  return dummy_matches
+
+def generate_match_cards(match_set):
+    matches = []
+    for index, match in enumerate(match_set, start=1):
+        # Check if both date and time are available, otherwise handle them appropriately
+        date_str = match['date'] if match['date'] else 'Unknown'
+        time_str = match['time'] if match['time'] else ''
+        combined_date_time = f"{date_str} {time_str}".strip()  # Remove trailing spaces if time is missing
+
+        match_card = Match(
+            id=index,
+            user1=match['self_username'],
+            user2=match['other_username'],
+            user1_score=match['self_points'],
+            user2_score=match['other_points'],
+            date=combined_date_time,  # Using the combined and cleaned date/time string
+            tournament=match['tournament']
+        )
+        matches.append(match_card)
+    
+    return matches
+
+
+
+  
