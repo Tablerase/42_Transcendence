@@ -196,8 +196,8 @@ services:
         - action: sync+restart
           path: ./requirements/grafana/provisioning
           target: /etc/grafana/provisioning
-  # Prometheus
-  ## https://jorzel.github.io/how-to-build-an-alerting-system-with-prometheus-and-alertmanager/
+
+  # Prometheus Monitoring
   prometheus:
     container_name: prometheus
     labels:
@@ -217,7 +217,35 @@ services:
     depends_on:
       - node-exporter
       - postgres-exporter
-  # Prometheus Node Exporter (for monitoring the host)
+  # Prometheus Alert Manager
+  alertmanager:
+    container_name: alertmanager
+    labels:
+      - com.alertmanager.description='Prometheus Alert Manager'
+    image: prom/alertmanager:v0.27.0
+    environment:
+      SLACK_WEBHOOK_URL_FILE: /run/secrets/slack_webhook_url
+    entrypoint: ["sh", "/alertmanager_setup.sh"]
+    restart: unless-stopped
+    # expose:
+    #   - 9093
+    ports:
+      - "9093:9093"
+    networks:
+      - transcendence
+    volumes:
+      - ./requirements/alertmanager/alertmanager_setup.sh:/alertmanager_setup.sh
+      - ./requirements/alertmanager/config.yml:/tmp/config.yml
+    depends_on:
+      - prometheus
+    secrets:
+      - slack_webhook_url
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./requirements/alertmanager
+          target: /tmp
+  # Prometheus Node Exporter (for exporting node / host metrics)
   node-exporter:
     container_name: node-exporter
     labels:
@@ -238,7 +266,7 @@ services:
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-  # PostgreSQL Exporter
+  # PostgreSQL Exporter (for exporting PostgreSQL metrics)
   postgres-exporter:
     container_name: postgres-exporter
     labels:
@@ -270,6 +298,9 @@ secrets:
   # Grafana admin password
   grafana_admin_password:
     file: ../secrets/grafana_admin_password.txt
+  # Slack webhook URL for alerts
+  slack_webhook_url:
+    file: ../secrets/slack_webhook_url.txt
 
 # Networks
 networks:

@@ -207,6 +207,11 @@ shell_prometheus:
 shell_grafana:
 	@docker exec -it grafana /bin/bash
 
+# Access Alertmanager container
+.PHONY: shell_alertmanager
+shell_alertmanager:
+	@docker exec -it alertmanager /bin/sh
+
 #---------------------------- Phony ----------------------------#
 
 .PHONY: start stop clean fclean help infos logs logs_nginx dev up down

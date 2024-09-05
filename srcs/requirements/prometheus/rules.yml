@@ -5,12 +5,12 @@ groups:
     rules:
       - alert: GrafanaDown
         expr: up{job="grafana"} == 0
-        for: 2m
+        for: 1m
         labels:
           severity: critical
         annotations:
           title: "Grafana is down"
-          description: "Grafana is down for more than 2 minute"
+          description: "Grafana is down for more than 1 minute"
   # PostgreSQL (requires PostgreSQL exporter)
   - name: postgres
     rules:
