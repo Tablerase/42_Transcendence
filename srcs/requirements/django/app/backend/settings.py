@@ -185,13 +185,19 @@ AUTHENTICATION_BACKENDS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# Allauth settings
+
+## Retrieve google api secret from a secret file
+with open(os.getenv('GOOGLE_API_SECRET_FILE'), 'r') as f:
+    google_api_secret = f.read().strip()
+
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
             'client_id': os.getenv("GOOGLE_API_ID"),
-            'secret': os.getenv("GOOGLE_API_SECRET"),
+            'secret': google_api_secret,
             'key': ''
         },
         'SCOPE': [
@@ -207,8 +213,12 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter'
 
 # Authentication through 42s API
+
+## Retrieve the api 42 password from a secret file
+with open(os.getenv('API_42_SECRET_FILE'), 'r') as f:
+    api_42_secret = f.read().strip()
 OAUTH42_CLIENT_ID = os.getenv("API_42_ID")
-OAUTH42_CLIENT_SECRET = os.getenv("API_42_SECRET")
+OAUTH42_CLIENT_SECRET = api_42_secret
 OAUTH42_REDIRECT_URI = os.getenv("REDIRECT_URI")
 
 from users.auth.oauth42 import Oauth42

@@ -1,846 +1,1101 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": {
-            "type": "grafana",
-            "uid": "-- Grafana --"
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 3,
-    "links": [],
-    "panels": [
+  "annotations": {
+    "list": [
       {
+        "builtIn": 1,
         "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "PCC52D03280B7034C"
+          "type": "grafana",
+          "uid": "-- Grafana --"
         },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "schemaname"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 61
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "relname"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 263
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "n_live_tup"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 86
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 10,
-          "x": 0,
-          "y": 0
-        },
-        "id": 3,
-        "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": false
-          },
-          "showHeader": true,
-          "sortBy": []
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "PCC52D03280B7034C"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT schemaname, relname, n_live_tup FROM pg_stat_user_tables ORDER BY n_live_tup DESC LIMIT 5;",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50
-            }
-          }
-        ],
-        "title": "Most Used Tables",
-        "type": "table"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "PCC52D03280B7034C"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "mappings": [],
-            "thresholds": {
-              "mode": "percentage",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "orange",
-                  "value": 70
-                },
-                {
-                  "color": "red",
-                  "value": 85
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 4,
-          "x": 10,
-          "y": 0
-        },
-        "id": 4,
-        "options": {
-          "minVizHeight": 75,
-          "minVizWidth": 75,
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "showThresholdLabels": false,
-          "showThresholdMarkers": true,
-          "sizing": "auto"
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "PCC52D03280B7034C"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT count(*) FROM pg_stat_activity WHERE state = 'active';",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50
-            }
-          }
-        ],
-        "title": "Active Connections",
-        "type": "gauge"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "PCC52D03280B7034C"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "mappings": [],
-            "thresholds": {
-              "mode": "percentage",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "orange",
-                  "value": 70
-                },
-                {
-                  "color": "red",
-                  "value": 85
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 4,
-          "x": 14,
-          "y": 0
-        },
-        "id": 2,
-        "options": {
-          "minVizHeight": 75,
-          "minVizWidth": 75,
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "showThresholdLabels": false,
-          "showThresholdMarkers": true,
-          "sizing": "auto"
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "PCC52D03280B7034C"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public';",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50
-            }
-          }
-        ],
-        "title": "Number of Tables",
-        "type": "gauge"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "PCC52D03280B7034C"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "short"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 5,
-          "x": 18,
-          "y": 0
-        },
-        "id": 1,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "percentChangeColorMode": "standard",
-          "reduceOptions": {
-            "calcs": [],
-            "fields": "/.*/",
-            "values": true
-          },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "PCC52D03280B7034C"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT pg_size_pretty(pg_database_size('test_db'));",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50
-            }
-          }
-        ],
-        "title": "Database Size",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "default": true,
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
-              "lineInterpolation": "linear",
-              "lineStyle": {
-                "fill": "solid"
-              },
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "fieldMinMax": false,
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "percent"
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "{instance=\"node-exporter:9100\"}"
-              },
-              "properties": [
-                {
-                  "id": "displayName",
-                  "value": "CPU Usage"
-                },
-                {
-                  "id": "custom.fillOpacity",
-                  "value": 40
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "{instance=\"node-exporter:9100\", job=\"node\"}"
-              },
-              "properties": [
-                {
-                  "id": "displayName",
-                  "value": "Memory Usage"
-                },
-                {
-                  "id": "custom.fillOpacity",
-                  "value": 10
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Memory Usage"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "CPU Usage"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "dark-orange",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 9,
-          "x": 10,
-          "y": 4
-        },
-        "id": 6,
-        "options": {
-          "legend": {
-            "calcs": [
-              "diffperc"
-            ],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "timezone": [
-            ""
-          ],
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
-            },
-            "editorMode": "code",
-            "expr": "sum(rate(node_cpu_seconds_total{mode!=\"idle\"}[5m])) by(instance) / sum(rate(node_cpu_seconds_total{}[5m])) by(instance) * 100\n",
-            "hide": false,
-            "instant": false,
-            "legendFormat": "__auto",
-            "range": true,
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
-            },
-            "editorMode": "code",
-            "expr": "(node_memory_MemTotal_bytes - node_memory_MemFree_bytes) * 100 / node_memory_MemTotal_bytes\n",
-            "hide": false,
-            "instant": false,
-            "legendFormat": "__auto",
-            "range": true,
-            "refId": "B"
-          }
-        ],
-        "title": "Host System Usage",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "default": true,
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "decgbytes"
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byFrameRefID",
-                "options": "A"
-              },
-              "properties": [
-                {
-                  "id": "displayName",
-                  "value": "Total Memory Space"
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byFrameRefID",
-                "options": "B"
-              },
-              "properties": [
-                {
-                  "id": "displayName",
-                  "value": "Free Memory Space"
-                },
-                {
-                  "id": "thresholds",
-                  "value": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "red",
-                        "value": null
-                      },
-                      {
-                        "color": "yellow",
-                        "value": 20
-                      },
-                      {
-                        "color": "green",
-                        "value": 60
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 4,
-          "x": 19,
-          "y": 4
-        },
-        "id": 7,
-        "options": {
-          "minVizHeight": 75,
-          "minVizWidth": 75,
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "showThresholdLabels": false,
-          "showThresholdMarkers": false,
-          "sizing": "auto"
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
-            },
-            "editorMode": "code",
-            "expr": "node_memory_MemTotal_bytes / 1000000000",
-            "instant": false,
-            "legendFormat": "__auto",
-            "range": true,
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
-            },
-            "editorMode": "code",
-            "expr": "node_memory_MemFree_bytes / 1000000000",
-            "hide": false,
-            "instant": false,
-            "legendFormat": "__auto",
-            "range": true,
-            "refId": "B"
-          }
-        ],
-        "title": "Host Memory Space",
-        "type": "gauge"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "PCC52D03280B7034C"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "query"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 396
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "state"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 62
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 4,
-          "w": 10,
-          "x": 0,
-          "y": 8
-        },
-        "id": 5,
-        "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": false
-          },
-          "showHeader": true,
-          "sortBy": []
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "PCC52D03280B7034C"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT \n    query,\n    state,\n    now() - xact_start AS duration\nFROM \n    pg_stat_activity\nWHERE \n    state != 'idle'\n    AND state != 'idle in transaction (aborted)'\nORDER BY \n    duration DESC\nLIMIT 5;\n",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50
-            }
-          }
-        ],
-        "title": "Longuest Running Query",
-        "type": "table"
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
-    ],
-    "refresh": "",
-    "schemaVersion": 39,
-    "tags": [
-      "transcendence"
-    ],
-    "templating": {
-      "list": []
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 8,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": false
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": [],
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT schemaname, relname, n_live_tup FROM pg_stat_user_tables ORDER BY n_live_tup DESC LIMIT 10;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Most Used Tables",
+      "type": "table"
     },
-    "time": {
-      "from": "now-6h",
-      "to": "now"
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 10,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public';",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Number of Tables",
+      "type": "gauge"
     },
-    "timepicker": {},
-    "timezone": "browser",
-    "title": "42 Transcendence Dashboard",
-    "uid": "adwsnwf5stxq8e",
-    "version": 11,
-    "weekStart": ""
+    {
+      "datasource": {
+        "default": true,
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{instance=\"node-exporter:9100\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "CPU Usage"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 40
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{instance=\"node-exporter:9100\", job=\"node\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Memory Usage"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 10
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Memory Usage"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CPU Usage"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 14,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [
+            "diffperc"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          ""
+        ],
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(node_cpu_seconds_total{mode!=\"idle\"}[5m])) by(instance) / sum(rate(node_cpu_seconds_total{}[5m])) by(instance) * 100\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "(node_memory_Active_bytes) * 100 / node_memory_MemTotal_bytes\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Host System Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "description": "Amount of active connection to the postgres database",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 10,
+        "y": 4
+      },
+      "id": 4,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT count(*) FROM pg_stat_activity WHERE state = 'active';",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Active Connections",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": false
+            },
+            "filterable": false,
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "query"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 347
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "state"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 96
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 10,
+        "x": 0,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n    query,\n    state,\n    now() - xact_start AS duration\nFROM \n    pg_stat_activity\nWHERE \n    state != 'idle'\n    AND state != 'idle in transaction (aborted)'\nORDER BY \n    duration DESC\nLIMIT 5;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Longuest Running Query",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 10,
+        "y": 8
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "/.*/",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT pg_size_pretty(pg_database_size('test_db'));",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Database Size",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Total Memory Space"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "fieldMinMax",
+                "value": false
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Free Memory Space"
+              },
+              {
+                "id": "max"
+              },
+              {
+                "id": "min",
+                "value": 0.1
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    },
+                    {
+                      "color": "orange",
+                      "value": 15
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 35
+                    },
+                    {
+                      "color": "green",
+                      "value": 50
+                    },
+                    {
+                      "color": "blue",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Used Memory Space"
+              },
+              {
+                "id": "max"
+              },
+              {
+                "id": "min",
+                "value": 0.1
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 10
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 35
+                    },
+                    {
+                      "color": "orange",
+                      "value": 50
+                    },
+                    {
+                      "color": "red",
+                      "value": 75
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 9,
+        "x": 14,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "node_memory_MemTotal_bytes / 1000000000",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "node_memory_MemFree_bytes / 1000000000",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "node_memory_Active_bytes / 1000000000",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Host Memory Space",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": false
+            },
+            "filterable": true,
+            "inspect": true,
+            "minWidth": 50
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pid"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 85
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "client_addr"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 125
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "usesysid"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 101
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "usename"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 167
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "datname"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 133
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "query"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 627
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "state"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 163
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 23,
+        "x": 0,
+        "y": 12
+      },
+      "id": 8,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "state"
+          }
+        ]
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT now() - pg_stat_activity.query_start AS duration,\n       usesysid,\n       usename,\n       client_addr,\n       pid,\n       state,\n       datname,\n       query,\n       backend_type\nFROM pg_stat_activity\norder by duration desc;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Database Query Activity",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [
+    "transcendence"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "42 Transcendence Dashboard",
+  "uid": "adwsnwf5stxq8e",
+  "version": 19,
+  "weekStart": ""
 }

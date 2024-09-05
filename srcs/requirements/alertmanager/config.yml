@@ -5,7 +5,7 @@
 
 global:
   resolve_timeout: 1m
-  slack_api_url_file: ${SLACK_API_URL_FILE}
+  slack_api_url_file: /run/secrets/slack_webhook_url
 
 route:
   receiver: 'slack-notifications'

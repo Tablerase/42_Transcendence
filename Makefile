@@ -175,6 +175,7 @@ logs:
 logs_nginx:
 	@docker exec nginx tail -f /var/log/nginx/access.log
 
+## django container logs
 log_django:
 	@docker compose -f $(COMPOSE) logs -f django
 

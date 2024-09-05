@@ -21,14 +21,15 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_USER_PASSWORD_FILE: /run/secrets/db_password
       API_42_ID: ${API_42_ID}
-      API_42_SECRET: ${API_42_SECRET}
+      API_42_SECRET_FILE: /run/secrets/42_api_secret
       REDIRECT_URI: ${REDIRECT_URI}
       GOOGLE_API_ID: ${GOOGLE_API_ID}
-      GOOGLE_API_SECRET: ${GOOGLE_API_SECRET}
-
+      GOOGLE_API_SECRET_FILE: /run/secrets/google_api_secret
     secrets:
       - db_password
       - django_secret_key
+      - 42_api_secret
+      - google_api_secret
     expose:
       - "8000"
     networks:
@@ -36,8 +37,7 @@ services:
     volumes:
       # Volume for the Daphne socket and static files
       - backend-data:/usr/src/app
-    # restart: unless-stopped
-    restart: no
+    restart: unless-stopped
     depends_on:
       - db
       - redis
@@ -307,9 +307,16 @@ secrets:
   # Grafana admin password
   grafana_admin_password:
     file: ../secrets/grafana_admin_password.txt
-  # Slack webhook URL for alerts
+  # API Secrets
+  ## Slack webhook URL for alerts
   slack_webhook_url:
     file: ../secrets/slack_webhook_url.txt
+  ## 42 API
+  42_api_secret:
+    file: ../secrets/42_api_secret.txt
+  ## Google API
+  google_api_secret:
+    file: ../secrets/google_api_secret.txt
 
 # Networks
 networks:
