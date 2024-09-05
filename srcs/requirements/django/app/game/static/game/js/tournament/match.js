@@ -21,7 +21,7 @@ export class Match {
     this.#ball = new Item('ball');
     this.#message = new Item('matchMessage');
     this.#scores = [new Item('score_0'), new Item('score_1')];
-    this.#role = 0;
+    this.#role = 'unset';
     this.#saveStateListener();
     this.#restoreStateListener();
   }
@@ -29,7 +29,7 @@ export class Match {
   setMatchEventListeners(message) 
   {
     this.#message.setInnerHtml(message.match);
-    if (this.#role === 0)
+    if (this.#role === 'unset')
     {
       console.log('Role is null and will be assigned');
       this.#role = message.role;

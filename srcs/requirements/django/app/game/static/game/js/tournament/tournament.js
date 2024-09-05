@@ -58,11 +58,11 @@ export class Tournament {
     }
     else if (message.message === 'modal')
     {
-      var modalElement = document.getElementById('modal');
-      if (modalElement) {
-        var myModal = new bootstrap.Modal(modalElement);
-        myModal.show();
-      }
+      // var modalElement = document.getElementById('modal');
+      // if (modalElement) {
+      //   var myModal = new bootstrap.Modal(modalElement);
+      //   myModal.show();
+      // }
       window.location.reload();
     }
     else if (message.message === 'lobby_update') {
@@ -79,15 +79,15 @@ export class Tournament {
       this.#leaderboard.loadLeaderboard(message.results);
     }
     else if (message.message === 'redirect_home') {
-      this.redirectHome();
+      this.#redirectHome();
     }
   }
     
-  redirectHome() { window.location.href = "/game/home/"; }
+  #redirectHome() { window.location.href = "/game/home/"; }
   #initializeSocket() {
     this.#tournament.socket.onopen    = (event) => {                                  };
     this.#tournament.socket.onclose   = (event) => {                                  };  
     this.#tournament.socket.onmessage = (event) => { this.#parseMessage(event.data);  };
-    this.#tournament.socket.onerror   = (error) => { this.redirectHome();            };
+    this.#tournament.socket.onerror   = (error) => { this.#redirectHome();            };
   }
 }
