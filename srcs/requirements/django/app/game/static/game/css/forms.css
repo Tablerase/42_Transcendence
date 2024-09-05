@@ -1,0 +1,54 @@
+body form {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(var(--componentSize) + 30px);
+  border-radius: 15px;
+  background-image: url(../images/🐥/noise.png);
+}
+
+.top-btns, .bottom-btns {
+  width: 80%;
+}
+
+.top-btns {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.bottom-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+.bottom-btns button {
+  flex: 1;
+  max-width: 50%;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.input, .game-btn {
+  color: var(--darkest);
+  background-color: var(--light);
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  transition: all 0.2s ease-out;
+  margin: 8px 15px;
+  padding: 10px 32px;
+}
+
+.input:hover, .game-btn:hover {
+  filter: none;
+  color: var(--light);
+  background-color: var(--darkest);
+  transform: scale(1.1);
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+

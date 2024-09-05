@@ -1,0 +1,19 @@
+<form
+  method="POST"
+  class="d-flex"
+  action="{% url 'users-search' %}"
+  autocomplete="off"
+>
+  {% csrf_token %}
+  <input
+    type="text"
+    class="form-control me-2"
+    type="search"
+    name="searched"
+    placeholder="Find User"
+  >
+  <button
+    class="block-btn"
+    type="submit"
+  >Search</button>
+</form>

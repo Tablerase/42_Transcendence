@@ -11,6 +11,7 @@ services:
       context: requirements/django
       dockerfile: Dockerfile
     environment:
+      DJANGO_SETTINGS_MODULE: backend.settings
       DJANGO_SECRET_KEY_FILE: /run/secrets/django_secret_key
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
@@ -117,12 +118,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/${LOGIN}/data/backend
+      device: /Users/${LOGIN}/data/backend
       o: bind
   # PostgreSQL data
   postgresql:
     driver: local
     driver_opts:
       type: none
-      device: /home/${LOGIN}/data/postgresql
+      device: /Users/${LOGIN}/data/postgresql
       o: bind

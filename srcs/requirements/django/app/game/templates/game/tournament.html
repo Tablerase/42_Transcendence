@@ -1,0 +1,32 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}🏓{% endblock %}
+
+{% block css %}
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/background.css' %}"
+/>
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/icon_navbar.css' %}"
+/>
+{% endblock %}
+
+
+{% block content %}
+{% include 'game/tournament/_match.html' %}
+{% include 'game/tournament/_leaderboard.html' %}
+{% include 'game/tournament/_lobby.html' %}
+{% endblock %}
+
+
+{% block js %}
+<script>
+  const info = JSON.parse('{{ tournament_json|escapejs }}');
+</script>
+<script type="module" src="{% static 'game/js/tournament/main.js' %}"></script>
+{% endblock %}
+
+

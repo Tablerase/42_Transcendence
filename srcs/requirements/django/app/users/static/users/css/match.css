@@ -1,0 +1,166 @@
+.card {
+  font-family: "Montserrat", sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 630px;
+  height: 398px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.card:hover {
+  background: #fff;
+  box-shadow: 0 0 0 10px rgba(255,255,255,0.2);
+}
+
+.card:before {
+  content: '';
+  position: absolute;
+  bottom: -70%;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+  z-index: -1;
+  box-sizing: border-box;
+  transform: skewX(-5deg);
+}
+
+.card.loser:before {
+  background: #B0E57C;
+  border-top: 5px solid #83ab5b;
+}
+
+.card.loser:after {
+  background: #E57373;
+  border-top: 5px solid #ae5757;
+}
+
+.card.winner:after {
+  background: #B0E57C;
+  border-top: 5px solid #83ab5b;
+}
+
+.card.winner:before {
+  background: #E57373;
+  border-top: 5px solid #ae5757;
+}
+
+.card:hover:before {
+  left: -50%;
+}
+
+.card:after {
+  content: '';
+  position: absolute;
+  bottom: -70%;
+  right: -120%;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+  z-index: -1;
+  box-sizing: border-box;
+  transform: skewX(-5deg);
+}
+
+
+
+
+
+
+.card:hover:after {
+  right: -50%;
+}
+
+.card h2 {
+  width: 100%;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
+  font-weight: bold;
+  transition: 0.5s;
+  font-family: 'Press Start 2P';
+}
+
+.card:hover h2 {
+  background: #52527a;
+  color: #fff;
+}
+
+.match-details {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card .crown {
+  height: 90px;
+  width: 90px;
+  position: absolute;
+  top: 8px;
+  z-index: 1;
+}
+
+.card .crown.left {
+  left: 50px;
+}
+
+.card .crown.right {
+  right: 50px;
+}
+
+.user h3 {
+  margin: 0 auto;
+}
+
+.versus {
+  width: 80px;
+  height: 80px;
+  font-size: 26px;
+  border-radius: 50%;
+  background: #52527a;
+  color: #fff;
+  text-align: center;
+  line-height: 85px;
+  margin: 20px auto;
+  font-family: 'Press Start 2P';
+
+}
+
+.date {
+  margin: 20px 0 0;
+}
+
+.user {
+  width: 200px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.user img {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.details {
+  width: 200px;
+  min-height: 200px;
+  text-align: center;
+}
+
+.match-names {
+  font-family: 'Press Start 2P';
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.match-names h3 {
+  margin: 0;
+}

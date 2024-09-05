@@ -1,0 +1,84 @@
+<div class="user {% if user_friend %}bg-success-subtle{% elif user_blocked %}bg-danger-subtle{% endif %}">
+  <a class="d-flex text-decoration-none" href="{% url 'profile-by-nickname' user %}">
+    <img class="photo" src="{{ user.profile.image.url }}" alt="auth pic" />
+    <div class="info-cred">
+      <h3>{{ user.username }}</h3>
+      <h6>{{ user.email }}</h6>
+    </div>
+  </a>
+  <div class="right_part">
+    <div class="feat justify-content-center">
+      <p class="text-success mb-0">Wins: <b>{{ user.total_wins }}</b></p>
+      <p class="text-danger mb-0">Losses: <b>{{ user.total_losses }}</b></p>
+    </div>
+    <div class="icon">
+      {% if user_blocked %}
+      {% elif show_accept_button %}
+      <form
+        action="{% url 'accept-friend-request' request.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">
+          <i class="bi bi-person-check-fill text-success icon-purple"></i>
+        </button>
+      </form>
+      {% elif user_friend %}
+      <form
+        action="{% url 'remove-friend' user.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">
+          <i class="bi bi-person-x-fill text-danger icon-purple"></i>
+        </button>
+      </form>
+      {% elif pending_request %}
+      <form
+        action="{% url 'cancel-friend-request' user.id %}" 
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">
+          <i class="bi bi-hourglass-split text-warning icon-purple"></i>
+        </button>
+      </form>
+      {% elif not user_friend and not pending_request %}
+      <form
+        action="{% url 'send-friend-request' user.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">
+          <i class="bi bi-person-plus icon-purple"></i>
+        </button>
+      </form>
+      {% endif %}
+    </div>
+    {% if user_blocked %}
+    <div class="icon">
+      <form
+        action="{% url 'unblock-user' user.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">
+          <i class="bi bi-person-slash text-success icon-purple"></i>
+        </button>
+      </form>
+    </div>
+    {% elif show_accept_button %}
+    <div class="icon">
+      <form
+        action="{% url 'reject-friend-request' request.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <button type="submit">
+          <i class="bi bi-person-x-fill text-danger icon-purple"></i>
+        </button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</div>

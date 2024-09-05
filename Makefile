@@ -2,13 +2,13 @@
 
 # Variables
 NAME		= transcendence
-LOGIN		= rcutte
+LOGIN		= oldault
 SRCS		= ./srcs
 COMPOSE		= $(SRCS)/docker-compose.yml
-HOST_URL	= transcendence.42.fr
-WEB_PATH	= /home/$(LOGIN)/data/web
-DATABASE_PATH	= /home/$(LOGIN)/data/postgresql
-BACKEND_PATH	= /home/$(LOGIN)/data/backend
+HOST_URL	= 127.0.0.1
+WEB_PATH	= /Users/$(LOGIN)/data/web
+DATABASE_PATH	= /Users/$(LOGIN)/data/postgresql
+BACKEND_PATH	= /Users/$(LOGIN)/data/backend
 
 #---------------------------- Rules ----------------------------#
 

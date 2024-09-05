@@ -1,0 +1,77 @@
+{% load static %}
+
+{% block css %}
+<link 
+rel="stylesheet" 
+href="{% static 'game/css/lobby.css' %}" 
+/>
+
+<link 
+rel="stylesheet" 
+href="{% static 'game/css/game-btns.css' %}" 
+/>
+{% endblock css %}
+
+<div id="lobbyPage" class="main-content">
+  <section class="user-list">
+    <div class="section-header">
+      <div class="tournament-name">
+        <h1>{{ tournament.name }}</h1>
+        <div class="copy-container" id="copyText">
+          ID: <span id="copyID">{{ tournament.id }}</span>
+      </div>
+      </div>
+    </div>
+    <div id="playersContainer" class="section-content">
+      <div id="noFriendsDiv" class="text-center">
+        <h2>Get Ready For Some Action Baby</h2>
+        <img
+          src="{% static 'game/images/🐥/ready.gif' %}"
+          alt="Get Ready baby"
+          width="300px"
+          class="mt-2"
+        >
+        <h4 class="mt-3">Copy the <span id="copyID">ID</span> above <br>to invite Friends</h4>
+      </div>
+    </div>
+      <div class="section-footer">
+        <div class="left-buttons">
+          <button 
+            class="leave-btn"
+            id="leaveTournamentButton"
+          >
+          Leave
+          </button>
+        </div>
+        <div class="customization">
+          <h5>Your Weapons of choice 🔫😎:</h5>
+          <div class="customization-items">
+            <div class="customization-item">
+                <img
+                  src="{% static user_customization.ball_image %}"
+                  alt="{{ user_customization.ball_display_name }}"
+                  class="ball_preview ball_spin"
+                >
+            </div>
+            <div class="customization-item">
+                <div class="sq" style="--clr: {{ user_customization.paddle_color }}"></div>
+            </div>
+          </div>
+        </div>
+        <div class="right-buttons d-flex justify-content-center align-content-center">
+          <button 
+            class="start-btn"
+            id="startTournamentButton"
+            hidden
+          >
+          Start
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% block js %}
+<script type="module" src="{% static 'game/js/tournament/copy_id.js' %}"></script>
+{% endblock js %}

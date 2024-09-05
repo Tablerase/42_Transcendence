@@ -1,0 +1,42 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}🏓{% endblock %}
+
+{% block css %}
+<link 
+rel="stylesheet" 
+href="{% static 'game/css/pong.css' %}" 
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/background.css' %}"
+/>
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/icon_navbar.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+<div class="main"></div>
+<div class="panel rounded-corner">
+  <p class="message ">GAME PAUSED</p>
+</div>
+<div class="board rounded-corner">
+  <div class="middle_line"></div>
+  <div class="scores">
+    <p class="player_1_score score">0</p>
+    <p class="player_2_score score">0</p>
+  </div>
+  <div class='ball' style="--ball-img: url('{% static 'game/images/⚽️/' %}{{ ball_image }}.png');">
+    <div class="ball_effect"></div>
+  </div>
+  <div class="paddle paddle_1" style="--paddle-clr: {{ paddle_color }};"></div>
+  <div class="paddle paddle_2" style="--paddle-clr: {{ paddle_color }};"></div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="module" src="{% static 'game/js/practice/main.js' %}" ></script>
+{% endblock %}

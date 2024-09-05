@@ -1,0 +1,49 @@
+{% load static %}
+
+{% block css %}
+<link 
+rel="stylesheet" 
+href="{% static 'game/css/tournament.css' %}" 
+/>
+{% endblock %}
+<div id="matchPage" class="main-content">
+  <div id="countdown" class="countdown"></div>
+  <div class="main"></div>
+  <div class="panel rounded-corner">
+    <p id="matchMessage" class="message"></p>
+  </div>
+  <div id="board" class="board rounded-corner">
+    <div class="middle_line"></div>
+    <div class="scores">
+      <div id="score_0" class="player_1_score score">
+        <p>0</p>
+      </div>
+      <div id="score_1" class="player_2_score score">
+        <p>0</p>
+      </div>
+    </div>
+  </div>
+  <div 
+    id="ball" 
+    class="ball"
+    style="--ball-img: url('{% static user_customization.ball_image %}');"
+    hidden
+  >
+  <div class="ball_effect"></div>
+  </div>
+  <div
+    id="leftPaddle"
+    class="paddle paddle_1"
+    style="--paddle-clr: {{ user_customization.paddle_color }};"
+    hidden
+  ></div>
+  <div 
+    id="rightPaddle" 
+    class="paddle paddle_2"
+    style="--paddle-clr: {{ user_customization.paddle_color }};"
+    hidden
+  ></div>
+</div>
+
+{% block js %}
+{% endblock %}

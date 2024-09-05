@@ -1,0 +1,27 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}😩{% endblock %}
+
+  {% block css %}
+<link rel="stylesheet" href="{% static 'game/css/background.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/logout.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="form d-flex flex-column align-items-center px-5 pt-5">
+    <div class="text-center">
+      <img
+        src="{% static 'users/images/adios.gif' %}"
+        alt="Uranium-235"
+        class="w-100 mt-3"
+      >
+    </div>
+    <div class="border-top mt-4 w-100 pl-2">
+      <small class="text-muted">
+        Log In Again:
+        <a href="{% url 'login' %}">Sign In</a>
+      </small>
+    </div>
+  </div>
+{% endblock content %}

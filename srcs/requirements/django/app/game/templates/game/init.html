@@ -1,0 +1,98 @@
+{% extends 'game/base.html' %}
+{% load static %}
+
+{% block title %}🤝{% endblock %}
+
+{% block css %}
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/init.css' %}" 
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/title.css' %}"
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/forms.css' %}"
+/>
+<link 
+  rel="stylesheet"
+  href="{% static 'game/css/background.css' %}"
+/>
+<link 
+  rel="stylesheet" 
+  href="{% static 'game/css/icon_navbar.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+<form 
+  class="noise"
+  method="post"
+  action="{% url 'init' mode=mode %}"
+>
+<div 
+  class="focus" 
+  data-message="{{ header }}"  
+>
+  <div 
+    class="focus--mask"
+  >
+    <div 
+      class="focus--mask-inner"
+    >
+    {{ header }}
+    </div>
+  </div>
+</div>
+{% csrf_token %}
+{% if mode == 'join' %}
+  <input 
+    type="text" 
+    name="data" 
+    class="input" 
+    autofocus
+    required
+    maxlength="20"
+    placeholder="Ex: 1234"
+    autocomplete="off"
+  >
+  {% elif mode == 'host' %}
+  <input 
+    type="text"
+    class="input"
+    name="data"
+    autofocus
+    required 
+    maxlength="20"
+    placeholder="Ex: Paris_Olympics_1924"
+    autocomplete="off"
+  >
+  {% endif %}
+  <div 
+    class="container"
+  >
+    <button 
+      class="btn btn-back" 
+      type="button" 
+      onclick="window.location.href='{% url 'home' %}'"
+  >
+    ⬅
+  </button>
+    <button
+      class="btn btn-big game-btn" 
+      type="submit"
+    >
+      {{ mode }}
+    </button>
+  </div>
+</form>
+{% endblock %}
+{% block js %}
+<script 
+  type="module" 
+  src="{% static 'game/js/practice/header.js' %}"
+></script>
+{% endblock %}
+
