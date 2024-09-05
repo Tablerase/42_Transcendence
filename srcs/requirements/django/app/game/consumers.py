@@ -22,10 +22,12 @@ class TournamentConsumer(AsyncWebsocketConsumer):
   async def connect(self):
     ws_utils.authenticate_and_initialize(self)
     try:
+      print("We are here too.")
       tournament = await utils.get_tournament(self.tournament_id)
       await lobby.register_player_in_tournament(tournament, self.user)
       await ws_utils.add_channel_to_group_and_accept(self)
       if await utils.get_tournament_status(tournament) == 'open':
+        print("Here as well.")
         await ws_utils.send_message_to_group(self, 'lobby_update')
       elif await utils.get_tournament_status(tournament) == 'locked':
         await ws_utils.send_message_to_group(self, 'start_match')

@@ -1,9 +1,6 @@
 import django
 from django.db import models
 from django.conf import settings
-from users.models.User_model import CustomUser
-
-django.setup()
 
 class Customization(models.Model):
   BALL_CHOICES = [
@@ -23,7 +20,7 @@ class Customization(models.Model):
     ('#FF4500', 'Solar Flare Orange'),
   ]
 
-  user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='customization')
+  user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customization')
   ball = models.CharField(max_length=50, choices=BALL_CHOICES, default='asteroid')
   paddle_color = models.CharField(max_length=7, choices=PADDLE_COLORS, default='#C0C0C0')
 

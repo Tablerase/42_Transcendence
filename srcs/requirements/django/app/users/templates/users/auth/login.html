@@ -2,6 +2,7 @@
 {% load static %}
 
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block title %}Login{% endblock %}
 
@@ -10,6 +11,7 @@
 <link rel="stylesheet" href="{% static 'users/css/button_pong.css' %}">
 <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
 <link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/google_btn.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -17,19 +19,36 @@
   <div class="form animated-border-box">
     <form method="POST">
       {% csrf_token %}
-      <fieldset class="form-group">
-        <legend class="border-bottom mb-4">Log In</legend>
+      <fieldset class="form-group mb-3">
+        <legend class="text-center mb-4">
+          <h2 class="mb-0">Welcome</h2>
+          <p class="fs-6 mb-0 text-muted">Get ready to play Pong</p>
+        </legend>
         {{ form|crispy }}
       </fieldset>
       <div class="form-group text-center mb-3">
         <button class="button_pong" style="--clr:#AF47D2" type="submit"><span>Login</span><i></i></button>
       </div>
     </form>
-    <div class="border-top pt-3">
-      <small class="text-muted">
-        Don't Have An Account Yet?
-        <a class="ml-2" href="{% url 'register' %}" style="color: #2575fc; font-weight: bold;">Sign up Now</a>
-      </small>
+    <div class="middle-text">
+      <hr>
+      <p class="or-text">Or</p>
+    </div>
+    <div class="social-sign-in">
+      <a href="{{ authorization_url }}" class="a-42">
+        <button class="input-42">
+          <p>Sign In with</p>
+          <img src="{% static 'users/images/42.png' %}" alt="">
+        </button>
+      </a>
+      <a href="{% provider_login_url 'google' %}" class="a-google">
+        <button class="input-google">
+          <img src="{% static 'users/images/Google.svg' %}" alt="">
+        </button>
+      </a>
+    </div>
+    <div class="sign-up">
+      <p>Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
     </div>
   </div>
 {% endblock content %}

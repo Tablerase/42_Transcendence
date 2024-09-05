@@ -1,7 +1,7 @@
 # Official Base Image for Python 3.12 (https://hub.docker.com/_/python)
 FROM python:3.12-slim
 
-# install system dependencies
+# install system dependencies (netcat is used to check for database network access availability and django server socket readiness)
 RUN apt-get update && apt-get install -y \
     netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
@@ -23,14 +23,16 @@ COPY ./app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Configure the entrypoint
-COPY ./tools/django_setup.sh django_setup.sh
-RUN chmod +x django_setup.sh
+COPY ./tools/django_setup.sh /tmp/django_setup.sh
+RUN chmod +x /tmp/django_setup.sh
 
 # Copy the current directory contents of the app (./app) into the container at /usr/src/app
 COPY ./app .
+
+RUN mkdir -p /usr/src/app/media && chmod -R 755 /usr/src/app/media
 
 # Run the application
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 ## Use Daphne as the ASGI server to serve Django Channels allowing for WebSockets
 CMD ["daphne", "backend.asgi:application", "-u", "/usr/src/app/daphne.sock"]
-ENTRYPOINT ["/usr/src/app/django_setup.sh"]
+ENTRYPOINT ["/tmp/django_setup.sh"]

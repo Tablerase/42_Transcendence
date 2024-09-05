@@ -5,6 +5,8 @@ from users.models.User_model import CustomUser
 from users.models.Customization_model import Customization
 
 class UserRegisterForm(UserCreationForm):
+  usable_password = None
+  
   email = forms.EmailField()
   username = forms.CharField(max_length=9)
   

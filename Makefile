@@ -1,16 +1,23 @@
 #---------------------------- Transcendence ----------------------------#
 
 # Variables
-NAME		= transcendence
-LOGIN		= oldault
-SRCS		= ./srcs
-COMPOSE		= $(SRCS)/docker-compose.yml
-HOST_URL	= 127.0.0.1
-WEB_PATH	= /Users/$(LOGIN)/data/web
-DATABASE_PATH	= /Users/$(LOGIN)/data/postgresql
-BACKEND_PATH	= /Users/$(LOGIN)/data/backend
+NAME			= transcendence
+LOGIN			= $(if $(SUDO_USER),$(SUDO_USER),$(shell whoami))
+SRCS			= ./srcs
+COMPOSE			= $(SRCS)/docker-compose.yml
+HOST_URL		= 127.0.0.1
+OS              = $(shell uname -s)
+HOME_PATH       = $(if $(filter $(OS),Darwin),/Users/$(LOGIN),/home/$(LOGIN))
+WEB_PATH        = $(HOME_PATH)/data/web
+DATABASE_PATH   = $(HOME_PATH)/data/postgresql
+BACKEND_PATH    = $(HOME_PATH)/data/backend
 
 #---------------------------- Rules ----------------------------#
+
+# Development mode
+dev:
+	@mkdir -p $(DATABASE_PATH)
+	@docker compose -f $(COMPOSE) up --watch
 
 # Start the application in detached mode (in the background)
 ## -f : Specify an alternate compose file (here a path)
@@ -18,8 +25,6 @@ BACKEND_PATH	= /Users/$(LOGIN)/data/backend
 ## --build : Force Rebuild of images before starting containers
 up:
 	@mkdir -p $(DATABASE_PATH)
-	@mkdir -p $(BACKEND_PATH)
-	@mkdir -p $(WEB_PATH)
 	@/bin/bash -c '\
 		if [ ! -f ./srcs/.env ]; then \
 			echo "❌ Credentials files not found! 🔑" && exit 1; \
@@ -86,10 +91,15 @@ template:
 			echo "❌ Credentials files already exist! 🔑" && exit 1; \
 			exit 0; \
 		fi; \
+		if [ "$$EUID" -eq 0 ]; then \
+			echo "❌ Please run this command without sudo! 🔑" && exit 1; \
+		fi; \
 		for file in ./secrets/*.template; do \
 			cp $$file "$${file%.template}"; \
 		done; \
 		cp ./srcs/.env.template ./srcs/.env && \
+		sed -i '/^LOGIN=.*/c\LOGIN=$(LOGIN)' ./srcs/.env && \
+		sed -i '/^HOME_PATH=.*/c\HOME_PATH=$(HOME_PATH)' ./srcs/.env && \
 		echo "✔️ Credentials files are ready! 🔑" \
 		'
 
@@ -122,6 +132,7 @@ help:
 	@echo "  make $(EXEC)fclean$(RESET)     - Additional cleaning, remove all unused containers, networks, and images"
 	@echo "  make $(EXEC)infos$(RESET)      - Display information about the services"
 	@echo "  make $(EXEC)logs$(RESET)       - Display the logs of the services"
+	@echo "  make $(COMPILED)dev$(RESET)        - Start the services in development mode (watch)"
 	@echo "  make $(EXEC)add_url$(RESET)    - Add $(HOST_URL) to the /etc/hosts file"
 	@echo "  make $(EXEC)remove_url$(RESET) - Remove $(HOST_URL) from the /etc/hosts file"
 	@echo "  make $(EXEC)template$(RESET)   - Create empty credentials files from templates"
@@ -153,7 +164,7 @@ logs:
 logs_nginx:
 	@docker exec nginx tail -f /var/log/nginx/access.log
 
-#---------------------------- Tests ----------------------------#
+#---------------------------- Shell ----------------------------#
 
 # Access PostgreSQL container
 shell_postgresql:
@@ -167,9 +178,13 @@ shell_django:
 shell_nginx:
 	@docker exec -it nginx /bin/bash
 
+# Access Redis container
+shell_redis:
+	@docker exec -it redis /bin/bash
+
 #---------------------------- Phony ----------------------------#
 
-.PHONY: start stop clean fclean help infos logs
+.PHONY: start stop clean fclean help infos logs logs_nginx shell_postgresql shell_django shell_nginx shell_redis add_url remove_url template rm_secrets delete_db_folder delete_web_folder delete_backend_folder dev up down
 
 #---------------------------- Specials ----------------------------#
 

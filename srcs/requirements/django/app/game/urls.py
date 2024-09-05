@@ -18,3 +18,7 @@ urlpatterns = [
   path('clear_modal_data/', clear_modal_data, name='clear_modal_data'),
   path('leaderboard/', leaderboard, name='leaderboard'),
 ]
+
+
+# TODO (tests)
+# Check quit/<id of tournament that exists but user is not in>/

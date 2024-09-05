@@ -3,9 +3,10 @@
 
 {% block title %}😩{% endblock %}
 
-  {% block css %}
+{% block css %}
 <link rel="stylesheet" href="{% static 'game/css/background.css' %}">
 <link rel="stylesheet" href="{% static 'users/css/logout.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -17,11 +18,8 @@
         class="w-100 mt-3"
       >
     </div>
-    <div class="border-top mt-4 w-100 pl-2">
-      <small class="text-muted">
-        Log In Again:
-        <a href="{% url 'login' %}">Sign In</a>
-      </small>
+    <div class="sign-up">
+      <p>Ready for another game? <a href="{% url 'login' %}">Sign In</a></p>
     </div>
   </div>
 {% endblock content %}

@@ -2,7 +2,14 @@
 
 # Framework
 ## Django
+## Django
 django==5.1
+
+# Forms
+## Crispy and Boostrap pack
+django-crispy-forms==2.3
+crispy-bootstrap5==2024.2
+
 
 # Forms
 ## Crispy and Boostrap pack
@@ -12,6 +19,7 @@ crispy-bootstrap5==2024.2
 # Websockets
 channels==4.1.0
 channels-redis==4.2.0
+channels-redis==4.2.0
 daphne==4.1.2
 
 # ASGI tools
@@ -20,6 +28,7 @@ asgiref==3.8.1
 # Database
 ## PostgreSQL 
 ### psycopg is the PostgreSQL adapter for Python
+psycopg2-binary==2.9.9
 psycopg2-binary==2.9.9
 sqlparse==0.5.1
 
@@ -35,3 +44,4 @@ pillow==10.4.0
 django-allauth==64.0.0
 ## JSON Web Tokens
 PyJWT==2.9.0
+

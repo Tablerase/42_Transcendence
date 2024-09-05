@@ -1,15 +1,15 @@
 from channels.db import database_sync_to_async
 from django.core.exceptions import ValidationError
 
-from game.models import Tournament, Match
-
 @database_sync_to_async
 def get_tournament(tournament_id):
+  from game.models import Tournament
   return Tournament.objects.get(id=tournament_id)
 
 
 @database_sync_to_async
 def get_match_in_progress(tournament_id):
+  from game.models import Tournament
   tournament = Tournament.objects.get(id=tournament_id)
   match = tournament.get_match_in_progress()
   return match.id
@@ -29,6 +29,7 @@ def add_player_to_tournament(tournament, player):
 
 @database_sync_to_async
 def tournament_exists(tournament_id):
+  from game.models import Tournament
   return Tournament.objects.filter(id=tournament_id).exists()
 
 @database_sync_to_async
@@ -63,6 +64,7 @@ def get_tournament_status(tournament):
 
 @database_sync_to_async
 def close_tournament(tournament_id):
+  from game.models import Tournament
   tournament = Tournament.objects.get(id=tournament_id)
   tournament.status = 'closed'
   tournament.save()

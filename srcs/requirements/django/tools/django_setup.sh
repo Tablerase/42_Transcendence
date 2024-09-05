@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# Workdir
+cd /usr/src/app
+
 # Wait for postgres to start
-timeout=15
+timeout=30
 echo "Waiting for postgres..."
 while ! nc -z $SQL_HOST $SQL_PORT; do
     sleep 0.5
@@ -15,19 +18,15 @@ echo "PostgreSQL started"
 
 # Check for unapplied migrations
 echo "Checking for unapplied migrations..."
-unapplied_migrations=$(python manage.py showmigrations --plan | grep '\[ \]')
-
-if [ -n "$unapplied_migrations" ]; then
-    echo "Applying database migrations"
-    python manage.py migrate
-else
-    echo "No migrations to apply"
-fi
+python manage.py makemigrations --noinput
+python manage.py migrate
 
 # Collect static files
 echo "Collecting static files"
 python manage.py collectstatic --noinput --clear
 
+rm -rf /usr/src/app/daphne.sock
+rm -rf /usr/src/app/daphne.sock.lock
 # Start server
 echo "Starting server"
 exec "$@"

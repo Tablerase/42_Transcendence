@@ -7,9 +7,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, RegexValidator
 from django.db import models
-from users.models.User_model import CustomUser
-
-django.setup()
 
 class Tournament(models.Model):
   name = models.CharField(
@@ -23,18 +20,18 @@ class Tournament(models.Model):
     ]
   )
   players = models.ManyToManyField(
-    CustomUser, 
+    settings.AUTH_USER_MODEL, 
     related_name='players'
   )
   winner = models.ForeignKey(
-    CustomUser, 
+    settings.AUTH_USER_MODEL, 
     on_delete=models.SET_NULL,
     null=True,
     blank=True,
     related_name='winner'
   )
   host = models.ForeignKey(
-    CustomUser,
+    settings.AUTH_USER_MODEL,
     on_delete=models.CASCADE,
     related_name='hosted_tournaments'
   )
@@ -136,7 +133,7 @@ class Tournament(models.Model):
 class Match(models.Model):
   tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
   players = models.ManyToManyField(
-    CustomUser,
+    settings.AUTH_USER_MODEL,
     through='Player'
   )
   status = models.CharField(
@@ -183,7 +180,7 @@ class Match(models.Model):
 
 class Player(models.Model):
   match = models.ForeignKey(Match, on_delete=models.CASCADE)
-  user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
   points = models.IntegerField(default=0)
   is_winner = models.BooleanField(default=False)
 

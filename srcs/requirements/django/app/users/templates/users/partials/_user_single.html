@@ -1,9 +1,15 @@
 <div class="user {% if user_friend %}bg-success-subtle{% elif user_blocked %}bg-danger-subtle{% endif %}">
   <a class="d-flex text-decoration-none" href="{% url 'profile-by-nickname' user %}">
-    <img class="photo" src="{{ user.profile.image.url }}" alt="auth pic" />
+    <div class="image">
+      <img class="photo" src="{{ user.profile.image.url }}" alt="auth pic"/>
+      {% if user.is_online %}
+      <div class="online"></div>
+      {% endif %}
+    </div>
     <div class="info-cred">
-      <h3>{{ user.username }}</h3>
-      <h6>{{ user.email }}</h6>
+      <h3 class="mb-1">{{ user.username }}</h3>
+      <p class="mb-0">{{ user.email }}</p>
+      <span class="connected mb-0 {% if user.is_online and not user_blocked %}on{% endif %}">{{ user.get_online_info }}</span>
     </div>
   </a>
   <div class="right_part">
