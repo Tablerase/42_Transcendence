@@ -10,8 +10,14 @@ export class Tournament {
 
   constructor(tournament) {
     this.#tournament = tournament;
+
+    const http_scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const ws_url = http_scheme + window.location.host + '/ws/tournament/' + this.#tournament.id + '/';
+
+    console.log('Connecting to ' + ws_url);
+
     tournament.socket = new WebSocket(
-      'ws://' + window.location.host + '/ws/tournament/' + this.#tournament.id + '/'
+      ws_url
     );
     this.#lobby = new Lobby(this.#tournament);
     this.#match = new Match(this.#tournament);
@@ -75,11 +81,13 @@ export class Tournament {
     }
   }
     
-  #redirectHome() { window.location.href = "/game/home/"; }
+  #redirectHome() {
+    console.log('Redirecting to home page');
+    window.location.href = "/game/home/"; }
   #initializeSocket() {
     this.#tournament.socket.onopen    = (event) => {                                  };
     this.#tournament.socket.onclose   = (event) => { this.#redirectHome();            };
     this.#tournament.socket.onmessage = (event) => { this.#parseMessage(event.data);  };
-    this.#tournament.socket.onerror   = (error) => { this.#redirectHome();            };
+    this.#tournament.socket.onerror   = (error) => { console.log("redirection home error"); this.#redirectHome();            };
   }
 }

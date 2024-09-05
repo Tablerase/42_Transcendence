@@ -1,6 +1,7 @@
 from channels.exceptions import DenyConnection
 
 def authenticate_and_initialize(consumer):
+    print("authenticate and.")
     if not consumer.scope['user'].is_authenticated:
         raise DenyConnection("User is not authenticated")
     

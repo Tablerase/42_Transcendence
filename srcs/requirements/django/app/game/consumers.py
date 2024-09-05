@@ -17,6 +17,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
   engines = {}
 
   async def connect(self):
+    print("Trying to connect.")
     ws_utils.authenticate_and_initialize(self)
     try:
       print("We are here too.")
@@ -31,6 +32,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       else:
         await ws_utils.send_message_to_group(self, 'get_results')
     except (Tournament.DoesNotExist, ValidationError, Match.DoesNotExist) as e:
+      print("Error here." + str(e))
       await self.handle_exception('Error', e)
 
   async def disconnect(self, close_code):
