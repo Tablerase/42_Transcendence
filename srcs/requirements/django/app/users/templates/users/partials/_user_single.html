@@ -1,7 +1,14 @@
+{% load static %}
+
 <div class="user {% if user_friend %}bg-success-subtle{% elif user_blocked %}bg-danger-subtle{% endif %}">
   <a class="d-flex text-decoration-none" href="{% url 'profile-by-nickname' user %}">
     <div class="image">
-      <img class="photo" src="{{ user.profile.image.url }}" alt="auth pic"/>
+      <img
+        class="photo"
+        src="{{ user.profile.image.url }}"
+        alt="auth pic"
+        onerror="this.onerror=null;this.src='{% static 'users/images/default-avatar.png' %}';"
+      />
       {% if user.is_online %}
       <div class="online"></div>
       {% endif %}

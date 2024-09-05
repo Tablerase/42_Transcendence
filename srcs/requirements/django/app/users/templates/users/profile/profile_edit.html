@@ -20,7 +20,10 @@
       <a class="bicon" href="{% url 'profile' %}">
         <i class="bi bi-eye icon-purple"></i>
       </a>
-      <img src="{{ user.profile.image.url }}">
+      <img
+        src="{{ user.profile.image.url }}"
+        onerror="this.onerror=null;this.src='{% static 'users/images/default-avatar.png' %}';"
+      >
       <div class="media-body">
         <h2 class="account-heading">{{ user.username }}</h2>
         <p class="text-secondary">{{ user.email }}</p>
