@@ -9,6 +9,7 @@ export class Match {
   #ball;
   #message;
   #scores;
+  #role;
 
   constructor (tournament) 
   {
@@ -20,6 +21,7 @@ export class Match {
     this.#ball = new Item('ball');
     this.#message = new Item('matchMessage');
     this.#scores = [new Item('score_0'), new Item('score_1')];
+    this.#role = 0;
     this.#saveStateListener();
     this.#restoreStateListener();
   }
@@ -27,8 +29,13 @@ export class Match {
   setMatchEventListeners(message) 
   {
     this.#message.setInnerHtml(message.match);
-    console.log(message.role);
-    if (message.role === 'left_paddle' || message.role === 'right_paddle') {
+    if (this.#role === 0)
+    {
+      console.log('Role is null and will be assigned');
+      this.#role = message.role;
+    }
+    console.log('Role is ' + this.#role);
+    if (this.#role === 'left_paddle' || this.#role === 'right_paddle') {
       document.addEventListener('keydown', (event) => {
         let message;
         if (event.key == 'ArrowUp')
@@ -110,6 +117,7 @@ export class Match {
   {
     const matchData = JSON.parse(localStorage.getItem('matchData'));
     if (matchData) {
+      this.#role = matchData.role;
       this.#message.setInnerHtml( matchData.message );
       this.#leftPaddle.setCoords( matchData.leftPaddleCoords );
       this.#rightPaddle.setCoords( matchData.rightPaddleCoords );
@@ -122,6 +130,7 @@ export class Match {
   #saveStateListener() {
     window.addEventListener('beforeunload', (event) => {
       const matchData = {
+        role : this.#role,
         message: this.#message.getInnerHtml(),
         leftPaddleCoords: this.#leftPaddle.getCoords(),
         rightPaddleCoords: this.#rightPaddle.getCoords(),

@@ -49,9 +49,8 @@ export class Tournament {
     show.showPage();
   }
   
-  #parseMessage(data, pprint=true) {
+  #parseMessage(data) {
     const message = JSON.parse(data);
-    if (pprint) 
     if (message.message === 'start_tournament') 
     {
       this.#togglePage(this.#lobby, this.#match);
@@ -79,15 +78,16 @@ export class Tournament {
       this.#togglePage(this.#match, this.#leaderboard);
       this.#leaderboard.loadLeaderboard(message.results);
     }
+    else if (message.message === 'redirect_home') {
+      this.redirectHome();
+    }
   }
     
-  #redirectHome() {
-    console.log('Redirecting to home page');
-    window.location.href = "/game/home/"; }
+  redirectHome() { window.location.href = "/game/home/"; }
   #initializeSocket() {
     this.#tournament.socket.onopen    = (event) => {                                  };
-    this.#tournament.socket.onclose   = (event) => { this.#redirectHome();            };
+    this.#tournament.socket.onclose   = (event) => {                                  };  
     this.#tournament.socket.onmessage = (event) => { this.#parseMessage(event.data);  };
-    this.#tournament.socket.onerror   = (error) => { console.log("redirection home error"); this.#redirectHome();            };
+    this.#tournament.socket.onerror   = (error) => { this.redirectHome();            };
   }
 }

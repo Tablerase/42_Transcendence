@@ -16,6 +16,7 @@ export class LeaderBoard {
     this.#leaveButton = document.getElementById('leaveButton');
     this.#leaveButton.addEventListener('click', () => {
       this.#tournament.socket.close(1000);
+      this.#tournament.redirectHome();
     });
   }
 

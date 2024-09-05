@@ -118,6 +118,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
   async def handle_exception(self, title, e):
     error_message = e.messages[0] if e.messages else str(e)
     await utils.store_error_in_session(self, title, error_message)
+    self.send(text_data=json.dumps({'message': 'redirect_home'}))
     self.close(1000)
 
   async def display_modal(self, title, error):
