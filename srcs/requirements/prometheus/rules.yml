@@ -25,10 +25,10 @@ groups:
           description: "PostgreSQL has been down for more than 1 minutes"
       # Alert for abnormal number of connections
       - alert: PostgresAbnormalConnections
-        expr: pg_stat_activity_count > 4
+        expr: pg_stat_activity_count > 5
         for: 1m
         labels:
           severity: warning
         annotations:
           title: "PostgreSQL Abnormal Connections"
-          description: "PostgreSQL has more than 4 connections"
+          description: "PostgreSQL has more than 5 connections"

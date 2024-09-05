@@ -223,9 +223,11 @@ services:
     labels:
       - com.alertmanager.description='Prometheus Alert Manager'
     image: prom/alertmanager:v0.27.0
+    command: 
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
     environment:
       SLACK_WEBHOOK_URL_FILE: /run/secrets/slack_webhook_url
-    entrypoint: ["sh", "/alertmanager_setup.sh"]
     restart: unless-stopped
     # expose:
     #   - 9093
@@ -234,8 +236,8 @@ services:
     networks:
       - transcendence
     volumes:
-      - ./requirements/alertmanager/alertmanager_setup.sh:/alertmanager_setup.sh
-      - ./requirements/alertmanager/config.yml:/tmp/config.yml
+      - ./requirements/alertmanager/config.yml:/etc/alertmanager/config.yml
+      - alertmanager:/alertmanager
     depends_on:
       - prometheus
     secrets:
@@ -244,7 +246,7 @@ services:
       watch:
         - action: sync+restart
           path: ./requirements/alertmanager
-          target: /tmp
+          target: /etc/alertmanager
   # Prometheus Node Exporter (for exporting node / host metrics)
   node-exporter:
     container_name: node-exporter
@@ -320,6 +322,8 @@ volumes:
   backend-data:
   # Redis data
   redis-data:
+  # Alert Manager data
+  alertmanager:
   # Prometheus data
   prometheus-data:
     driver: local
