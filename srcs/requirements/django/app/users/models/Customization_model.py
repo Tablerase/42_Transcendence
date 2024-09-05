@@ -9,6 +9,7 @@ class Customization(models.Model):
     ('black-hole', 'Black Hole'),
     ('disco-ball', 'Disco Ball'),
     ('marie-antoinette-head', 'Marie Antoinette Head'),
+    ('wool', 'A kitten\'s favorite')
   ]
 
   PADDLE_COLORS = [

@@ -16,6 +16,7 @@ def tournament(request, tournament_id):
       'black-hole': 'game/images/⚽️/black-hole.png',
       'disco-ball': 'game/images/⚽️/disco-ball.png',
       'marie-antoinette-head': 'game/images/⚽️/marie-antoinette-head.png',
+      'wool': 'game/images/⚽️/wool.png',
     }
     
     tournament_data = {

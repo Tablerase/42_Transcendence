@@ -46,15 +46,19 @@ export class Tournament {
   #parseMessage(data, pprint=true) {
     const message = JSON.parse(data);
     if (pprint) 
-    // Type of messages: modal, start, playerlistupdate, game_state, countdown
-    if (message.message === 'start_tournament') {
+    if (message.message === 'start_tournament') 
+    {
       this.#togglePage(this.#lobby, this.#match);
       this.#match.setMatchEventListeners(message);
     }
-    else if (message.message === 'modal') {
-      // Fix this to show modal dynamically
-      alert('Action denied because of some reason.');
-      this.window.reload();
+    else if (message.message === 'modal')
+    {
+      var modalElement = document.getElementById('modal');
+      if (modalElement) {
+        var myModal = new bootstrap.Modal(modalElement);
+        myModal.show();
+      }
+      window.location.reload();
     }
     else if (message.message === 'lobby_update') {
       this.#lobby.updatePage(message.players, message.host_id);

@@ -2,15 +2,13 @@ from game.helpers.game.classes.CoordsClass import Coords
 import asyncio
 
 class Paddle:
-  def __init__(self, name, height, width, x, y, speed=0.1, pprint=False):
+  def __init__(self, name, height, width, x, y, speed=0.1):
     self._height = height
     self._width = width
     self._name = name
     self._speed = speed
-    self._coords = Coords(height, width, x, y, pprint=pprint)
+    self._coords = Coords(height, width, x, y)
     self._target_y = self._coords.get_y()
-    if pprint:
-      print(f"Paddle initialized with coords: {self._coords}")
 
   def set_speed(self, speed):
     self._speed = speed
@@ -18,7 +16,7 @@ class Paddle:
   def get_coords(self):
     return self._coords
   
-  def get_coords_pretty(self):
+  def info_dict(self):
     return {
       'height': self._height,
       'width': self._width,
@@ -35,12 +33,12 @@ class Paddle:
   async def _move_smoothly(self):
     current_y = self._coords.get_y()
     distance = self._target_y - current_y
-    step = distance * 0.1
+    step = distance * 0.05
 
     if abs(step) > 0.5:
       new_y = current_y + step
       self._coords.update(self._coords.get_x(), new_y)
-      await asyncio.sleep(0.016)  # 16ms delay to simulate 60 FPS (1000ms / 60)
+      await asyncio.sleep(0.0016)  # 16ms delay to simulate 60 FPS (1000ms / 60)
       await self._move_smoothly()
     else:
         self._coords.update(self._coords.get_x(), self._target_y)

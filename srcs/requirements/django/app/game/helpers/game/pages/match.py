@@ -14,7 +14,6 @@ async def handle_move(move, role, engine):
 @database_sync_to_async
 def start_next_match(tournament):
   match = tournament.get_next_match()
-  print(match)
   if match is None:
     return None, None
   match.start()

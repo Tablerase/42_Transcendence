@@ -93,7 +93,6 @@ export class Game {
     }
     this.#listenPaddleKeys('keydown');
     this.#listenPaddleKeys('keyup', false);
-
     requestAnimationFrame(() => this.#animatePaddles());
   }
 

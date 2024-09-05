@@ -23,7 +23,6 @@ class TournamentEngine:
         tournament = await utils.get_tournament(self.tournament_id)
         match_name, match_id = await trn.start_next_match(tournament)
         if match_name is None:
-          print("Tournament finished")
           await self.complete_tournament()
           break
         await ws_utils.send_message_to_group(self, 'start_match', match_id=match_id)
@@ -31,12 +30,8 @@ class TournamentEngine:
           await ws_utils.send_message_to_group(self, 'countdown_message', count=i)
           await asyncio.sleep(1)
         await self.start_game( match_id)
-
-    except Tournament.DoesNotExist as e:
-      pass
-    except ValidationError as e:
-    # Handle the error, e.g., log it, notify the user, etc.
-      print(f"Cannot start tournament: {e}")
+    except (Tournament.DoesNotExist, ValidationError) as e:
+      await ws_utils.send_message_to_group(self, 'modal', message=str(e))
   
   async def start_game(self, match_id):
     match_info = MatchInfo(self.tournament_id, self.group_name, self.channel_layer, match_id=match_id)

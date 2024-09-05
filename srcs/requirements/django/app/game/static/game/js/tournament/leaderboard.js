@@ -6,10 +6,18 @@ export class LeaderBoard {
   constructor (tournament, pprint=false) {
     this.#tournament = tournament;
     this.#page = document.getElementById('leaderboardPage');
+    this.#leaveButtonListener();
   }
-
+  
   showPage() { this.#page.removeAttribute('hidden'); }
   hidePage() { this.#page.setAttribute('hidden', true);}
+  
+  #leaveButtonListener() {
+    this.#leaveButton = document.getElementById('leaveButton');
+    this.#leaveButton.addEventListener('click', () => {
+      this.#tournament.socket.close(1000);
+    });
+  }
 
   loadLeaderboard(results) {
     const tableBody = document.getElementById('leaderboardTableBody');

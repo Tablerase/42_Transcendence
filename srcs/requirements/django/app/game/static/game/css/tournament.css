@@ -86,9 +86,6 @@ p {
 .paddle {
   background-color: var(--paddle-clr);
   position: absolute;
-  top: 450px;
-  height: 100px;
-  width: 10px;
   border: none;
 }
 
@@ -142,10 +139,10 @@ p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 80px;
+  font-size: 100px;
   font-weight: bold;
   color: white;
-  z-index: 1000; /* Ensure it's on top of other elements */
+  z-index: 1000; 
   text-align: center;
-  display: none; /* Hidden by default */
+  display: none;
 }

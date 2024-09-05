@@ -93,7 +93,8 @@ def settings(request):
     {'value': 'earth', 'image': 'game/images/⚽️/earth.png', 'alt': 'earth'},
     {'value': 'black-hole', 'image': 'game/images/⚽️/black-hole.png', 'alt': 'black hole'},
     {'value': 'disco-ball', 'image': 'game/images/⚽️/disco-ball.png', 'alt': 'disco ball'},
-    {'value': 'marie-antoinette-head', 'image': 'game/images/⚽️/marie-antoinette-head.png', 'alt': 'marie antoinette head'}
+    {'value': 'marie-antoinette-head', 'image': 'game/images/⚽️/marie-antoinette-head.png', 'alt': 'marie antoinette head'},
+    {'value': 'wool', 'image': 'game/images/⚽️/wool.png', 'alt': 'A kitten\'s favorite'}
   ]
 
   paddle_options = [

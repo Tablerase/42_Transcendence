@@ -31,10 +31,10 @@ class Game:
   async def send_game_state(self):
     game_state = {
       'message': 'game_state',
-      'board': self._board.get_coords_pretty(),
-      'left_paddle': self._paddles[0].get_coords_pretty(),
-      'right_paddle': self._paddles[1].get_coords_pretty(),
-      'ball': self._ball.get_coords_pretty(),
+      'board': self._board.info_dict(),
+      'left_paddle': self._paddles[0].info_dict(),
+      'right_paddle': self._paddles[1].info_dict(),
+      'ball': self._ball.info_dict(),
       'scores':  self._match_info.get_scores(),
       'name': self._match_info.get_name()
     }

@@ -80,12 +80,16 @@
     </div>
     <div class="matches">
       <h6>Last Matches</h6>
+      {% if matches %}
       <ul id="match-list">
         {% for match in matches|reverse_list %}
         <li class="match-item" data-match-id="{{ match.id }}" data-username="{{ user.username }}">
           {{ match.user1_score }} - {{ match.user2_score }}
         </li>
         {% endfor %}
+        {% else %}
+        <h6><i>Your matches are like a unicorn... they don't exist!🦄🎯</i></h6>
+        {% endif %}
       </ul>
     </div>
   </div>

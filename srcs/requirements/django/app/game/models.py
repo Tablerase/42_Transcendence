@@ -49,7 +49,6 @@ class Tournament(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
 
   def get_leaderboard(self):
-    print("Inside leaderboard")
     if self.status != 'closed':
       raise ValidationError("Tournament is not closed")
     leaderboard = []
@@ -57,7 +56,6 @@ class Tournament(models.Model):
       total_points = 0
       matches = Match.objects.filter(tournament=self)
       for match in matches:
-        print(match)
         match_player = Player.objects.filter(match=match, user=player).first()
         if match_player:
           total_points += match_player.points
@@ -71,7 +69,6 @@ class Tournament(models.Model):
       winner_username = leaderboard[0]['username']
       self.winner = self.players.get(username=winner_username)
       self.save()
-    print("leaderboard")
     return leaderboard
 
 
@@ -82,6 +79,8 @@ class Tournament(models.Model):
     matches_in_progress = self.match_set.filter(status='in_progress')
     if matches_in_progress.count() > 1:
       raise ValidationError("There is more than one match in progress.")
+    if not matches_in_progress.exists():
+      raise ValidationError("There is no match in progress.")
     return matches_in_progress.first()
   
   def generate_matches(self):

@@ -1,11 +1,8 @@
 import json
 import asyncio
-from asgiref.sync import sync_to_async
-
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.exceptions import ValidationError
-
 
 import game.helpers.game.pages.lobby as lobby
 import game.helpers.game.pages.match as trn
@@ -37,14 +34,12 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       await self.handle_exception('Error', e)
 
   async def disconnect(self, close_code):
-    print(f"Disconnected user {self.user.id} with code: {close_code}")
+    print(f"Disconnecting {close_code}")
     await ws_utils.discard_channel_from_group(self)
 
   async def receive(self, text_data): 
-    valid_cmds = ['leave_tournament', 'start_tournament', 'up', 'down', 'modal']
     data = json.loads(text_data) 
-    if data['message'] in valid_cmds:
-      await self.parseData(data)
+    await self.parseData(data)
 
   async def parseData(self, data): 
     try:
@@ -56,8 +51,10 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         await self.get_tournament_engine()
         if self.role in ['left_paddle', 'right_paddle']:
           asyncio.create_task(self.engine.receive_message_from_consumer(data['message'], self.role))
+      else:
+        raise ValidationError("Ah ah ah, you didn't say the magic word!")
     except ValidationError as e:
-      self.handle_exception('Action Denied. ⚠️', e)
+      await self.display_modal('Action Denied. ⚠️', e)
 
   async def start_tournament_engine(self):
     if self.tournament_id not in TournamentConsumer.engines:
@@ -90,7 +87,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       match_context = await trn.get_match_context(match_id, self.user)
       self.role = match_context['role']
       await self.send(text_data=json.dumps(match_context))
-    except ValidationError as e:
+    except (Tournament.DoesNotExist, Match.DoesNotExist, ValidationError) as e:
       await self.handle_exception('Error', e)
 
   async def game_state(self, event):
@@ -99,7 +96,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
   
   async def get_results(self, event):
     results_context = await results.get_results_context(self.tournament_id)
-    print(f"Results context: {results_context}")
     await self.send(text_data=json.dumps(results_context))
 
 
@@ -111,7 +107,18 @@ class TournamentConsumer(AsyncWebsocketConsumer):
     }
     await self.send(text_data=json.dumps(context))
 
+  async def modal(self, event):
+    modal_context = {
+      'message': 'modal',
+    }
+    await self.send(text_data=json.dumps(modal_context))
+
   async def handle_exception(self, title, e):
     error_message = e.messages[0] if e.messages else str(e)
     await utils.store_error_in_session(self, title, error_message)
-    await self.close()
+    self.close(1000)
+
+  async def display_modal(self, title, error):
+    error_message = error.messages[0] if error.messages else str(error)
+    await utils.store_error_in_session(self, title, error_message)
+    await ws_utils.send_message_to_group(self, 'modal')

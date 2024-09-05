@@ -1,13 +1,11 @@
 
 class Coords:
-  def __init__(self, height, width, x, y, pprint=False):
+  def __init__(self, height, width, x, y):
     self._height = height
     self._width = width
     self._x = x
     self._y = y
     self._update_edges()
-    if pprint:
-        print(f"Coords: {self}")
 
   def _update_edges(self):
     self._top = self._y - self._height / 2

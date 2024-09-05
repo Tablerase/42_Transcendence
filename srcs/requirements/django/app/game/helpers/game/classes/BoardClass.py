@@ -1,13 +1,19 @@
 from game.helpers.game.classes.CoordsClass import Coords
 
 class Board:
-  def __init__(self, pprint=True):
+  def __init__(self):
     self._height = 700
     self._width = 960
     self._coords = Coords(self._height, self._width, self._width / 2, self._height / 2)
-    if pprint:
-      print(f"Board: {self}")
 
+  def info_dict(self):
+    return {
+      'height': self._height,
+      'width': self._width,
+      'x': self._coords.get_left(),
+      'y': self._coords.get_top()
+    }
+  
   def is_out_of_bounds(self, coords):
     return not self._coords.contains_object(coords)
   
@@ -22,14 +28,6 @@ class Board:
   
   def get_coords(self):
     return self._coords
-  
-  def get_coords_pretty(self):
-    return {
-      'height': self._height,
-      'width': self._width,
-      'x': self._coords.get_left(),
-      'y': self._coords.get_top()
-    }
   
   def __str__(self):
     return (f"Board(height={self._height}, width={self._width}, "

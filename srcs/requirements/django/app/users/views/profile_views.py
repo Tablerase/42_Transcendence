@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from users.forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-from users.utils import generate_dummy_matches
+from users.utils import generate_dummy_matches, generate_match_cards
 from users.models.User_model import CustomUser
 
 @login_required
@@ -44,13 +44,11 @@ def profile(request):
 
 def profile_by_nickname(request, nickname):
   user_profile = get_object_or_404(CustomUser, username=nickname)
-  user_profile.profile.refresh_from_db()
-
-  dummy_matches = generate_dummy_matches(user_profile)
-
+  # dummy_matches = generate_dummy_matches(user_profile)
+  matches = user_profile.get_match_set()
+  smart_matches = generate_match_cards(matches)
   context = {
     'user': user_profile,
-    'matches': dummy_matches,
+    'matches': smart_matches,
   }
-
   return render(request, 'users/profile/profile.html', context)

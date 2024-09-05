@@ -52,4 +52,28 @@ def generate_dummy_matches(user1):
   ]
   
   return dummy_matches
+
+def generate_match_cards(match_set):
+    matches = []
+    for index, match in enumerate(match_set, start=1):
+        # Check if both date and time are available, otherwise handle them appropriately
+        date_str = match['date'] if match['date'] else 'Unknown'
+        time_str = match['time'] if match['time'] else ''
+        combined_date_time = f"{date_str} {time_str}".strip()  # Remove trailing spaces if time is missing
+
+        match_card = Match(
+            id=index,
+            user1=match['self_username'],
+            user2=match['other_username'],
+            user1_score=match['self_points'],
+            user2_score=match['other_points'],
+            date=combined_date_time,  # Using the combined and cleaned date/time string
+            tournament=match['tournament']
+        )
+        matches.append(match_card)
+    
+    return matches
+
+
+
   

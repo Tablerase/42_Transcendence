@@ -6,7 +6,7 @@ export class Paddle {
   #keys;
   #targetTop;
 
-  constructor (paddle, keyup, keydown, speed=0.1, pprint=false)
+  constructor (paddle, keyup, keydown, speed=0.01, pprint=false)
   {
     this.#htmlElem = paddle;
     this.#speed = speed;

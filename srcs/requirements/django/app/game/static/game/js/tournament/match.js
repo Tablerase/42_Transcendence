@@ -65,7 +65,9 @@ export class Match {
     // Check if this is the first time the function is being called
     if (!this._initialized) {
       this.initializeElements(message);
-      // Set initialized flag to true
+      this.#ball.showItem();
+      this.#leftPaddle.showItem();
+      this.#rightPaddle.showItem();
       this._initialized = true;
     } else {
       // Update positions with the calculated offsets
@@ -102,11 +104,6 @@ export class Match {
     this.#ball.updatePosition(message.ball.x, message.ball.y);
     this.#leftPaddle.updatePosition(message.left_paddle.x , message.left_paddle.y);
     this.#rightPaddle.updatePosition(message.right_paddle.x, message.right_paddle.y );
-
-    // Show paddles and ball
-    this.#ball.showItem();
-    this.#leftPaddle.showItem();
-    this.#rightPaddle.showItem();
   }
 
   #restoreStateListener()
