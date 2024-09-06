@@ -135,6 +135,8 @@ class Match(models.Model):
     settings.AUTH_USER_MODEL,
     through='Player'
   )
+  left_paddle = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='left_paddle')
+  right_paddle = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='right_paddle')
   status = models.CharField(
     max_length=11,
     choices=[
@@ -163,6 +165,9 @@ class Match(models.Model):
       raise ValidationError("Players have already been added to this match")
     Player.objects.create(match=self, user=player1)
     Player.objects.create(match=self, user=player2)
+    self.left_paddle = player1
+    self.right_paddle = player2
+    self.save()
 
   def start(self):
     self.status = 'in_progress'
@@ -190,9 +195,9 @@ class Player(models.Model):
     unique_together = [('match', 'user')]
 
   def add_points(self, points):
-    if self.points >= 10:
-      return
     self.points += points
+    if self.points > 10:
+      self.points = 10
     self.save()
   
   def update_user(self):

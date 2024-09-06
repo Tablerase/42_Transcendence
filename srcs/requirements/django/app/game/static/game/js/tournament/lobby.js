@@ -2,7 +2,7 @@ export class Lobby {
   #tournament;
   #page;
   #startButton;
-  #leaveButton;
+  #leaveTournamentButton;
   #noFriendsDiv;
   #playersContainer;
 
@@ -11,14 +11,14 @@ export class Lobby {
     this.#page = document.getElementById('lobbyPage');
     this.#startButton = document.getElementById('startTournamentButton');
     this.#setTournamentHost(this.#tournament.host_id);
-    this.#initializeLeaveButton();
+    this.#initializeleaveTournamentButton();
     this.#noFriendsDiv = document.getElementById('noFriendsDiv');
     this.#playersContainer = document.getElementById('playersContainer');
     if (pprint) {
       console.log(this.#tournament);
       console.log(this.#page);
       console.log(this.#startButton);
-      console.log(this.#leaveButton);
+      console.log(this.#leaveTournamentButton);
       console.log(this.#noFriendsDiv);
     }
   }
@@ -63,14 +63,15 @@ export class Lobby {
     }
   }
 
-  #initializeLeaveButton() {
-    this.#leaveButton = document.getElementById('leaveTournamentButton');
+  #initializeleaveTournamentButton() {
+    this.#leaveTournamentButton = document.getElementById('leaveTournamentButton');
     const context = {
       'message': 'leave_tournament'
     }
-    this.#leaveButton.addEventListener('click', () => {
+    this.#leaveTournamentButton.addEventListener('click', () => {
       this.#sendToServer(context);
       this.#tournament.socket.close(1000);
+      window.location.href = "/game/home/";
     });
   }
 

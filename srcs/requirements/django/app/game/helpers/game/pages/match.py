@@ -35,16 +35,19 @@ def get_match_info(match_id):
   match_info = {
     'id': match_id,
     'match': str(match),
-    'players': [ player.id for player in match.players.all()]
+    'players': [ player.id for player in match.players.all()],
+    'left_paddle': match.left_paddle,
+    'right_paddle' :  match.right_paddle,
   }
   return match_info
 
 @database_sync_to_async
 def assign_roles(match, user):
-  players = match['players']
-  if user.id == players[0]:
+  print(f"match: {match}")
+  print(user)
+  if user == match['left_paddle']:
     return 'left_paddle'
-  elif user.id == players[1]:
+  elif user == match['right_paddle']:
     return 'right_paddle'
   else:
     return 'spectator'

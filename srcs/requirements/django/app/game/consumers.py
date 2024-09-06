@@ -10,7 +10,7 @@ import game.helpers.game.pages.results as results
 import game.helpers.game.tournament_tasks as tasks
 import game.helpers.game.utils.websocket_utils as ws_utils
 import game.helpers.game.utils.utils as utils
-from game.models import Tournament, Match
+from game.models import Tournament, Match, Player
 
 class TournamentConsumer(AsyncWebsocketConsumer):
 
@@ -32,8 +32,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       else:
         await ws_utils.send_message_to_group(self, 'get_results')
     except (Tournament.DoesNotExist, ValidationError, Match.DoesNotExist) as e:
-      print("Error here." + str(e))
-      await self.handle_exception('Error', e)
+      await self.handle_exception()
 
   async def disconnect(self, close_code):
     print(f"Disconnecting {close_code}")
@@ -55,8 +54,16 @@ class TournamentConsumer(AsyncWebsocketConsumer):
           asyncio.create_task(self.engine.receive_message_from_consumer(data['message'], self.role))
       else:
         raise ValidationError("Ah ah ah, you didn't say the magic word!")
-    except ValidationError as e:
-      await self.display_modal('Action Denied. ⚠️', e)
+    except ValidationError as error:
+      print('Validation error triggered.')
+      error_message = error.messages[0] if error.messages else str(error)
+      await ws_utils.send_message_to_group(
+        self,
+        'modal',
+        message='modal',
+        title='Action Denied. ⚠️',
+        error_message=error_message
+      )
 
   async def start_tournament_engine(self):
     if self.tournament_id not in TournamentConsumer.engines:
@@ -79,7 +86,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       context = await lobby.get_lobby_context(tournament)
       await self.send(text_data=json.dumps(context))
     except Tournament.DoesNotExist as e:
-      await self.handle_exception('Error', e)
+      await self.handle_exception()
   
   async def start_match(self, event):
     try:
@@ -89,8 +96,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       match_context = await trn.get_match_context(match_id, self.user)
       self.role = match_context['role']
       await self.send(text_data=json.dumps(match_context))
-    except (Tournament.DoesNotExist, Match.DoesNotExist, ValidationError) as e:
-      await self.handle_exception('Error', e)
+    except (Tournament.DoesNotExist, Match.DoesNotExist, Player.DoesNotExist, ValidationError) as e:
+      await self.handle_exception()
 
   async def game_state(self, event):
     game_state = event.get('game_state', None)
@@ -110,17 +117,17 @@ class TournamentConsumer(AsyncWebsocketConsumer):
     await self.send(text_data=json.dumps(context))
 
   async def modal(self, event):
+    print("inside modal.")
+    print(event)
     modal_context = {
-      'message': 'modal',
+      'message' : event.get('message', 0),
+      'title' : event.get('title', 0),
+      'error_message' : event.get('error_message', 0),
     }
     await self.send(text_data=json.dumps(modal_context))
 
-  async def handle_exception(self, title, e):
-    error_message = e.messages[0] if e.messages else str(e)
-    await utils.store_error_in_session(self, title, error_message)
+  async def handle_exception(self):
+    await utils.store_error_in_session(self, 'Error', 'Try again later.')
+    self.send(text_data=json.dumps({'message': 'redirect_home'}))
     self.close(1000)
-
-  async def display_modal(self, title, error):
-    error_message = error.messages[0] if error.messages else str(error)
-    await utils.store_error_in_session(self, title, error_message)
-    await ws_utils.send_message_to_group(self, 'modal')
+    

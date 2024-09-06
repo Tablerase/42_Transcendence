@@ -9,6 +9,7 @@ export class Match {
   #ball;
   #message;
   #scores;
+  #role;
 
   constructor (tournament) 
   {
@@ -27,8 +28,7 @@ export class Match {
   setMatchEventListeners(message) 
   {
     this.#message.setInnerHtml(message.match);
-    console.log(message.role);
-    if (message.role === 'left_paddle' || message.role === 'right_paddle') {
+    if ( message.role === 'left_paddle' ||  message.role === 'right_paddle') {
       document.addEventListener('keydown', (event) => {
         let message;
         if (event.key == 'ArrowUp')

@@ -3,6 +3,8 @@ import game.helpers.game.utils.websocket_utils as ws_utils
 
 from django.core.exceptions import ValidationError
 
+import json
+
 
 async def register_player_in_tournament(tournament, player):
   if not await utils.is_user_in_tournament(player, tournament):
