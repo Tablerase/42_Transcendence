@@ -26,7 +26,7 @@ class CustomUser(AbstractUser):
     return _('Unknown')
   
   def get_match_set(self):
-    match_set = Match.objects.filter(players=self)
+    match_set = Match.objects.filter(players=self).order_by('-played_at')[:5]
     matches = []
     for match in match_set:
       self_user = match.players.filter(id=self.id).first()
@@ -36,8 +36,7 @@ class CustomUser(AbstractUser):
 
       match_info = {
         'tournament': match.tournament.name,
-        'date': match.played_at.date() if match.played_at else None,
-        'time': match.played_at.strftime('%H:%M') if match.played_at else None,
+        'date': match.played_at if match.played_at else None,
         'self_points': self_player.points, 
         'self_username': self_player.user,
         'self_avatar': self_user.profile.image.url,

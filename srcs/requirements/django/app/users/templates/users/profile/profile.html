@@ -1,6 +1,5 @@
 {% extends 'game/base.html' %}
 {% load static %}
-{% load custom_filters %}
 
 {% block title %}Profile{% endblock %}
 
@@ -82,7 +81,7 @@
       <h6>Last Matches</h6>
       {% if matches %}
       <ul id="match-list">
-        {% for match in matches|reverse_list %}
+        {% for match in matches %}
         <li class="match-item" data-match-id="{{ match.id }}" data-username="{{ user.username }}">
           {{ match.user1_score }} - {{ match.user2_score }}
         </li>
