@@ -118,7 +118,7 @@ label #cancel {
   header,#btn,#cancel {
     display: none;
   }
-  span {
+  .sidebar span {
     position: absolute;
     margin-left: 23px;
     opacity: 0;
@@ -130,7 +130,7 @@ label #cancel {
   .sidebar a i {
     margin-left: -10px;
   }
-  a:hover  {
+  .sidebar a:hover  {
     width: 200px;
     background: inherit;
   }
@@ -149,7 +149,6 @@ label #cancel {
   --accent-color: #c1b1f7;
   --gradient-color: #A890FE;
 }
-
 
 .frame  {
   width: 50%;

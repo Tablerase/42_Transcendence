@@ -14,13 +14,7 @@ export class LeaderBoard {
   
   #leaveButtonListener() {
     this.#leaveButton = document.getElementById('leaveButton');
-    const context = {
-      'message': 'leave_tournament'
-    }
-    console.log("Event set");
     this.#leaveButton.addEventListener('click', () => {
-      console.log("Button Presed");
-      this.#sendToServer(context);
       this.#tournament.socket.close(1000);
       window.location.href = "/game/home/";
     });
@@ -62,6 +56,4 @@ export class LeaderBoard {
       tableBody.appendChild(row);
     });
   }
-
-  #sendToServer(context) { this.#tournament.socket.send(JSON.stringify( context ));}
 }
