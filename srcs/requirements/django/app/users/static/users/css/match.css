@@ -67,11 +67,6 @@
   transform: skewX(-5deg);
 }
 
-
-
-
-
-
 .card:hover:after {
   right: -50%;
 }
@@ -118,6 +113,10 @@
   margin: 0 auto;
 }
 
+.title {
+  text-transform: uppercase;
+}
+
 .versus {
   width: 80px;
   height: 80px;
@@ -133,7 +132,8 @@
 }
 
 .date {
-  margin: 20px 0 0;
+  margin: 16px 0;
+  color: #3c3c4b;
 }
 
 .user {

@@ -1,19 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-  
-/* #leaderboardPage:after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  z-index: 100;
-  background: -webkit-gradient(linear,left top,left bottom,color-stop(50%,transparent),color-stop(50%,rgba(0,0,0,.25)));
-  background: linear-gradient(180deg,transparent 50%,rgba(0,0,0,.25) 0);
-  background-size: 100% 4px;
-  opacity: .5;
-} */
 
 #leaderboardPage {
   background-color: #4b4b4b;
@@ -24,10 +9,6 @@
   align-items: center;
   height: 100vh;
   margin: 0;
-  /* clip-path: inset(0 round 30px);
-  border-radius: 30px;
-  border: 20px solid #000000;
-  box-shadow: inset 0 0 0 20px black; */
 }
 
 table {
@@ -83,9 +64,14 @@ tr:hover {
 
 .username {
   color: #00ff00;
+  text-transform: uppercase;
 }
 
 .points {
   text-align: center;
   color: #f1f1f1;
+}
+
+.user-name {
+ text-transform: uppercase;
 }
