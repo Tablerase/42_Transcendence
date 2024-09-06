@@ -71,6 +71,7 @@ export class Lobby {
     this.#leaveButton.addEventListener('click', () => {
       this.#sendToServer(context);
       this.#tournament.socket.close(1000);
+      window.location.href = "/game/home/";
     });
   }
 

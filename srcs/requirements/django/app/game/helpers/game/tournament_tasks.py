@@ -30,8 +30,16 @@ class TournamentEngine:
           await ws_utils.send_message_to_group(self, 'countdown_message', count=i)
           await asyncio.sleep(1)
         await self.start_game( match_id)
-    except (Tournament.DoesNotExist, ValidationError) as e:
-      await ws_utils.send_message_to_group(self, 'modal', message=str(e))
+    except (Tournament.DoesNotExist, ValidationError) as error:
+      error_message = error.messages[0] if error.messages else str(error)
+      await ws_utils.send_message_to_group(
+        self,
+        'modal',
+        message='modal',
+        title='Action Denied. ⚠️',
+        error_message=error_message
+      )
+
   
   async def start_game(self, match_id):
     match_info = MatchInfo(self.tournament_id, self.group_name, self.channel_layer, match_id=match_id)
