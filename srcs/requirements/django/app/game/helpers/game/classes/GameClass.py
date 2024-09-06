@@ -45,20 +45,20 @@ class Game:
       if paddle.get_name() == paddle_name:
         await paddle.move(self._board, direction)
   
-  async def score(self, scorer):
-    players = self._match_info.get_player_names()
-    scorer_name = players[scorer]
-    self._match_info.set_message(f'{scorer_name} scored!')
-    await self._match_info.increment_score(scorer)
-    if self._match_info.get_scores()[scorer] == 10:
+  async def score(self, paddle):
+    scorer = self._match_info.left_paddle if paddle == "left_paddle" else self._match_info.right_paddle
+    index = 0 if paddle == "left_paddle" else 1
+    self._match_info.set_message(f'{scorer} scored!')
+    await self._match_info.increment_score(scorer, index)
+    if await self._match_info.get_player_score(scorer) == 10:
       self.finish_and_restore(scorer)
   
   async def someone_scored(self):
     if self._ball.get_coords().get_left() <= self._board.get_coords().get_left():
-      await self.score(1)
+      await self.score("right_paddle")
       return True
     elif self._ball.get_coords().get_right() >= self._board.get_coords().get_right():
-      await self.score(0)
+      await self.score("left_paddle")
       return True
     return False
   
@@ -80,7 +80,7 @@ class Game:
   
   def finish_and_restore(self, winner):
     players = self._match_info.get_player_names()
-    self._match_info.set_message(f'{players[winner]} won!')
+    self._match_info.set_message(f'{winner} won!')
     self._match_info.reset_scores()
     self._ball.reset_position()
     self._paddles[0].reset_position()

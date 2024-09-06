@@ -73,6 +73,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     
     'allauth.account.middleware.AccountMiddleware',
+    'users.middleware.UpdateLastOnlineMiddleware',
 ]
 
 ROOT_URLCONF = "backend.urls"
