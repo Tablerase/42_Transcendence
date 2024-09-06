@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, RegexValidator
 from django.db import models
+import pytz
 
 class Tournament(models.Model):
   name = models.CharField(
@@ -174,7 +175,8 @@ class Match(models.Model):
     self.save()
 
   def finish(self):
-    self.played_at = timezone.now()
+    paris_timezone = pytz.timezone('Europe/Paris')
+    self.played_at = timezone.now().astimezone(paris_timezone)
     self.status = 'finished'
     players = Player.objects.filter(match=self)
     for player in players:
@@ -196,8 +198,6 @@ class Player(models.Model):
 
   def add_points(self, points):
     self.points += points
-    if self.points > 10:
-      self.points = 10
     self.save()
   
   def update_user(self):
@@ -209,7 +209,7 @@ class Player(models.Model):
   
   def set_winner(self):
     self.is_winner = True
+    self.points = 10
     self.save()
-    self.match.finish()
-    self.match.save()
 
+    self.match.finish()

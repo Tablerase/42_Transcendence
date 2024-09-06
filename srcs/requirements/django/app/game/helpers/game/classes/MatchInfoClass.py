@@ -1,6 +1,7 @@
 from game.models import Match, Player
 
 from channels.db import database_sync_to_async
+from django.db import transaction
 
 class MatchInfo:
   def __init__(self, tournament_id, group_name, channel_layer, match_id):
@@ -10,7 +11,9 @@ class MatchInfo:
     self._scores = [0, 0]
     self._name = None
     self._player_names = []
-    self.match_id = match_id
+    self.match_id = match_id 
+    self.left_paddle = None
+    self.right_paddle = None
     
   async def initialize(self):
     await self.set_match_info(self.match_id)
@@ -20,7 +23,11 @@ class MatchInfo:
     match = Match.objects.get(id=match_id)
     self._name = str(match)
     self._player_names = [ player for player in match.players.all()]
-
+    self.left_paddle = match.left_paddle
+    self.right_paddle = match.right_paddle
+    print(self.left_paddle)
+    print(self.right_paddle)
+    
   # Getters.
 
   def get_scores(self):
@@ -44,19 +51,24 @@ class MatchInfo:
   def reset_scores(self):
     self._scores = [0, 0]
   
-  async def increment_score(self, player_index):
-    self._scores[player_index] += 1
-    await self.save_scores(player_index)
+  async def increment_score(self, player, index):
+    self._scores[index] += 1
+    await self.increment_in_database(player)
 
   @database_sync_to_async
-  def save_scores(self, index):
-    match = Match.objects.get(id=self.match_id)
-    players = Player.objects.filter(match=match)
-    player = players[index]
-    player.add_points(1)
-    if player.points == 10:
-      player.set_winner()
+  def increment_in_database(self, user):
+    with transaction.atomic():
+      match = Match.objects.select_for_update().get(id=self.match_id)
+      player = Player.objects.select_for_update().get(match=match, user=user)
+      player.add_points(1)
+      if player.points == 10:
+        player.set_winner()
       
+  @database_sync_to_async
+  def get_player_score(self, user):
+    match = Match.objects.get(id=self.match_id)
+    player = Player.objects.get(match=match, user=user)
+    return player.points
 
   def __str__(self) -> str:
     players = ', '.join(str(player) for player in self._player_names)
