@@ -115,6 +115,7 @@
 
 .title {
   text-transform: uppercase;
+  margin-top: 24px;
 }
 
 .versus {
@@ -132,8 +133,8 @@
 }
 
 .date {
-  margin: 16px 0;
-  color: #3c3c4b;
+  margin: 12px 0;
+  color: #3c3c4bb3;
 }
 
 .user {
