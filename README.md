@@ -1,63 +1,70 @@
-# 42_Transcendance
-Pong Games 🏓 - Full Stack WebApp
+# Project Overview
 
+The modules are labeled as either major (*[1]*) or minor ([½]) components.
 
-# Modules being developped or considered
+## Web and Backend
 
-## Legend
-
-- ✅ **Implemented**
-- 🚧 **In Development**
-- ❌ **Not Started**
-- 🤔 **Considering**
-
-## Web
-
-- **Major Module**: Use a Framework as backend. 🚧
-  - Structure being built in Django.
-- **Minor Module**: Use a front-end framework or toolkit. ✅
-  - Bootstrap
-- **Minor Module**: Use a database for the backend. ❌
-  - PostgreSQL
+- *[1]* **Use a Framework as backend**: Implemented using Django, providing a structured and scalable backend architecture.
+- *[½]* **Use a front-end framework or toolkit**: Bootstrap was utilized to enhance the frontend design and responsiveness.
+- *[½]* **Use a database for the backend**: PostgreSQL was used to manage and maintain data consistency across the application.
 
 ## User Management
 
-- **Major Module**: Standard user management, authentication, users across tournaments. 🚧
-  - Directly related to the backend. Simon is working on the very basics (Happy to ge help!).
-- **Major Module**: Implementing remote authentication. 🤔
-  - OAuth 2.0 authentication with 42. Doesn't seem that hard to do. Easily integrated once the backend and the user management is handled.
+- *[1]* **Standard user management, authentication, users across tournaments**: Includes user registration, profile management, and game history tracking.
+- *[1]* **Implementing a remote authentication (with 42 and Google)**: OAuth 2.0 integration for secure and convenient user authentication.
 
 ## Gameplay and User Experience
 
-- **Major Module**: Remote players. ❌
-  - No one working on this yet. The procedure will be clearer once we advance.
-- **Minor Module**: Game Customization Options. 🤔
-  - A lot to do for a minor module... But seems logical to have it...
-- **Major Module**: Live chat. 🚧
-  - Simon is building a general chat for all of the users to share. A lot to add: direct messages, blocking users, invitations.
+- *[1]* **Remote players**: Supports gameplay between players on different devices.
+- *[½]* **Game Customization Options**: Offers features such as power-ups, attacks, and different maps to enhance gameplay.
+- *[½]* **Expanding Browser Compatibility:** Ensures the application works seamlessly across different web browsers.
 
-## Cybersecurity
+## Security
 
-- **Major Module**: Implement Two-Factor Authentication (2FA) and JWT. 🤔
+- *[½]* **Monitoring system**: Implements Prometheus and Grafana for real-time system monitoring and alerting.
 
-## DevOps
+## Rendering and Performance
 
-- **Major Module**: Infrastructure Setup for Log Management. 🤔
-  -  Infrastructure Setup with ELK (Elasticsearch, Logstash, Kibana) for Log Management.
-- **Minor Module**: Monitoring system. ❌
-  - Monitoring system with Prometheus and Grafana
+- *[½]* **Server-Side Rendering (SSR) Integration**: Enhances performance by pre-rendering content on the server for faster page loads.
 
-## Graphics
+## Game Implementation
 
-- **Major Module**: Use of advanced 3D techniques. ❌
-  - Using ThreeJS the project becomes eye candy. This is where we get 3 Outstandings 👀
+- *[1]* **Server-Side Pong**: Replaces the basic Pong game with a server-side version, enhancing gameplay through API integration.
 
-## Summary Table
+## Total Points Calculation
 
-| Category                         | Count |
-|----------------------------------|-------|
-| **Major Modules**                | 5     |
-| **Minor Modules**                | 3     |
-| **Major Modules Being Considered** | 2     |
-| **Minor Modules Being Considered** | 1     |
+Each major module contributes 1 point, and each minor module contributes 0.5 points.
 
+- **Major Modules (6 points):** 6 major modules x 1 point each
+- **Minor Modules (3 points):** 6 minor modules x 0.5 points each
+- **Total:** 9 points
+
+## Modules Breakdown Pie Chart
+
+```mermaid
+pie
+    title Module Points Distribution for categories
+    "Web and Backend" : 2
+    "User Management" : 2
+    "Gameplay and User Experience" : 2
+    "Security" : 0.5
+    "Rendering and Performance" : 0.5
+    "Game Implementation" : 1
+```
+
+```mermaid
+pie
+    title Module Points Distribution for each module
+    "Use a Framework as backend (1 point)" : 1
+    "Use a front-end framework or toolkit (0.5 points)" : 0.5
+    "Use a database for the backend (0.5 points)" : 0.5
+    "Standard user management (1 point)" : 1
+    "Implementing a remote authentication (1 point)" : 1
+    "Remote players (1 point)" : 1
+    "Game Customization Options (0.5 points)" : 0.5
+    "Expanding Browser Compatibility (0.5 points)" : 0.5
+    "Monitoring system (0.5 points)" : 0.5
+    "Server-Side Rendering (SSR) Integration (0.5 points)" : 0.5
+    "Server-Side Pong (1 point)" : 1
+
+```
