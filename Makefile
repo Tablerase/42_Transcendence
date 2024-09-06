@@ -50,6 +50,12 @@ clean:
 fclean: clean
 	@docker system prune -af
 
+#---------------------------- Django ----------------------------#
+
+# Check Deployment
+django_check_deploy:
+	@docker compose -f $(COMPOSE) exec django python manage.py check --deploy
+
 #---------------------------- Docker ----------------------------#
 
 # Check Compose file

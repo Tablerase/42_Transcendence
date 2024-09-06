@@ -16,14 +16,29 @@ SECRET_KEY = password_django
 debug_mode = os.getenv('DJANGO_DEBUG', 'False')
 DEBUG = debug_mode
 
-# Protection against Arbitrary Host Header Injection
+# Hosts/domain names that are valid for this site
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(' ')
+
+# Protection against Arbitrary Host Header Injection
 CSRF_TRUSTED_ORIGINS = [
     scheme + host for host in ALLOWED_HOSTS for scheme in ['https://', 'http://']
 ]
+## Force cookies to be sent only over HTTPS
+CSRF_COOKIE_SECURE = True
 
+# SSL settings
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+## Redirect all non-HTTPS requests to HTTPS (can be redundant with the proxy)
 SECURE_SSL_REDIRECT = True
+## HTTP Strict Transport Security (HSTS) : This tells browsers to only use HTTPS for SECURE_HSTS_SECONDS seconds
+### Docs: https://docs.djangoproject.com/en/5.1/ref/middleware/#http-strict-transport-security
+# SECURE_HSTS_SECONDS = 3600 # 1 hour
+
+# Browser XSS Protection (XSS = Cross-Site Scripting : This ensures third parties cannot inject scripts into your project.)
+SECURE_BROWSER_XSS_FILTER = True
+
+# Session settings
+SESSION_COOKIE_SECURE = True
 
 # Application definition
 INSTALLED_APPS = [
