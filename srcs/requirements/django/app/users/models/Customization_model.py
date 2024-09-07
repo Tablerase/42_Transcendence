@@ -9,7 +9,7 @@ class Customization(models.Model):
     ('black-hole', 'Black Hole'),
     ('disco-ball', 'Disco Ball'),
     ('marie-antoinette-head', 'Marie Antoinette Head'),
-    ('wool', 'A kitten\'s favorite')
+    ('wool', 'Kitten\'s favorite')
   ]
 
   PADDLE_COLORS = [
@@ -23,7 +23,7 @@ class Customization(models.Model):
 
   user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customization')
   ball = models.CharField(max_length=50, choices=BALL_CHOICES, default='asteroid')
-  paddle_color = models.CharField(max_length=7, choices=PADDLE_COLORS, default='#C0C0C0')
+  paddle_color = models.CharField(max_length=7, choices=PADDLE_COLORS, default='#EB3678')
 
   def __str__(self):
     return f"Customization for {self.user.username}"

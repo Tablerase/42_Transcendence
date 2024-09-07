@@ -6,7 +6,7 @@ export class Paddle {
   #keys;
   #targetTop;
 
-  constructor (paddle, keyup, keydown, speed=0.01, pprint=false)
+  constructor (paddle, keyup, keydown, speed=0.01)
   {
     this.#htmlElem = paddle;
     this.#speed = speed;
@@ -14,9 +14,6 @@ export class Paddle {
     this.#coords = this.#htmlElem.getBoundingClientRect();
     this.#targetTop = this.#coords.top;
     this.#setPaddlePositionX();
-    if (pprint){
-      console.log(this.#coords);
-    }
   }
 
   #setPaddlePositionX()

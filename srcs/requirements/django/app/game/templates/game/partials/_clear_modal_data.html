@@ -1,5 +1,4 @@
 <script>
   fetch("{% url 'clear_modal_data' %}", {method: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'}})
     .then(response => response.text())
-    .then(data => console.log('Modal data cleared.'));
 </script>

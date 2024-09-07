@@ -17,15 +17,12 @@ class TournamentConsumer(AsyncWebsocketConsumer):
   engines = {}
 
   async def connect(self):
-    print("Trying to connect.")
     ws_utils.authenticate_and_initialize(self)
     try:
-      print("We are here too.")
       tournament = await utils.get_tournament(self.tournament_id)
       await lobby.register_player_in_tournament(tournament, self.user)
       await ws_utils.add_channel_to_group_and_accept(self)
       if await utils.get_tournament_status(tournament) == 'open':
-        print("Here as well.")
         await ws_utils.send_message_to_group(self, 'lobby_update')
       elif await utils.get_tournament_status(tournament) == 'locked':
         await ws_utils.send_message_to_group(self, 'start_match')
@@ -35,7 +32,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       await self.handle_exception()
 
   async def disconnect(self, close_code):
-    print(f"Disconnecting {close_code}")
     await ws_utils.discard_channel_from_group(self)
 
   async def receive(self, text_data): 
@@ -55,7 +51,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
       else:
         raise ValidationError("Ah ah ah, you didn't say the magic word!")
     except ValidationError as error:
-      print('Validation error triggered.')
       error_message = error.messages[0] if error.messages else str(error)
       await ws_utils.send_message_to_group(
         self,
@@ -117,8 +112,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
     await self.send(text_data=json.dumps(context))
 
   async def modal(self, event):
-    print("inside modal.")
-    print(event)
     modal_context = {
       'message' : event.get('message', 0),
       'title' : event.get('title', 0),

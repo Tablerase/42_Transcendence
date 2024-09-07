@@ -14,8 +14,6 @@ export class Tournament {
     const http_scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     const ws_url = http_scheme + window.location.host + '/ws/tournament/' + this.#tournament.id + '/';
 
-    console.log('Connecting to ' + ws_url);
-
     tournament.socket = new WebSocket(
       ws_url
     );

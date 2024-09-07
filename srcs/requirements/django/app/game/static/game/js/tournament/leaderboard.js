@@ -3,7 +3,7 @@ export class LeaderBoard {
   #page;
   #leaveButton;
 
-  constructor (tournament, pprint=false) {
+  constructor (tournament) {
     this.#tournament = tournament;
     this.#page = document.getElementById('leaderboardPage');
     this.#leaveButtonListener();

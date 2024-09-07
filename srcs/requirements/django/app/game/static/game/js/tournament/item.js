@@ -2,19 +2,15 @@ export class Item {
   #htmlElement;
   #coords;
 
-  constructor(itemId, pprint = false) {
+  constructor(itemId) {
     this.#htmlElement = document.getElementById(itemId);
     if (!this.#htmlElement) {
       throw new Error(`Element with id ${itemId} not found`);
     }
     this.#coords = this.#htmlElement.getBoundingClientRect();
-    if (pprint) {
-      console.log(this.#coords);
-    }
   }
 
-  showItem() { 
-    console.log("removing hidden attribute")
+  showItem() {
     this.#htmlElement.removeAttribute('hidden');
   }
   hideItem() { this.#htmlElement.setAttribute('hidden', true);}

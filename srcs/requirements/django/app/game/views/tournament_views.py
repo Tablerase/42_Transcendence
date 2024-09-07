@@ -40,7 +40,6 @@ def tournament(request, tournament_id):
         "paddle_color_display_name": customization.get_paddle_color_display_name(),
       }
     }
-    print(context)
     return render(request, "game/tournament.html", context)
 
   except Tournament.DoesNotExist:

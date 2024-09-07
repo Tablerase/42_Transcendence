@@ -10,7 +10,7 @@ export class Ball {
   #direction_y;
   #coords;
 
-  constructor (ball, speed=7, pprint=false)
+  constructor (ball, speed=7)
   {
     this.#pace = 1;
     this.#speed = speed;
@@ -18,9 +18,6 @@ export class Ball {
     this.#coords = ball.getBoundingClientRect();
     this.#htmlElement = ball;
     this.#setSlope();
-    if (pprint) {
-      console.log(this.#coords);
-    }
   }
 
   getPace() { return this.#pace; }

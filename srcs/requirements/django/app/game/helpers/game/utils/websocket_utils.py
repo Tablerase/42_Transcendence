@@ -1,7 +1,6 @@
 from channels.exceptions import DenyConnection
 
 def authenticate_and_initialize(consumer):
-    print("authenticate and.")
     if not consumer.scope['user'].is_authenticated:
         raise DenyConnection("User is not authenticated")
     
@@ -16,7 +15,6 @@ async def add_channel_to_group_and_accept(consumer):
     consumer.channel_name
   )
   await consumer.accept()
-  print("Conection established.")
 
 async def send_message_to_group(consumer, message_type, **kwargs):
   message = {

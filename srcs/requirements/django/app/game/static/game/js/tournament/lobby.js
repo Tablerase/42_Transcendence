@@ -6,7 +6,7 @@ export class Lobby {
   #noFriendsDiv;
   #playersContainer;
 
-  constructor (tournament, pprint=false) {
+  constructor (tournament) {
     this.#tournament = tournament;
     this.#page = document.getElementById('lobbyPage');
     this.#startButton = document.getElementById('startTournamentButton');
@@ -14,13 +14,6 @@ export class Lobby {
     this.#initializeleaveTournamentButton();
     this.#noFriendsDiv = document.getElementById('noFriendsDiv');
     this.#playersContainer = document.getElementById('playersContainer');
-    if (pprint) {
-      console.log(this.#tournament);
-      console.log(this.#page);
-      console.log(this.#startButton);
-      console.log(this.#leaveTournamentButton);
-      console.log(this.#noFriendsDiv);
-    }
   }
 
   updatePage(players, host_id) {

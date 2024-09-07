@@ -25,8 +25,6 @@ class MatchInfo:
     self._player_names = [ player for player in match.players.all()]
     self.left_paddle = match.left_paddle
     self.right_paddle = match.right_paddle
-    print(self.left_paddle)
-    print(self.right_paddle)
     
   # Getters.
 

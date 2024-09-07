@@ -16,7 +16,7 @@ class CustomUser(AbstractUser):
     return self.username
   
   def is_online(self):
-    return self.last_online and (timezone.now() - self.last_online) < timezone.timedelta(minutes=15)
+    return self.last_online and (timezone.now() - self.last_online) < timezone.timedelta(minutes=5)
 
   def get_online_info(self):
     if self.is_online():

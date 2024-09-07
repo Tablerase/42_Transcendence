@@ -23,17 +23,9 @@ class UserUpdateForm(forms.ModelForm):
     model = CustomUser
     fields = ['username', 'email']
 
-    
-def validate_image_size(fieldfile_obj):
-  filesize = fieldfile_obj.file.size
-  megabyte_limit = 1
-  if filesize > megabyte_limit*1024*1024:
-    raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
-    
 class ProfileUpdateForm(forms.ModelForm):
   image = forms.ImageField(
     label="Profile picture",
-    validators=[validate_image_size], 
     help_text='Maximum file size allowed is 1MB'
   )
 

@@ -1,4 +1,5 @@
 import django
+import PIL
 from django.db import models
 from PIL import Image
 from django.conf import settings
@@ -26,7 +27,7 @@ class Profile(models.Model):
     
       if img.height > 300 or img.width > 300:
         output_size = (300, 300)
-        img.thumbnail(output_size, Image.ANTIALIAS)
+        img.thumbnail(output_size, PIL.Image.LANCZOS)
         img.save(self.image.path)
     
     except IOError:

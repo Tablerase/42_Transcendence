@@ -5,21 +5,16 @@ export class Board {
   #right;
   #left;
 
-  constructor (board, pprint=false) {
+  constructor (board) {
     
     let coords;
     
     coords = board.getBoundingClientRect();
-    if (pprint) 
-    {
-      console.log(coords);
-    }
     this.#top = coords.top;
     this.#bottom = coords.bottom;
     this.#right = coords.right;
     this.#left = coords.left;
     this.#htmlElement = board; 
-
   }
 
   // Getters

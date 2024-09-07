@@ -43,8 +43,6 @@ def get_match_info(match_id):
 
 @database_sync_to_async
 def assign_roles(match, user):
-  print(f"match: {match}")
-  print(user)
   if user == match['left_paddle']:
     return 'left_paddle'
   elif user == match['right_paddle']:
