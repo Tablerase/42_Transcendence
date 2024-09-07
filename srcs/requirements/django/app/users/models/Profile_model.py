@@ -13,18 +13,21 @@ class Profile(models.Model):
   def save(self, *args, **kwargs):
     super().save(*args, **kwargs)
     
-    img = Image.open(self.image.path)
+    try:
+      img = Image.open(self.image.path)
+  
+      if img.height != img.width:
+        min_dimension = min(img.height, img.width)
+        left = (img.width - min_dimension) / 2
+        top = (img.height - min_dimension) / 2
+        right = (img.width + min_dimension) / 2
+        bottom = (img.height + min_dimension) / 2
+        img = img.crop((left, top, right, bottom))
     
-    if img.height != img.width:
-      min_dimension = min(img.height, img.width)
-      left = (img.width - min_dimension) / 2
-      top = (img.height - min_dimension) / 2
-      right = (img.width + min_dimension) / 2
-      bottom = (img.height + min_dimension) / 2
-      img = img.crop((left, top, right, bottom))
+      if img.height > 300 or img.width > 300:
+        output_size = (300, 300)
+        img.thumbnail(output_size, Image.ANTIALIAS)
+        img.save(self.image.path)
     
-    if img.height > 300 or img.width > 300:
-      output_size = (300, 300)
-      img.thumbnail(output_size)
-
-    img.save(self.image.path)
+    except IOError:
+      print("Error in processing the image")
